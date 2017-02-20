@@ -9,7 +9,7 @@
   nuevaclave_info   character varying(120),
   ultima_clave      timestamp without time zone,   
   fecha_ingreso     timestamp without time zone     NOT NULL DEFAULT now(),  
-  fecha_inactivo    timestamp without time zone     NOT NULL,
+  fecha_inactivo    timestamp without time zone,
   CONSTRAINT ad_usuario_pkey PRIMARY KEY (id_usuario)
 );
 
@@ -20,7 +20,7 @@ create table th_dominio (
   descripcion       character varying(600)          not null,
   is_activo         boolean                         not null default true,
   is_publico        boolean                         not null default true,
-  fecha_inactivo    timestamp without time zone     NOT NULL,  
+  fecha_inactivo    timestamp without time zone,  
   CONSTRAINT ad_dominio_pkey PRIMARY KEY (id_dominio)   
 );
 

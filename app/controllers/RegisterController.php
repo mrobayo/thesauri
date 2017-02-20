@@ -1,6 +1,7 @@
 <?php
 namespace Thesaurus\Controllers;
 
+use Phalcon\Db\RawValue;
 use Thesaurus\Forms\RegistroForm;
 use Thesaurus\Sistema\AdUsuario;
 
@@ -29,7 +30,7 @@ class RegisterController extends ControllerBase
         	// Create a transaction manager
         	$this->db->begin();
 
-            $name = $this->request->getPost('name', array('string', 'striptags'));
+            $nombre = $this->request->getPost('nombre', array('string', 'striptags'));
             $email = $this->request->getPost('email', 'email');
             $password = $this->request->getPost('clave');
             $repeatPassword = $this->request->getPost('repeatPassword');
@@ -41,17 +42,16 @@ class RegisterController extends ControllerBase
 
             $user = new AdUsuario();
             $user->clave = sha1($password);
-            $user->nombre = $name;
+            $user->nombre = $nombre;
             $user->email = $email;
             $user->app_role = 'USER';
-            $user->fecha_in = new Phalcon\Db\RawValue('now()');
+            $user->fecha_in = new RawValue('now()');
             $user->is_activo = 'S';
 
             if ($user->save() == false) {
             	$this->db->rollback();
 
                 foreach ($user->getMessages() as $message) {
-                	$this->logger->error((string) $message);
                     $this->flash->error((string) $message);
                 }
 

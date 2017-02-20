@@ -13,33 +13,31 @@ if (getenv('DATABASE_URL') !== FALSE) {
 		'host'        => $connection_url['host'],
 		'username'    => $connection_url['user'],
 		'password'    => $connection_url['pass'],
-		'dbname'      => explode('/', $connection_url['path'])[1],
-		//'charset'     => 'utf8',
+		'dbname'      => explode('/', $connection_url['path'])[1]
 	];
 	$base_uri = '/';
+	$is_heroku = true;
 }
 else {
 	// LOCAL
 	$database_cfg = [
         'adapter'     => 'Postgresql',
         'host'        => 'localhost',
-		'port' 		  => 5434,
+		'port' 		  => 5432,
         'username'    => 'thesauri',
         'password'    => 'thesauri',
         'dbname'      => 'thesauri'
     ];
-
 	$base_uri = '/thesauri/';
+	$is_heroku = false;
 }
 
 return new \Phalcon\Config([
     'database' => $database_cfg,
     'application' => [
-
-    	// Titulo
+    	'isHeroku'		 => $is_heroku,
     	'appTitle'	     => 'thesauri',
     	'appPartner'	 => 'UEES',
-
         'appDir'         => APP_PATH . '/',
         'controllersDir' => APP_PATH . '/controllers/',
         'modelsDir'      => APP_PATH . '/models/',
@@ -51,7 +49,6 @@ return new \Phalcon\Config([
     	'pluginsDir'     => APP_PATH . '/plugins/',
     	'messagesDir'    => APP_PATH . '/messages/',
         'cacheDir'       => BASE_PATH . '/cache/',
-
         // By web server rewrite rules. This can also be set to a static path.
         'baseUri'        => $base_uri, //preg_replace('/public([\/\\\\])index.php$/', '', $_SERVER["PHP_SELF"])
     ]

@@ -53,7 +53,7 @@
         </div>
 
         <div class="form-actions">
-            {{ submit_button('Register', 'class': 'btn btn-primary', 'onclick': 'return SignUp.validate();') }}
+            {{ submit_button('Registrarse', 'class': 'btn btn-primary', 'onclick': 'return SignUp.validate();') }}
             <p class="help-block">Al registrarse usted acepta los términos y políticas de privacidad.</p>
         </div>
 

@@ -13,7 +13,7 @@ try {
      * Configuracion
      */
     $config = include APP_PATH . "/config/config.php";
-   
+
     /**
      * Auto-loader
      */
@@ -21,7 +21,7 @@ try {
 
     $application = new Application(new Services($config));
     echo $application->handle()->getContent();
-    
+
 } catch (Exception $e){
     echo $e->getMessage() . '<br>';
     echo '<pre>' . $e->getTraceAsString() . '</pre>';

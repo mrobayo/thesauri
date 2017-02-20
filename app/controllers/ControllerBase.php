@@ -1,13 +1,14 @@
 <?php
 
 namespace Thesaurus\Controllers;
+
 use Phalcon\Mvc\Controller;
 use Phalcon\Translate\Adapter\NativeArray;
 
 /**
  * Base
  *
- * @author mrobayo@gmail.com $date$
+ * @author mrobayo@gmail.com
  */
 class ControllerBase extends Controller
 {

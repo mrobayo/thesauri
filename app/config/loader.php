@@ -14,9 +14,10 @@ $loader->registerDirs(
     	$config->application->libraryDir
     ]
 )->register();
-    
+
 $loader->registerNamespaces([
-		'Models\Sistema'      			=> $config->application->modelsDir . '/sistema',
+		'Thesaurus\Thesauri' 		    => $config->application->modelsDir . '/thesauri',
+		'Thesaurus\Sistema'      		=> $config->application->modelsDir . '/sistema',
 		'Thesaurus\Controllers'			=> $config->application->controllersDir,
 		'Thesaurus\Controllers\Sistema'	=> $config->application->controllersDir . '/sistema',
 ]);

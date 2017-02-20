@@ -6,6 +6,7 @@ defined('BASE_PATH') || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dirn
 defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
 
 if (getenv('DATABASE_URL') !== FALSE) {
+	// HEROKU
 	$connection_url = parse_url(getenv('DATABASE_URL'));
 	$database_cfg = [
 		'adapter'     => 'Postgresql',
@@ -15,8 +16,10 @@ if (getenv('DATABASE_URL') !== FALSE) {
 		'dbname'      => explode('/', $connection_url['path'])[1],
 		//'charset'     => 'utf8',
 	];
+	$base_uri = '/';
 }
 else {
+	// LOCAL
 	$database_cfg = [
         'adapter'     => 'Postgresql',
         'host'        => 'localhost',
@@ -25,6 +28,8 @@ else {
         'password'    => 'thesauri',
         'dbname'      => 'thesauri'
     ];
+
+	$base_uri = '/thesauri/';
 }
 
 return new \Phalcon\Config([
@@ -48,6 +53,6 @@ return new \Phalcon\Config([
         'cacheDir'       => BASE_PATH . '/cache/',
 
         // By web server rewrite rules. This can also be set to a static path.
-        'baseUri'        => preg_replace('/public([\/\\\\])index.php$/', '', $_SERVER["PHP_SELF"])
+        'baseUri'        => $base_uri, //preg_replace('/public([\/\\\\])index.php$/', '', $_SERVER["PHP_SELF"])
     ]
 ]);

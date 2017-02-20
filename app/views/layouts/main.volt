@@ -5,7 +5,9 @@
 	</button>
   
 	<a class="navbar-brand" href="#">
-		<img src="favicon.png" style="margin-top: -6px; width: 32px; height: 32px"/> <span class="hidden-sm-down">{{ config.application.appTitle }}</span> 
+		{% set th_logo = image('favicon.png', 'style':'margin-top: -6px; width: 30px; height: 30px', 'title':'thesauri - UEES') %}
+		{{ th_logo }}
+		<span class="hidden-sm-down">{{ config.application.appTitle }}</span> 
 	</a>
   
   	{{ elements.getMenu() }}

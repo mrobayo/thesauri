@@ -1,7 +1,8 @@
 <?php
-use Phalcon\Di\FactoryDefault;
 
 error_reporting(E_ALL);
+
+use Phalcon\Mvc\Application;
 
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
@@ -9,34 +10,19 @@ define('APP_PATH', BASE_PATH . '/app');
 try {
 
     /**
-     * The FactoryDefault Dependency Injector automatically registers
-     * the services that provide a full stack framework.
+     * Configuracion
      */
-    $di = new FactoryDefault();
-
+    $config = include APP_PATH . "/config/config.php";
+   
     /**
-     * Read services
+     * Auto-loader
      */
-    include APP_PATH . "/config/services.php";
+    require APP_PATH . '/config/loader.php';
 
-    /**
-     * Get config service for use in inline setup below
-     */
-    $config = $di->getConfig();
-
-    /**
-     * Include Autoloader
-     */
-    include APP_PATH . '/config/loader.php';
-
-    /**
-     * Handle the request
-     */
-    $application = new \Phalcon\Mvc\Application($di);
-
+    $application = new Application(new Services($config));
     echo $application->handle()->getContent();
-
-} catch (\Exception $e) {
+    
+} catch (Exception $e){
     echo $e->getMessage() . '<br>';
     echo '<pre>' . $e->getTraceAsString() . '</pre>';
 }

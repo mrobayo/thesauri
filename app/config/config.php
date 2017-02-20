@@ -6,13 +6,16 @@
 defined('BASE_PATH') || define('BASE_PATH', getenv('BASE_PATH') ?: realpath(dirname(__FILE__) . '/../..'));
 defined('APP_PATH') || define('APP_PATH', BASE_PATH . '/app');
 
+
+$connection_url = parse_url(getenv('DATABASE_URL'));
+
 return new \Phalcon\Config([
     'database' => [
-        'adapter'     => 'Mysql',
-        'host'        => 'localhost',
-        'username'    => 'root',
-        'password'    => '',
-        'dbname'      => 'test',
+        'adapter'     => 'Postgresql',
+        'host'        => $connection_url['host'],
+        'username'    => $connection_url['user'],
+        'password'    => $connection_url['pass'],
+        'dbname'      => explode('/', $connection_url['path'])[1],
         'charset'     => 'utf8',
     ],
     'application' => [

@@ -62,7 +62,7 @@ $di->setShared('view', function () {
  */
 $di->setShared('db', function () {
     $config = $this->getConfig();
-
+    
     $class = 'Phalcon\Db\Adapter\Pdo\\' . $config->database->adapter;
     $params = [
         'host'     => $config->database->host,

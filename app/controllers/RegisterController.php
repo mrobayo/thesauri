@@ -46,7 +46,7 @@ class RegisterController extends ControllerBase
             $user->email = $email;
             $user->app_role = 'USER';
             $user->fecha_in = new RawValue('now()');
-            $user->is_activo = 'S';
+            $user->is_activo = TRUE;
 
             if ($user->save() == false) {
             	$this->db->rollback();

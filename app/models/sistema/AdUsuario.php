@@ -2,7 +2,7 @@
 namespace Thesaurus\Sistema;
 
 use Phalcon\Validation;
-use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
+use Phalcon\Validation\Validator\Email as EmailValidator;
 
 /**
  *
@@ -101,13 +101,7 @@ class AdUsuario extends \Phalcon\Mvc\Model
         $validator = new Validation();
 
         $validator->add(
-            'email',
-            new EmailValidator(
-                [
-                    'model'   => $this,
-                    'message' => 'Please enter a correct email address',
-                ]
-            )
+            'email', new EmailValidator( ['model' => $this, 'message' => 'Ingrese un email valido'] )
         );
 
         return $this->validate($validator);

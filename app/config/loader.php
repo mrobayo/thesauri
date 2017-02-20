@@ -16,6 +16,7 @@ $loader->registerDirs(
 )->register();
 
 $loader->registerNamespaces([
+		'Thesaurus\Forms'			    => $config->application->formsDir,
 		'Thesaurus\Thesauri' 		    => $config->application->modelsDir . '/thesauri',
 		'Thesaurus\Sistema'      		=> $config->application->modelsDir . '/sistema',
 		'Thesaurus\Controllers'			=> $config->application->controllersDir,

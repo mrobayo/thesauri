@@ -1,7 +1,7 @@
 <?php
-
 namespace Thesaurus\Controllers;
 
+use Thesaurus\Forms\RegistroForm;
 use Thesaurus\Sistema\AdUsuario;
 
 /**
@@ -30,9 +30,8 @@ class RegisterController extends ControllerBase
         	$this->db->begin();
 
             $name = $this->request->getPost('name', array('string', 'striptags'));
-            $username = $this->request->getPost('username', 'alphanum');
             $email = $this->request->getPost('email', 'email');
-            $password = $this->request->getPost('password');
+            $password = $this->request->getPost('clave');
             $repeatPassword = $this->request->getPost('repeatPassword');
 
             if ($password != $repeatPassword) {

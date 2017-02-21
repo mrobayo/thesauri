@@ -5,57 +5,47 @@
     <h2>Registrarse en {{ config.application.appTitle }}</h2>
 </div>
 
-{{ form('register', 'id': 'registerForm', 'onbeforesubmit': 'return false', 'autocomplete': 'off') }}
+{{ form('register', 'id': 'registerForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off') }}
 
     <fieldset>
 
-        <div class="control-group">
-            {{ form.label('nombre', ['class': 'control-label']) }}
-            <div class="controls">
-                {{ form.render('nombre', ['class': 'form-control']) }}
-                <p class="help-block">(required)</p>
-                <div class="alert alert-warning" id="name_alert">
-                    <strong>Alerta!</strong> Por favor ingrese su nombre completo
-                </div>
+        <div class="form-group row">
+            {{ form.label('nombre', ['class': 'form-control-label col-sm-12']) }}            
+            <div class="col-sm-8">
+            	{{ form.render('nombre', ['class': 'form-control form-control-success required', 'aria-describedby': 'nombreHelp']) }}            
+            	<small id="nombreHelp" class="form-text text-muted">(required)</small>
             </div>
         </div>
 
-        <div class="control-group">
-            {{ form.label('email', ['class': 'control-label']) }}
-            <div class="controls">
-                {{ form.render('email', ['class': 'form-control']) }}
-                <p class="help-block">(required)</p>
-                <div class="alert alert-warning" id="email_alert">
-                    <strong>Alerta!</strong> Por favor ingrese su email
-                </div>
+        <div class="form-group row">
+            {{ form.label('email', ['class': 'form-control-label col-sm-12']) }}
+            <div class="col-sm-8">            
+            	{{ form.render('email', ['class': 'form-control form-control-success required email', 'aria-describedby': 'emailHelp']) }}            
+            	<small id="emailHelp" class="form-text text-muted">(required)</small>
             </div>
         </div>
 
-        <div class="control-group">
-            {{ form.label('clave', ['class': 'control-label']) }}
-            <div class="controls">
-                {{ form.render('clave', ['class': 'form-control']) }}
-                <p class="help-block">(minimo 8 caracteres)</p>
-                <div class="alert alert-warning" id="password_alert">
-                    <strong>Alerta!</strong> Por favor ingrese su clave valida
-                </div>
-            </div>
+        <div class="form-group row">
+            {{ form.label('clave', ['class': 'form-control-label col-sm-12']) }}
+            <div class="col-sm-8">            
+            	{{ form.render('clave', ['class': 'form-control form-control-success required', 'aria-describedby': 'claveHelp']) }}            
+            	<small id="claveHelp" class="form-text text-muted">(minimo 8 caracteres)</small>
+            </div>            
         </div>
 
-        <div class="control-group">
-            <label class="control-label" for="repeatPassword">Confirmar Clave</label>
-            <div class="controls">
-                {{ password_field('repeatPassword', 'class': 'form-control') }}
-                <div class="alert" id="repeatPassword_alert">
-                    <strong>Alerta!</strong> La clave no coincide
-                </div>
-            </div>
+        <div class="form-group row">
+            <label class="control-label col-sm-12" for="repeatPassword">Confirmar Clave</label>
+            <div class="col-sm-8">                        
+            	{{ password_field('repeatPassword', 'class': 'form-control form-control-success') }}
+            </div>                        
         </div>
 
         <div class="form-actions">
-            {{ submit_button('Registrarse', 'class': 'btn btn-primary', 'onclick': 'return SignUp.validate();') }}
-            <p class="help-block">Al registrarse usted acepta los términos y políticas de privacidad.</p>
+            {{ submit_button('Registrarse', 'class': 'btn btn-primary') }}
+            <p class="form-text text-muted">Al registrarse usted acepta los términos y políticas de privacidad.</p>
         </div>
 
     </fieldset>
-</form>
+    
+{{ end_form() }}
+

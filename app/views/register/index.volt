@@ -5,7 +5,7 @@
     <h2>Registrarse en {{ config.application.appTitle }}</h2>
 </div>
 
-{{ form('register', 'id': 'registerForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off') }}
+{{ form('register', 'id': 'registerForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
 
     <fieldset>
 
@@ -28,7 +28,7 @@
         <div class="form-group row">
             {{ form.label('clave', ['class': 'form-control-label col-sm-12']) }}
             <div class="col-sm-8">            
-            	{{ form.render('clave', ['class': 'form-control form-control-success required', 'aria-describedby': 'claveHelp']) }}            
+            	{{ form.render('clave', ['class': 'form-control form-control-success required', 'minlength': '8', 'aria-describedby': 'claveHelp']) }}            
             	<small id="claveHelp" class="form-text text-muted">(minimo 8 caracteres)</small>
             </div>            
         </div>
@@ -36,7 +36,7 @@
         <div class="form-group row">
             <label class="control-label col-sm-12" for="repeatPassword">Confirmar Clave</label>
             <div class="col-sm-8">                        
-            	{{ password_field('repeatPassword', 'class': 'form-control form-control-success') }}
+            	{{ password_field('repeatPassword', 'class': 'form-control form-control-success', 'data-rule-equalTo': "#clave") }}
             </div>                        
         </div>
 

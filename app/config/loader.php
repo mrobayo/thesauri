@@ -15,6 +15,9 @@ $loader->registerDirs(
     ]
 )->register();
 
+// Use composer autoloader to load vendor classes
+require_once BASE_PATH . '/vendor/autoload.php';
+
 $loader->registerNamespaces([
 		'Thesaurus\Forms'			    => $config->application->formsDir,
 		'Thesaurus\Thesauri' 		    => $config->application->modelsDir . '/thesauri',

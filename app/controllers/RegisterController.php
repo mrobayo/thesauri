@@ -61,6 +61,13 @@ class RegisterController extends ControllerBase
 
             	$this->tag->setDefault('email', '');
             	$this->tag->setDefault('password', '');
+
+            	if ($this->mail) { $this->mail
+            		->send([$user->email => $user->nombre], "Reset your password", 'reset',
+            			['resetUrl' => '/reset-password/xxxx/' . $user->email]);
+            	}
+
+
             	$this->flash->success('Registro exitoso, por favor verifica tu email');
 
             	return $this->dispatcher->forward(

@@ -51,5 +51,17 @@ return new \Phalcon\Config([
         'cacheDir'       => BASE_PATH . '/cache/',
         // By web server rewrite rules. This can also be set to a static path.
         'baseUri'        => $base_uri, //preg_replace('/public([\/\\\\])index.php$/', '', $_SERVER["PHP_SELF"])
-    ]
+    	'publicUrl'      => 'thesauri.herokuapp.com',
+    ],
+	'mail' => [
+				'fromName' => 'Thesauri - UEES',
+				'fromEmail' => getenv('GMAIL_USER'),
+				'smtp' => [
+						'server' => 'smtp.gmail.com',
+						'port' => 587,
+						'security' => 'tls',
+						'username' => getenv('GMAIL_USER'),
+						'password' => getenv('GMAIL_PASSWD')
+				]
+	]
 ]);

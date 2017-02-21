@@ -10,7 +10,8 @@
   ultima_clave      timestamp without time zone,   
   fecha_ingreso     timestamp without time zone     NOT NULL DEFAULT now(),  
   fecha_inactivo    timestamp without time zone,
-  CONSTRAINT ad_usuario_pkey PRIMARY KEY (id_usuario)
+  CONSTRAINT ad_usuario_pkey PRIMARY KEY (id_usuario),
+  CONSTRAINT ad_usuario_email_uk UNIQUE (email),
 );
 
 -- drop table th_dominio;
@@ -70,7 +71,7 @@ create table th_thesauri (
   fecha_ingreso     timestamp without time zone    not null,
   id_ingreso        integer ,  
   CONSTRAINT th_thesauri_pkey PRIMARY KEY (id_thesauri),
-  CONSTRAINT th_thesauri_ukey UNIQUE (id_termino, id_termino_rel, id_relacion),
+  CONSTRAINT th_thesauri_termino_uk UNIQUE (id_termino, id_termino_rel, id_relacion),
   CONSTRAINT th_thesauri_termino_fkey
     FOREIGN KEY (id_termino) REFERENCES th_termino(id_termino),
   CONSTRAINT th_thesauri_termino_rel_fkey

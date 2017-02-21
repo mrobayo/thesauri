@@ -156,15 +156,21 @@ class Services extends \Base\Services
 //     protected function initLogger() {
 //     	if (! $this->get('config')->application->isHeroku) {
 //     		$format   = '%date% [%type%] %message%';
-//     		$filename = 'application.log';
-//     		$path     = BASE_PATH . rtrim('logs/', '\\/') . DIRECTORY_SEPARATOR;
 //     		$formatter = new FormatterLine($format, 'Y-m-d H:i');
-//     		$logger    = new FileLogger($path . $filename);
+//     		$logger = new FileLogger(BASE_PATH. DIRECTORY_SEPARATOR .'logs'. DIRECTORY_SEPARATOR .'app.log');
 //     		$logger->setFormatter($formatter);
 //     		$logger->setLogLevel(Logger::DEBUG); // $config->get('logger')->logLevel);
 //     		return $logger;
 //     	}
 //     	return null;
 //     }
+
+
+    /**
+     * Mail service
+     */
+    protected function initMail() {
+    	return new \Mail\Mail();
+    }
 
 }

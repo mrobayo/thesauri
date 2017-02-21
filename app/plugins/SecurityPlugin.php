@@ -58,7 +58,7 @@ class SecurityPlugin extends Plugin
 
 			//Public area resources
 			$publicResources = array(
-				'index'      => array('index'),
+				'index'      => array('index', 'info', 'enviar'),
 				'about'      => array('index'),
 				'kbase'      => array('index'),
 				'register'   => array('index'),

@@ -25,7 +25,7 @@
                     {{ submit_button('Ingresar', 'class': 'btn btn-primary btn-large') }}
                 </div>
             </fieldset>
-        </form>
+        {{ end_form() }}
     </div>
 
     <div class="col-md-6">

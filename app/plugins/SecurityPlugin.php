@@ -49,7 +49,7 @@ class SecurityPlugin extends Plugin
 				'companies'    => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
 				'products'     => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
 				'producttypes' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
-				'admin'        => array('index', 'guardar', 'profile', 'kbase', 'tickets', 'noticias', 'correo', 'seguridad', 'plantillas'),
+				'admin'        => array('index', 'dominio', 'profile', 'kbase', 'tickets', 'noticias', 'correo', 'seguridad', 'plantillas'),
 				'catalogo'     => array('index')
 			);
 			foreach ($privateResources as $resource => $actions) {

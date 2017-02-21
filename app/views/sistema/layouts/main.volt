@@ -19,10 +19,9 @@
 <div class="container">
     {{ flash.output() }}
     {{ content() }}
-    
 </div>
 
-<footer class="fixed-bottom bg-faded">	
+<footer class="fixed-bottom bg-faded">
 	<div class="container">
 		<p class="text-muted" style="padding-top: 1rem">&copy; {{ config.application.appPartner }} {{ date('Y') }}.</p>
 	</div>    	

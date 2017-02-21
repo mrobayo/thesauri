@@ -35,7 +35,7 @@ class SessionController extends ControllerBase
     private function _registerSession(AdUsuario $user)
     {
         $this->session->set('auth', array(
-            'id' => $user->id,
+            'id' => $user->id_usuario,
             'nombre' => $user->nombre,
         	'app_role' => $user->app_role,
         	'is_admin' => ($user->app_role == 'ADMIN')

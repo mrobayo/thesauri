@@ -1,4 +1,5 @@
-﻿CREATE TABLE ad_usuario (
+﻿-- drop table ad_usuario;
+CREATE TABLE ad_usuario (
   id_usuario 	    serial                          NOT NULL,
   email             character varying(120)          NOT NULL,  
   is_activo         boolean                         NOT NULL DEFAULT true,  
@@ -7,6 +8,7 @@
   clave             character varying(40)           NOT NULL,
   cambiar_clave     boolean                         NOT NULL DEFAULT true,
   nuevaclave_info   character varying(120),
+  is_recibir_noti   boolean                         NOT NULL DEFAULT true,
   ultima_clave      timestamp without time zone,   
   fecha_ingreso     timestamp without time zone     NOT NULL DEFAULT now(),  
   fecha_inactivo    timestamp without time zone,
@@ -21,8 +23,12 @@ create table th_dominio (
   descripcion       character varying(600)          not null,
   is_activo         boolean                         not null default true,
   is_publico        boolean                         not null default true,
+  id_propietario    int                             not null, 
+  aprobar_list      character varying(100),
   fecha_inactivo    timestamp without time zone,  
-  CONSTRAINT ad_dominio_pkey PRIMARY KEY (id_dominio)   
+  CONSTRAINT th_dominio_pkey PRIMARY KEY (id_dominio),
+  CONSTRAINT th_dominio_propietario_fkey
+    FOREIGN KEY (id_propietario) REFERENCES ad_usuario(id_usuario),
 );
 
 -- drop table th_termino;

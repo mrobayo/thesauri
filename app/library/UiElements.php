@@ -122,15 +122,20 @@ class UiElements extends Component
     {
         $controllerName = $this->view->getControllerName();
         $actionName = $this->view->getActionName();
-        echo '<ul class="nav nav-tabs">';
+        echo '<ul class="nav nav-tabs" role="tablist">';
         foreach ($this->_tabs_admin as $caption => $option) {
-			// if ($option['controller'] == $controllerName && ($option['action'] == $actionName || $option['any'])) {
+
             if ( ($option['action'] == $actionName )) {
-                echo '<li role="presentation" class="active">';
+                echo '<li class="nav-item">';
             } else {
-                echo '<li>';
+                echo '<li class="nav-item">';
             }
-            echo $this->tag->linkTo($option['controller'] . '/' . $option['action'], $caption), '</li>';
+            echo $this->tag->linkTo([
+            		'action' => $option['controller'] . '/' . $option['action'],
+            		'text' => $caption,
+            		'class'=>'nav-link'. ($option['action'] == $actionName ? ' active' : ''),
+            		//'data-toggle'=> 'tab', 'role'=>'tab' !esto impide la navegacion!
+            ]), '</li>';
         }
         echo '</ul>';
     }

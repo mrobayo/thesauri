@@ -21,6 +21,51 @@
 	    }
 	}());
 	
+	jQuery.parseJSON = function() {		
+		return JSON.parse.apply( null, arguments );
+	};
+	
+	
+	 /*
+	  * $("#form").enterAsTab({ 'allowSubmit': true});
+	  * http://stackoverflow.com/questions/2335553/jquery-how-to-catch-enter-key-and-change-event-to-tab
+	  */
+	 (function( $ ){
+	     $.fn.enterAsTab = function( options ) {
+	     var settings = $.extend( {
+	        'allowSubmit': false
+	     }, options);
+	     this.find('input, select').on("keypress", {localSettings: settings}, function(event) {
+	         if (settings.allowSubmit) {
+	         var type = $(this).attr("type");
+	         if (type == "submit") { return true; }
+	     }
+	     if (event.keyCode == 13 ) {
+	         var inputs =   $(this).parents("form").eq(0).find(":input:visible:not(disabled):not([readonly])");
+	         var idx = inputs.index(this);
+	         if (idx == inputs.length - 1) {
+	            idx = -1;
+	            try {
+	            	var nextInputs = $(this).parents("form").eq(0).next("form").eq(0).find(":input:visible:not(disabled):not([readonly])");
+	            	if (nextInputs.length >0) nextInputs[0].focus(); // handles submit buttons
+	            } catch(err) {
+	            }
+	        } else {
+	            inputs[idx + 1].focus(); // handles submit buttons
+	       }
+	         try {
+	             inputs[idx + 1].select();
+	             }
+	         catch(err) {
+	             // handle objects not offering select
+	             }
+	         return false;
+	     }
+	 });
+	   return this;
+	 };
+	 })( jQuery );
+
 
 	/**
 	 * Valida un formulario (jqueryvalidation)

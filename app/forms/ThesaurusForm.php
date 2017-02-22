@@ -25,7 +25,7 @@ class ThesaurusForm extends Form
         $this->addTextArea('descripcion', ['label'=>'Descripción', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'Descripción es requerido'])] ]);
 
         // DC:IDENTIFIER
-        $this->addText('identifier', ['label'=>'DC:Identifidor', 'filters'=>array('striptags', 'string')]);
+        $this->addText('identifier', ['label'=>'DC:Identificador', 'filters'=>array('striptags', 'string')]);
 
         // Publisher
         $this->addText('publisher', ['label'=>'Editor', 'filters'=>array('striptags', 'string')]);

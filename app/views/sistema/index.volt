@@ -8,6 +8,9 @@
         {{ get_title() }}
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
 		<link rel="SHORTCUT ICON" href="{{ config.application.baseUri }}favicon.png" />
+
+		{{ stylesheet_link("vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css") }}
+		{{ stylesheet_link("vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css") }}	
 		
 		<style type="text/css">
 			html {
@@ -35,18 +38,21 @@
 				border-bottom: 1px solid #eee;   
     			padding-bottom: 9px;
 			}
-		</style>		
+		</style>
+		
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>		
     </head>
     <body>
         {{ content() }}
-        
                 
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-   	
     	
-    	{{ javascript_include('js/vendor/jquery.validate.min.js') }}
+    	    	    	
+    	{{ javascript_include('vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}
+    	{{ javascript_include('vendor/typeahead.js/dist/typeahead.bundle.js') }}
+    	    	
+    	{{ javascript_include('vendor/jquery-validation/dist/jquery.validate.min.js') }}
     	{{ javascript_include('js/form-validate.js') }}        
     </body>
 </html>

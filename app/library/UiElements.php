@@ -45,7 +45,7 @@ class UiElements extends Component
             'action' => 'index',
             'any' => false
         ),
-    	'Dominio' => array(
+    	'Thesaurus' => array(
     		'controller' => 'sistema/admin',
     		'action' => 'dominio',
     		'any' => false

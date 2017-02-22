@@ -45,7 +45,7 @@ class RegisterController extends ControllerBase
             $user->nombre = $nombre;
             $user->email = $email;
             $user->app_role = 'USER';
-            $user->fecha_in = new RawValue('now()');
+            $user->fecha_ingreso = new RawValue('now()');
             $user->is_activo = TRUE;
 
             if ($user->save() == false) {

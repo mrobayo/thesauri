@@ -57,15 +57,16 @@ class SessionController extends ControllerBase
                 'bind' => array('email' => $email, 'password' => sha1($password))
             ));
             if ($user != false) {
+
+            	$user->login_history = array_slice(explode(',', $user->login_history, 11), 0, 10);
+            	$user->login_history = date('Y-m-d H:i') .','. implode(',', $user->login_history);
+
+            	$user->update();
+
                 $this->_registerSession($user);
                 $this->flash->success('Bienvenido ' . $user->nombre);
 
-                return $this->dispatcher->forward(
-                    [
-                        "controller" => "admin",
-                        "action"     => "index",
-                    ]
-                );
+                return $this->dispatcher->forward([ "controller" => "sistema/admin", "action"     => "index", ]);
             }
 
             $this->flash->error('Email o Clave incorrecto');

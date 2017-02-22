@@ -30,8 +30,8 @@ class AdminController extends ControllerBase
 
     public function dominioAction()
     {
-    	$this->view->myheading = 'Dominio';
-    	$this->view->config_seccion = 'ajustes_base';
+    	$this->view->myheading = 'Thesaurus';
+    	$this->view->config_seccion = 'ajustes_thesaurus';
     	$this->view->pick('admin/index'); // Este funciona
     }
 

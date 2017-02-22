@@ -4,11 +4,6 @@ namespace Thesaurus\Sistema;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 
-/**
- *
- * @author mrobayo
- *
- */
 class AdUsuario extends \Phalcon\Mvc\Model
 {
 
@@ -73,9 +68,23 @@ class AdUsuario extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
+     * @Column(type="string", length=20, nullable=false)
+     */
+    public $recibir_avisos;
+
+    /**
+     *
+     * @var string
      * @Column(type="string", nullable=true)
      */
     public $ultima_clave;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=true)
+     */
+    public $login_history;
 
     /**
      *
@@ -87,7 +96,7 @@ class AdUsuario extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", nullable=true)
      */
     public $fecha_inactivo;
 
@@ -101,7 +110,13 @@ class AdUsuario extends \Phalcon\Mvc\Model
         $validator = new Validation();
 
         $validator->add(
-            'email', new EmailValidator( ['model' => $this, 'message' => 'Ingrese un email valido'] )
+            'email',
+            new EmailValidator(
+                [
+                    'model'   => $this,
+                    'message' => 'Please enter a correct email address',
+                ]
+            )
         );
 
         return $this->validate($validator);
@@ -113,10 +128,6 @@ class AdUsuario extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("public");
-        $this->hasMany('id_usuario', 'ThTermino', 'id_aprobador', ['alias' => 'ThTermino']);
-        $this->hasMany('id_usuario', 'ThTermino', 'id_ingreso', ['alias' => 'ThTermino']);
-        $this->hasMany('id_usuario', 'ThThesauri', 'id_ingreso', ['alias' => 'ThThesauri']);
-        $this->hasMany('id_usuario', 'ThThesauri', 'id_aprobador', ['alias' => 'ThThesauri']);
     }
 
     /**

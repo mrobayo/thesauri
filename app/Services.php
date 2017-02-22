@@ -62,6 +62,7 @@ class Services extends \Base\Services
         $view = new View();
 
         $view->setViewsDir($this->get('config')->application->viewsDir);
+        $view->setLayoutsDir($this->get('config')->application->viewsDir.'/layouts/');
         $view->registerEngines([ ".volt" => 'volt' ]);
 
         return $view;

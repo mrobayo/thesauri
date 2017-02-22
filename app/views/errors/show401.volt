@@ -2,7 +2,7 @@
 {{ content() }}
 
 <div class="jumbotron">
-    <h1>Unauthorized</h1>
-    <p>You don't have access to this option. Contact an administrator</p>
-    <p>{{ link_to('index', 'Home', 'class': 'btn btn-primary') }}</p>
+    <h1>No autorizado</h1>
+    <p>No tienes acceso a esta opción.</p>
+    <p>{{ link_to('index', 'Inicio', 'class': 'btn btn-primary') }}</p>
 </div>

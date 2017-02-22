@@ -10,12 +10,30 @@
 		<link rel="SHORTCUT ICON" href="{{ config.application.baseUri }}favicon.png" />
 		
 		<style type="text/css">
+			html {
+  				position: relative;
+  				min-height: 100%;
+			}
 			body {
 				min-height: 15rem;
-				padding-top: 4.5rem;				
+				padding-top: 4.5rem;
+				padding-bottom: 2rem;
+                margin-bottom: 4rem;				
+			}			
+			footer#main-footer {
+				position: absolute; bottom: 0; right: 0;
+				width: 100%;
+				z-index: -1;
+				border-top: 1px solid #e3e3e3;				
 			}
-			footer {
-				border-top: 1px solid #e3e3e3;
+			footer#main-footer p {
+				text-align: right;
+				padding-right: 1rem;
+				padding-top: 1rem;
+			}
+			.page-header {
+				border-bottom: 1px solid #eee;   
+    			padding-bottom: 9px;
 			}
 		</style>		
     </head>

@@ -23,8 +23,8 @@
     
 </div>
 
-<footer class="fixed-bottom bg-faded">	
-	<div class="container">
+<footer id="main-footer" class="bg-faded"><!-- fixed-bottom -->	
+	<div class="container-fluid">
 		<p class="text-muted" style="padding-top: 1rem">&copy; {{ config.application.appPartner }} {{ date('Y') }}.</p>
 	</div>    	
 </footer>

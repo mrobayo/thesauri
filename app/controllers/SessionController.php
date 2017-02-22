@@ -66,7 +66,8 @@ class SessionController extends ControllerBase
                 $this->_registerSession($user);
                 $this->flash->success('Bienvenido ' . $user->nombre);
 
-                return $this->dispatcher->forward([ "controller" => "sistema/admin", "action"     => "index", ]);
+                return $this->response->redirect("sistema/admin");
+                // return $this->dispatcher->forward([ 'namespace' => "Thesaurus\Controllers\Sistema", "controller" => "sistema/admin", "action"     => "index", ]);
             }
 
             $this->flash->error('Email o Clave incorrecto');

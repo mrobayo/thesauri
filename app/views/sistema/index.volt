@@ -11,6 +11,7 @@
 
 		{{ stylesheet_link("vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css") }}
 		{{ stylesheet_link("vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css") }}	
+		{{ stylesheet_link("vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css") }}
 		
 		<style type="text/css">
 			html {
@@ -45,13 +46,18 @@
     <body>
         {{ content() }}
                 
+        <!-- bootstrap -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     	
-    	    	    	
+    	<!-- tagsinput -->    	    	
     	{{ javascript_include('vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}
     	{{ javascript_include('vendor/typeahead.js/dist/typeahead.bundle.js') }}
+    	
+    	<!-- datepicker -->
+    	{{ javascript_include('vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}
     	    	
+    	<!-- jqueryvalidation -->
     	{{ javascript_include('vendor/jquery-validation/dist/jquery.validate.min.js') }}
     	{{ javascript_include('js/form-validate.js') }}        
     </body>

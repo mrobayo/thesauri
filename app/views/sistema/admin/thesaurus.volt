@@ -126,13 +126,7 @@
 	            </div>            
 	        </div>
 	               
-	        <div class="form-group row">
-	            {{ form.label('format', ['class': 'form-control-label col-sm-12']) }}
-	            <div class="col-sm-8">            
-	            	{{ form.render('format', ['class': 'form-control form-control-success', 'aria-describedby': 'formatHelp']) }}            
-	            	<small id="formatHelp" class="form-text text-muted">Formato de Archivo o Medio Físico del Thesaurus</small>
-	            </div>            
-	        </div>
+	        
 
 		</div>
 		<div class="card-footer">
@@ -147,26 +141,21 @@
 
 <script>
 	$(function(){
-
-	var citynames = new Bloodhound({
-		  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-		  queryTokenizer: Bloodhound.tokenizers.whitespace,
-		  prefetch: {
-		    url: '/thesauri/temp/citynames.json',
-		    filter: function(list) {
-		      return $.map(list, function(cityname) {
-		        return { name: cityname }; });
-		    }
-		  }
-		});
-		citynames.initialize();
 		
-		$('#nombre').tagsinput({
+		var langcodes = new Bloodhound({
+			  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('text'),
+			  queryTokenizer: Bloodhound.tokenizers.whitespace,
+			  prefetch: '/thesauri/iso-codes.json'
+		});
+		langcodes.initialize();
+		
+		$('#language').tagsinput({
+		  itemValue: 'value',
+	 	  itemText: 'text',
 		  typeaheadjs: {
-		    name: 'citynames',
-		    displayKey: 'name',
-		    valueKey: 'name',
-		    source: citynames.ttAdapter()
+		    name: 'langcodes',
+		    displayKey: 'text',
+		    source: langcodes.ttAdapter()
 		  },
 		  allowDuplicates: false,
 		  tagClass: function(item) {
@@ -174,10 +163,9 @@
 		    },
 		});
 		$('.bootstrap-tagsinput').addClass('form-control');
-		
+		$('#created').datepicker();		
 		$('#thesaurusForm')
 			.enterAsTab({ 'allowSubmit': true})
 			.find(":input:text:visible:not(disabled):not([readonly])").first().focus();
-		
 	});		
 </script>

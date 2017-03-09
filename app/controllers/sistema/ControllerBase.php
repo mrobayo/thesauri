@@ -15,6 +15,7 @@ class ControllerBase extends Controller
 	{
 		$this->tag->prependTitle( $this->config->application->appTitle . ' | ');
 		$this->view->setTemplateAfter('main');
+
 	}
 
     public function afterExecuteRoute()

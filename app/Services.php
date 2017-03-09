@@ -154,17 +154,17 @@ class Services extends \Base\Services
     /**
      * Logger service
      */
-//     protected function initLogger() {
-//     	if (! $this->get('config')->application->isHeroku) {
-//     		$format   = '%date% [%type%] %message%';
-//     		$formatter = new FormatterLine($format, 'Y-m-d H:i');
-//     		$logger = new FileLogger(BASE_PATH. DIRECTORY_SEPARATOR .'logs'. DIRECTORY_SEPARATOR .'app.log');
-//     		$logger->setFormatter($formatter);
-//     		$logger->setLogLevel(Logger::DEBUG); // $config->get('logger')->logLevel);
-//     		return $logger;
-//     	}
-//     	return null;
-//     }
+    protected function initLogger() {
+    	if (! $this->get('config')->application->isHeroku) {
+    		$format   = '%date% [%type%] %message%';
+    		$formatter = new FormatterLine($format, 'Y-m-d H:i');
+    		$logger = new FileLogger(BASE_PATH. DIRECTORY_SEPARATOR .'logs'. DIRECTORY_SEPARATOR .'app.log');
+    		$logger->setFormatter($formatter);
+    		$logger->setLogLevel(Logger::DEBUG); // $config->get('logger')->logLevel);
+    		return $logger;
+    	}
+    	return null;
+    }
 
 
     /**

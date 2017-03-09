@@ -63,5 +63,10 @@ return new \Phalcon\Config([
 						'username' => getenv('GMAIL_USER'),
 						'password' => getenv('GMAIL_PASSWD')
 				]
+	],
+
+	// Dominio de RDF
+	'rdf' => [
+			'baseUri' => 'database/'
 	]
 ]);

@@ -1,9 +1,6 @@
 <?php
-
 namespace Thesaurus\Controllers\Sistema;
 
-use \FluidXml\FluidXml;
-use \FluidXml\FluidNamespace;
 use Phalcon\Db\RawValue;
 use Phalcon\Flash;
 use Phalcon\Session;
@@ -39,41 +36,40 @@ class AdminController extends ControllerBase
 
     /**
      * Guardar thesaurus
+     * iconv('ISO-8859-1','ASCII//TRANSLIT',$val);
+     * iconv('UTF-8','ASCII//TRANSLIT//IGNORE',$val);
+     *
+     * @param \Thesaurus\Forms\ThesaurusForm $form
+     * @return int
      */
-    private function guardarThesaurus() {
+    private function guardarThesaurus($form) {
     	$this->db->begin();
 
     	$entidad = new ThThesaurus();
 
-    	$xml = new FluidXml('thesaurus');
+    	$xml = $form->postToXml($this->request);
 
-    	$xml->add([
-    			'identifier'  => 'identifier',
-    			'coverage' => 'coverage',
-    			'creator' => 'creator',
-    			'date' => 'date',
-    			'created' => 'created',
-    			'modified' => 'modified',
-    			'description' => 'description',
-    			'format' => 'format',
-    			['language' => 'es'],
-    			['language' => 'en'],
-    			'publisher' => 'publisher',
-    			'rights' => 'rights',
-    			'source' => 'source',
-    			'title' => 'title'
-    			]);
-
+    	$entidad->id_thesaurus = $this->request->getPost('id_thesaurus');
     	$entidad->nombre = $this->request->getPost('nombre', array('string', 'striptags'));
+
+    	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
+
     	$entidad->is_activo = TRUE;
     	$entidad->is_publico = TRUE;
     	$entidad->xml_metadata = (string) $xml;
     	$entidad->aprobar_list = '';
     	$entidad->id_propietario = 1;
-    	$entidad->fecha_ingreso = new RawValue('now()');
-    	//$entidad->fecha_modifica = new RawValue('now()');
+    	$entidad->rdf_uri = \StringHelper::urlize( $entidad->nombre );
+    	$entidad->num_terminos = 0;
+    	$entidad->num_pendientes = 0;
 
 
+    	if (empty($entidad->id_thesaurus)) {
+    		$entidad->fecha_ingreso = new RawValue('now()');
+    	}
+    	else {
+    		$entidad->fecha_modifica = new RawValue('now()');
+    	}
 
     	if ($entidad->save() == false) {
     		$this->db->rollback();
@@ -87,8 +83,10 @@ class AdminController extends ControllerBase
 
     		//     			$this->tag->setDefault('email', '');
     		//     			$this->tag->setDefault('password', '');
-
     		$this->flash->success('Guardado exitosamente');
+
+    		$this->logger->error( 'Thesaurus guardado: ' . $entidad->id_thesaurus);
+    		return $entidad->id_thesaurus;
     	}
     }
 
@@ -102,11 +100,18 @@ class AdminController extends ControllerBase
 
     	if ($this->request->isPost()) {
 
-    		if ($this->guardarThesaurus()) {
-
+    		if ($this->guardarThesaurus($form)) {
     			return $this->dispatcher->forward( ["controller" => "admin", "action" => "index", ] );
     		}
     	}
+
+    	$items_list = [];
+
+    	foreach (ThThesaurus::find() as $c) {
+			$c->xml_metadata = $form->textToXml($c->xml_metadata);
+    		$items_list[ $c->id_thesaurus ] = $c;
+    	}
+    	$this->view->items_list = $items_list;
     	$this->view->form = $form;
     }
 

@@ -1,10 +1,6 @@
 <?php
 namespace Thesaurus\Thesauri;
 
-/**
- *
- * @author mrobayo
- */
 class ThThesaurus extends \Phalcon\Mvc\Model
 {
 
@@ -27,6 +23,13 @@ class ThThesaurus extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
+     * @Column(type="string", length=100, nullable=false)
+     */
+    public $notilde;
+
+    /**
+     *
+     * @var string
      * @Column(type="string", nullable=false)
      */
     public $is_activo;
@@ -41,6 +44,34 @@ class ThThesaurus extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
+     * @Column(type="string", length=100, nullable=false)
+     */
+    public $rdf_uri;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=32, nullable=false)
+     */
+    public $num_terminos;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=32, nullable=false)
+     */
+    public $num_pendientes;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=true)
+     */
+    public $ultima_actividad;
+
+    /**
+     *
+     * @var string
      * @Column(type="string", nullable=true)
      */
     public $xml_metadata;
@@ -48,16 +79,9 @@ class ThThesaurus extends \Phalcon\Mvc\Model
     /**
      *
      * @var string
-     * @Column(type="string", length=100, nullable=true)
-     */
-    public $aprobar_list;
-
-    /**
-     *
-     * @var string
      * @Column(type="string", length=600, nullable=true)
      */
-    public $descripcion;
+    public $aprobar_list;
 
     /**
      *

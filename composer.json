@@ -4,7 +4,8 @@
     "ext-phalcon": ">=1.3.0",
     "twbs/bootstrap": "4.0.0-alpha.6",
     "swiftmailer/swiftmailer": "^5.4",
-    "servo/fluidxml": "^1.21"
+    "servo/fluidxml": "^1.21",
+    "behat/transliterator": "^1.1"
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"

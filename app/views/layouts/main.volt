@@ -4,7 +4,7 @@
 		<span class="navbar-toggler-icon"></span>
 	</button>
   
-	<a class="navbar-brand" href="#">
+	<a class="navbar-brand" href="{{ url('index') }}">
 		{% set th_logo = image('favicon.png', 'style':'margin-top: -6px; width: 30px; height: 30px', 'title':'thesauri - UEES') %}
 		{{ th_logo }}
 		<span class="hidden-sm-down">{{ config.application.appTitle }}</span> 

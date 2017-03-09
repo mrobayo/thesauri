@@ -12,6 +12,7 @@
 		{{ stylesheet_link("vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css") }}
 		{{ stylesheet_link("vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css") }}	
 		{{ stylesheet_link("vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css") }}
+		{{ stylesheet_link("vendor/components-font-awesome/css/font-awesome.min.css") }}		
 		
 		<style type="text/css">
 			html {

@@ -11,20 +11,20 @@ class UiElements extends Component
 
     private $_headerMenu = array(
         'navbar-left' => array(
-            'index' => array(
-                'caption' => 'Inicio',
-                'action' => 'index'
-            ),
+//             'index' => array(
+//                 'caption' => 'Inicio',
+//                 'action' => 'index'
+//             ),
             'enviar' => array(
-                'caption' => 'Enviar un Término',
+                'caption' => '<i class="fa fa-send"></i> Enviar un Término',
                 'action' => 'index'
             ),
             'tbase' => array(
-                'caption' => '<i class="glyphicon glyphicon-search"></i> Explorar',
+                'caption' => '<i class="fa fa-search"></i> Explorar',
                 'action' => 'index'
             ),
         	'sistema' => array(
-        		'caption' => '<i class="glyphicon glyphicon-cog"></i> Admin',
+        		'caption' => '<i class="fa fa-cog"></i> Admin',
         		'action' => 'index',
         		'items' => array(
         			'sistema/admin' => array('caption'=>'Ajustes', 'action'=>'index')
@@ -60,13 +60,20 @@ class UiElements extends Component
     public function getMenu()
     {
         $auth = $this->session->get('auth');
-        if (! $auth || !isset($auth['is_admin']) || !$auth['is_admin']) {
-        	unset($this->_headerMenu['navbar-left']['sistema/admin']);
-        } else {
-        	$this->_headerMenu['navbar-right']['session'] = array(
-        			'caption' => 'Log Out', //$auth['nombre']
-        			'action' => 'end'
-        	);
+
+        // quitar menu admin
+        if (! $auth) {
+        	unset($this->_headerMenu['navbar-left']['enviar']);
+
+        	if (!isset($auth['is_admin']) || !$auth['is_admin']) {
+        		unset($this->_headerMenu['navbar-left']['sistema']);
+        	}
+
+        }
+
+        // session
+		if ($auth) {
+        	$this->_headerMenu['navbar-right']['session'] = ['caption' => '<i class="fa fa-user"></i> '.$auth['nombre'], 'action' => 'end'];
         }
 
         $controllerName = $this->view->getControllerName();

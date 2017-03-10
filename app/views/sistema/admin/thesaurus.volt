@@ -10,19 +10,32 @@
 				
 			<ul class="nav nav-pills flex-column" role="tablist">
 
+				{% if entidad.id_thesaurus is empty %}								
 				<li role="presentation" class="nav-item">
 		    		<a href="#xlist" class="nav-link {% if items_list is empty %} disabled {% else %} active {% endif %}" aria-controls="xlist" role="tab" data-toggle="tab"> <i class="fa fa-search"></i> Consultar </a>
 		    	</li>
+		    	{% endif %}
+		    	
 				<li role="presentation" class="nav-item">
-		    		<a href="#xnuevo" class="nav-link {% if items_list is empty %} active {% endif %}" aria-controls="xnuevo" role="tab" data-toggle="tab"> <i class="fa fa-file-o"></i> Crear Nuevo </a>
+		    		<a href="#xnuevo" class="nav-link {% if entidad.id_thesaurus is empty %} {% if items_list is empty %} active {% endif %} {% else %} active {% endif %}" aria-controls="xnuevo" role="tab" data-toggle="tab"> 
+		    			<i class="fa {% if entidad.id_thesaurus is empty %} fa-file-o {% else %} fa-edit {% endif %}"></i> {% if entidad.id_thesaurus is empty %} Crear Nuevo {% else %} Editar {% endif %} 
+		    		</a>
 		    	</li>
+		    	
+		    	{% if not(entidad.id_thesaurus is empty) %}
+		    	<li role="presentation" class="nav-item">
+		    		{{ link_to('sistema/admin/thesaurus', 'Cancelar', 'class': 'nav-link') }}
+		    		
+		    		<!-- {{ link_to('#', 'Cancelar', ['class': 'nav-link'])  }} <a href="#" class="nav-link"> Cancelar</a> -->
+		    	</li>
+		    	{% endif %}
 			</ul>
 					
 		</div>
 		
 		<div class="tab-content col-sm-10">
 			
-			<div id="xlist" role="tabpanel" class="tab-pane {% if items_list is empty %} disabled {% else %} active {% endif %}">
+			<div id="xlist" role="tabpanel" class="tab-pane {% if entidad.id_thesaurus is empty %} {% if items_list is empty %} disabled {% else %} active {% endif %} {% endif %}">
 				<div class="card" style="min-height: 400px;">
 				
 					<div class="card-header"> <i class="fa fa-search"></i> Thesaurus </div>
@@ -60,7 +73,7 @@
 				</div>			
 			</div>
 			
-			<div id="xnuevo" role="tabpanel" class="tab-pane {% if items_list is empty %} active {% endif %}">
+			<div id="xnuevo" role="tabpanel" class="tab-pane {% if entidad.id_thesaurus is empty %} {% if items_list is empty %} active {% endif %} {% else %} active {% endif %}">
 			{{ form('sistema/admin/thesaurus', 'id': 'thesaurusForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
 				
 				<fieldset>
@@ -68,7 +81,7 @@
 				    
 				    <div class="card">
 				    
-				    	<div class="card-header"><i class="fa fa-file-o"></i> Nuevo Thesauri</div>
+				    	<div class="card-header"><i class="fa {% if entidad.id_thesaurus is empty %} fa-file-o {% else %} fa-edit {% endif %}"></i> {% if entidad.id_thesaurus is empty %} Nuevo {% else %} {{ entidad.nombre }} {% endif %}</div>
 					    <div class="card-block">
 					
 					        <div class="form-group row">

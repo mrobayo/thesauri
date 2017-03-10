@@ -117,6 +117,8 @@ class AdminController extends ControllerBase
     	$items_list = [];
 
     	foreach (AdUsuario::find() as $c) {
+    		$c->login_history = explode(',', $c->login_history);
+    		if (count($c->login_history) > 0) $c->login_history = $c->login_history[0];
     		$items_list[ $c->id_usuario ] = $c;
     	}
 

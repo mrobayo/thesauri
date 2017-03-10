@@ -2,7 +2,7 @@
 
 namespace Thesaurus\Thesauri;
 
-class ThThesaurus extends \Phalcon\Mvc\Model
+class ThThesaurus extends \BaseModel
 {
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace Thesaurus\Forms;
 
+use Phalcon\Db\RawValue;
 use \FluidXml\FluidXml;
 use Phalcon\Forms\Element\Hidden;
 use Phalcon\Forms\Element\Text;
@@ -18,6 +19,12 @@ use Thesaurus\Thesauri\ThThesaurus;
  */
 class ThesaurusForm extends BaseForm
 {
+	/**
+	 *
+	 * @var ThThesaurus
+	 */
+	var $entidad;
+
 	const DEFAULT_TYPES = ['glossary'=>'Glosario', 'controlled vocabulary'=>'Vocabulario Controlado', 'taxonomy'=>'Taxonomía', 'thesaurus'=>'Tesauro', 'ontology'=>'Ontología'];
 
 	// Licenses for Works https://www.gnu.org/licenses/license-list.en.html#DocumentationLicenses
@@ -76,6 +83,72 @@ class ThesaurusForm extends BaseForm
     }
 
     /**
+     * Guardar thesaurus
+     * iconv('ISO-8859-1','ASCII//TRANSLIT',$val);
+     * iconv('UTF-8','ASCII//TRANSLIT//IGNORE',$val);
+     *
+     * @param ThThesaurus $entidad
+     * @return int
+     */
+    public function guardar($entidad) {
+    	$this->db->begin();
+
+    	$xml = $this->postToXml($this->request);
+
+    	// $entidad->id_thesaurus = $this->request->getPost('id_thesaurus');
+    	$entidad->nombre = $this->request->getPost('nombre', array('string', 'striptags'));
+    	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
+
+    	$entidad->xml_iso25964 = (string) $xml;
+    	$entidad->rdf_uri = $this->config->rdf->baseUri . \StringHelper::urlize( $entidad->nombre );
+    	$entidad->iso25964_identifier = \StringHelper::urlize($entidad->nombre);
+
+    	$entidad->iso25964_description = $this->getString('iso25964_description');
+    	$entidad->iso25964_publisher = $this->getString('iso25964_publisher');
+    	$entidad->iso25964_rights = $this->getString('iso25964_rights');
+
+    	$entidad->iso25964_license = $this->getString('iso25964_license');
+    	$entidad->iso25964_coverage = $this->getString('iso25964_coverage');
+    	$entidad->iso25964_created = $this->getString('iso25964_created');
+
+    	$entidad->iso25964_subject = $this->getString('iso25964_subject');
+    	$entidad->iso25964_language = $this->getString('iso25964_language');
+    	$entidad->iso25964_source = $this->getString('iso25964_source');
+
+    	$entidad->iso25964_creator = $this->getString('iso25964_creator');
+    	$entidad->iso25964_contributor = $this->getString('iso25964_contributor');
+    	$entidad->iso25964_type = $this->getString('iso25964_type');
+
+    	if ($entidad->isNew()) {
+    		$entidad->term_aprobados = 0;
+    		$entidad->term_pendientes = 0;
+    		$entidad->is_activo = TRUE;
+    		$entidad->is_publico = TRUE;
+    		$entidad->aprobar_list = '';
+    		$entidad->id_propietario = 1;
+    		$entidad->fecha_ingreso = new RawValue('now()');
+    	}
+    	else {
+    		$entidad->fecha_modifica = new RawValue('now()');
+    	}
+
+    	if ($entidad->save() == false) {
+    		$this->db->rollback();
+
+    		foreach ($entidad->getMessages() as $message) {
+    			$this->flash->error((string) $message);
+    		}
+
+    		return false;
+    	}
+
+    	$this->db->commit();
+    	$this->flash->success('Guardado exitosamente');
+
+    	return $entidad->id_thesaurus;
+    }
+
+    /**
      * Post a Xml
      *
      * @return \Thesaurus\Forms\FluidXml
@@ -123,7 +196,7 @@ class ThesaurusForm extends BaseForm
     		$xml->add(['language' => $lang]);
     	}
 
-    	$this->logger->error((string) $xml);
+    	// $this->logger->error((string) $xml);
     	return $xml;
     }
 

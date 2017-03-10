@@ -16,7 +16,7 @@ class BaseForm extends Form
 
 	/**
 	 * Editable
-	 * @var booleam $editable
+	 * @var boolean
 	 */
 	protected $editable;
 

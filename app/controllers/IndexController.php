@@ -82,7 +82,6 @@ XML;
 	}
 
 
-
     public function indexAction()
     {
     	//$connection = $this->db;

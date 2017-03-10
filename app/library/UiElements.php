@@ -19,7 +19,7 @@ class UiElements extends Component
                 'caption' => '<i class="fa fa-send"></i> Enviar un Término',
                 'action' => 'index'
             ),
-            'tbase' => array(
+            'database' => array(
                 'caption' => '<i class="fa fa-search"></i> Explorar',
                 'action' => 'index'
             ),
@@ -48,6 +48,11 @@ class UiElements extends Component
     	'Thesaurus' => array(
     		'controller' => 'sistema/admin',
     		'action' => 'thesaurus',
+    		'any' => false
+    	),
+    	'Usuarios' => array(
+    		'controller' => 'sistema/admin',
+    		'action' => 'usuarios',
     		'any' => false
     	)
     );

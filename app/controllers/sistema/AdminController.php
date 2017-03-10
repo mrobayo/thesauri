@@ -5,7 +5,9 @@ use Phalcon\Flash;
 use Phalcon\Session;
 use Phalcon\Tag;
 use Thesaurus\Forms\ThesaurusForm;
+use Thesaurus\Forms\AdUsuarioForm;
 use Thesaurus\Thesauri\ThThesaurus;
+use Thesaurus\Sistema\AdUsuario;
 
 /**
  * Administracion
@@ -71,6 +73,51 @@ class AdminController extends ControllerBase
     	foreach (ThThesaurus::find() as $c) {
     		// $c->xml_iso25964 = \StringHelper::xmltoArray($c->xml_iso25964);
     		$items_list[ $c->id_thesaurus ] = $c;
+    	}
+
+    	$this->view->items_list = $items_list;
+    	$this->view->form = $form;
+    	$this->view->entidad = $entidad;
+    }
+
+
+    /**
+     * Edit & Save
+     */
+    public function usuariosAction($id = NULL)
+    {
+    	$this->view->myheading = 'Usuarios';
+
+    	if ($this->request->isPost()) {
+    		$id = $this->request->getPost("id_usuario");
+    	}
+
+    	if (is_numeric($id)) {
+    		$entidad = AdUsuario::findFirstByid_usuario($id);
+
+    		if (!$entidad) {
+    			$this->flash->error("Usuario [$id] no encontrado");
+    			$this->dispatcher->forward([ 'controller' => "admin", 'action' => 'index' ]);
+    			return;
+    		}
+    	}
+    	else {
+    		$entidad = new AdUsuario();
+    	}
+
+    	$form = new AdUsuarioForm($entidad);
+
+    	if ($this->request->isPost()) {
+    		if ($form->guardar($entidad)) {
+    			$this->logger->error('guardado exitosmente :D');
+    			return $this->dispatcher->forward( ["controller" => "admin", "action" => "index", ] );
+    		}
+    	}
+
+    	$items_list = [];
+
+    	foreach (AdUsuario::find() as $c) {
+    		$items_list[ $c->id_usuario ] = $c;
     	}
 
     	$this->view->items_list = $items_list;

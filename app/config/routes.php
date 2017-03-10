@@ -14,6 +14,13 @@ $router->add('/:controller', [
     'controller' => 1
 ]);
 
+$router->add('/database/:params', [
+		'namespace'  => 'Thesaurus\Controllers',
+		'controller' => 'database',
+		'action'     => 'index',
+		'params'     => 2,
+]);
+
 $router->add('/sistema/:controller/:action/:params', [
     'namespace'  => 'Thesaurus\Controllers\Sistema',
     'controller' => 1,

@@ -49,8 +49,8 @@ class SecurityPlugin extends Plugin
 				'companies'    => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
 				'products'     => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
 				'producttypes' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
-				'admin'        => array('index', 'thesaurus', 'profile', 'kbase', 'tickets', 'noticias', 'correo', 'seguridad', 'plantillas'),
-				'thesaurus'    => array('index', 'edit', 'view'),
+				'admin'        => array('index', 'thesaurus', 'usuarios', 'profile', 'noticias', 'correo', 'seguridad', 'plantillas'),
+				//'thesaurus'    => array('index', 'edit', 'view'),
 				'catalogo'     => array('index')
 			);
 			foreach ($privateResources as $resource => $actions) {
@@ -61,7 +61,7 @@ class SecurityPlugin extends Plugin
 			$publicResources = array(
 				'index'      => array('index', 'info', 'enviar', 'sha1'),
 				'about'      => array('index'),
-				'kbase'      => array('index'),
+				'database'   => array('index'),
 				'register'   => array('index'),
 				'errors'     => array('show401', 'show404', 'show500'),
 				'session'    => array('index', 'register', 'start', 'end'),

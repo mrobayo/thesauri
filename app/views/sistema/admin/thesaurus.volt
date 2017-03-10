@@ -43,8 +43,10 @@
 					<table class="table table-hover table-bordered table-sm">
 					<thead>
 						<tr><th>#</th>
-							<th>Titulo</th>						
-							<th>Términos Aprobados</th><th>Términos Pendientes</th><th>Ultima Actividad</th>
+							<th>Título</th>						
+							<th>Térm.<br> Aprobados</th>
+							<th>Térm.<br> Pendientes</th>
+							<th>Ultima<br> Actividad</th>
 							<th>Url</th>
 							<th>Status</th>
 						</tr>
@@ -53,17 +55,12 @@
 						{% for ckey, row in items_list %}
 						<tr>
 							<td>{{ loop.index }}</td>
-							<td>
-								{{ link_to( 'sistema/admin/thesaurus/'~row.id_thesaurus, row.nombre ) }}
-								<!-- {{ link_to( 'sistema/thesaurus/view/'~row.id_thesaurus, row.nombre ) }} -->
-							</td>
-							
-							<td></td>
-							<td></td>
-							<td></td>
-							<td>
-								{{ link_to( row.rdf_uri, '<i class="fa fa-external-link"></i>' ) }}							
-							<td><i class="fa fa-check text-success"></i></td>
+							<td>{{ link_to( 'sistema/admin/thesaurus/'~row.id_thesaurus, row.nombre ) }}</td>							
+							<td class="text-center">{{ row.term_aprobados }}</td>
+							<td class="text-center">{{ row.term_pendientes }}</td>
+							<td class="text-center">{{ row.ultima_actividad }}</td>
+							<td class="text-center">{{ link_to( row.rdf_uri, '<i class="fa fa-external-link"></i>' ) }}</td>							
+							<td class="text-center"><i class="fa fa-check text-success"></i></td>
 						</tr>
 						{% endfor %} 
 					</tbody>					
@@ -74,7 +71,7 @@
 			</div>
 			
 			<div id="xnuevo" role="tabpanel" class="tab-pane {% if entidad.id_thesaurus is empty %} {% if items_list is empty %} active {% endif %} {% else %} active {% endif %}">
-			{{ form('sistema/admin/thesaurus', 'id': 'thesaurusForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
+			{{ form('sistema/admin/thesaurus', 'id': 'thisForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
 				
 				<fieldset>
 				    {{ form.render('id_thesaurus') }}
@@ -182,7 +179,7 @@
 						</div>
 						<div class="card-footer">
 							<div class="form-actions">
-					            {{ submit_button('Guardar', 'class': 'btn btn-primary') }} <!-- 'onclick': '$("#thesaurusForm").submit();' -->
+					            {{ submit_button('Guardar', 'class': 'btn btn-primary') }} 
 					        </div>
 						</div>	
 					</div>
@@ -224,7 +221,7 @@
 		$('#iso25964_created').datepicker({
 			format: 'yyyy-mm-dd'			
 		});		
-		$('#thesaurusForm')
+		$('#thisForm')
 			.enterAsTab({ 'allowSubmit': true})
 			.find(":input:text:visible:not(disabled):not([readonly])").first().focus();
 	});		

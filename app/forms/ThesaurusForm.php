@@ -19,12 +19,6 @@ use Thesaurus\Thesauri\ThThesaurus;
  */
 class ThesaurusForm extends BaseForm
 {
-	/**
-	 *
-	 * @var ThThesaurus
-	 */
-	var $entidad;
-
 	const DEFAULT_TYPES = ['glossary'=>'Glosario', 'controlled vocabulary'=>'Vocabulario Controlado', 'taxonomy'=>'Taxonomía', 'thesaurus'=>'Tesauro', 'ontology'=>'Ontología'];
 
 	// Licenses for Works https://www.gnu.org/licenses/license-list.en.html#DocumentationLicenses

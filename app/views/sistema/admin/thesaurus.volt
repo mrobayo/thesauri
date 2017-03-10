@@ -31,7 +31,6 @@
 					<thead>
 						<tr><th>#</th>
 							<th>Titulo</th>						
-						
 							<th>Términos Aprobados</th><th>Términos Pendientes</th><th>Ultima Actividad</th>
 							<th>Url</th>
 							<th>Status</th>
@@ -41,14 +40,16 @@
 						{% for ckey, row in items_list %}
 						<tr>
 							<td>{{ loop.index }}</td>
-							<td>{{ link_to( 'sistema/tesauro/view/'~row.id_thesaurus, row.nombre ) }}</td>
+							<td>
+								{{ link_to( 'sistema/admin/thesaurus/'~row.id_thesaurus, row.nombre ) }}
+								<!-- {{ link_to( 'sistema/thesaurus/view/'~row.id_thesaurus, row.nombre ) }} -->
+							</td>
 							
 							<td></td>
 							<td></td>
 							<td></td>
 							<td>
-								{{ link_to( config.rdf.baseUri ~ row.rdf_uri, row.rdf_uri ) }}
-							<a href="#" title=""><i class="fa fa-external-link"></i></a></td>
+								{{ link_to( row.rdf_uri, '<i class="fa fa-external-link"></i>' ) }}							
 							<td><i class="fa fa-check text-success"></i></td>
 						</tr>
 						{% endfor %} 
@@ -73,123 +74,97 @@
 					        <div class="form-group row">
 					            {{ form.label('nombre', ['class': 'form-control-label col-sm-12']) }}            
 					            <div class="col-sm-8">
-					            	{{ form.render('nombre', ['class': 'form-control form-control-success required', 'aria-describedby': 'nombreHelp']) }}            
-					            	<small id="nombreHelp" class="form-text text-muted">Título del Thesaurus (requerido)</small>
+					            	{{ form.render('nombre', ['class': 'form-control form-control-success required']) }}					            	
 					            </div>
 					        </div>
 					
 							<div class="form-group row">
-					            {{ form.label('description', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('iso25964_description', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">            
-					            	{{ form.render('description', ['class': 'form-control form-control-success', 'aria-describedby': 'descripcionHelp']) }}            
-					            	<small id="descripcionHelp" class="form-text text-muted">(requerido)</small>
+					            	{{ form.render('iso25964_description', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
-					
-					        <!-- <div class="form-group row">
-					            {{ form.label('identifier', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
-					            	{{ form.render('identifier', ['class': 'form-control form-control-success', 'aria-describedby': 'identifierHelp']) }}            
-					            	<small id="identifierHelp" class="form-text text-muted">Identificador del Thesaurus (requerido)</small>
-					            </div>
-					        </div> -->
 					        
 					        <div class="form-group row">
-					            {{ form.label('creator', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('iso25964_creator', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">            
-					            	{{ form.render('creator', ['class': 'form-control form-control-success', 'aria-describedby': 'creatorHelp']) }}            
-					            	<small id="creatorHelp" class="form-text text-muted">Persona o entidad principal responsable de la elaboración</small>
+					            	{{ form.render('iso25964_creator', ['class': 'form-control form-control-success']) }}					            	
 					            </div>            
 					        </div>
 					             
 					        <div class="form-group row">
-					            {{ form.label('contributor', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('iso25964_contributor', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">            
-					            	{{ form.render('contributor', ['class': 'form-control form-control-success', 'aria-describedby': 'contributorHelp']) }}            
-					            	<small id="contributorHelp" class="form-text text-muted">Personas u organizaciones quienes contribuyeron con el Thesaurus</small>
+					            	{{ form.render('iso25964_contributor', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					
 					        <div class="form-group row">
-					            {{ form.label('publisher', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('iso25964_publisher', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">            
-					            	{{ form.render('publisher', ['class': 'form-control form-control-success', 'aria-describedby': 'publisherHelp']) }}            
-					            	<small id="publisherHelp" class="form-text text-muted">Entidad responsable de la publicación</small>
+					            	{{ form.render('iso25964_publisher', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('coverage', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('iso25964_coverage', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">            
-					            	{{ form.render('coverage', ['class': 'form-control form-control-success', 'aria-describedby': 'coverageHelp']) }}            
-					            	<small id="coverageHelp" class="form-text text-muted">Cobertura espacial o temporal del Thesaurus</small>
+					            	{{ form.render('iso25964_coverage', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('rights', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('iso25964_rights', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">            
-					            	{{ form.render('rights', ['class': 'form-control form-control-success', 'aria-describedby': 'rightsHelp']) }}            
-					            	<small id="rightsHelp" class="form-text text-muted">Copyright / Otros Derechos de la Información</small>
+					            	{{ form.render('iso25964_rights', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('license', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('iso25964_license', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">            
-					            	{{ form.render('license', ['class': 'form-control form-control-success', 'aria-describedby': 'licenseHelp']) }}            
-					            	<small id="licenseHelp" class="form-text text-muted"> <a href='https://www.gnu.org/licenses/license-list.en.html#OtherLicenses' target="_blank">Licencias para otros trabajos</a></small>
+					            	{{ form.render('iso25964_license', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        
 					        <div class="form-group row">
-					            {{ form.label('created', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('iso25964_created', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">    
 					            	<div class="input-group">
 					            	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>        
-					            	{{ form.render('created', ['class': 'form-control form-control-success', 'aria-describedby': 'createdHelp']) }}
-					            	</div>            
-					            	<small id="Help" class="form-text text-muted"></small>
+					            	{{ form.render('iso25964_created', ['class': 'form-control form-control-success']) }}
+					            	</div>
 					            </div>            
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('subject', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('iso25964_subject', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">            
-					            	{{ form.render('subject', ['class': 'form-control form-control-success', 'aria-describedby': 'subjectHelp']) }}            
-					            	<small id="Help" class="form-text text-muted">Indice de Términos indicando las materias del contenido</small>
+					            	{{ form.render('iso25964_subject', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('language', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">	            
-					            		            	
-					            	{{ form.render('language', ['class': 'form-control form-control-success', 'aria-describedby': 'languageHelp']) }}
-					            	            
-					            	<small id="languageHelp" class="form-text text-muted">Idiomas soportados por el Thesaurus</small>
+					            {{ form.label('iso25964_language', ['class': 'form-control-label col-sm-12']) }}
+					            <div class="col-sm-8">					            		            	
+					            	{{ form.render('iso25964_language', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('source', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('iso25964_source', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">            
-					            	{{ form.render('source', ['class': 'form-control form-control-success', 'aria-describedby': 'sourceHelp']) }}            
-					            	<small id="sourceHelp" class="form-text text-muted">Recursos desde los cuales el Thesaurus fue derivado</small>
+					            	{{ form.render('iso25964_source', ['class': 'form-control form-control-success']) }}
 					            </div>            
-					        </div>
-					        
+					        </div>					        
 					                
 					        <div class="form-group row">
-					            {{ form.label('type', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('iso25964_type', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">            
-					            	{{ form.render('type', ['class': 'form-control form-control-success', 'aria-describedby': 'typeHelp']) }}            
-					            	<small id="typeHelp" class="form-text text-muted">El género del vocabulario</small>
+					            	{{ form.render('iso25964_type', ['class': 'form-control form-control-success']) }}
 					            </div>            
-					        </div>
-					               
-					        
+					        </div>					               				        
 				
 						</div>
 						<div class="card-footer">
@@ -219,7 +194,7 @@
 		});
 		langcodes.initialize();
 		
-		$('#language').tagsinput({
+		$('#iso25964_language').tagsinput({
 		  itemValue: 'value',
 	 	  itemText: 'text',
 		  typeaheadjs: {
@@ -233,7 +208,7 @@
 		    },
 		});
 		$('.bootstrap-tagsinput').addClass('form-control');
-		$('#created').datepicker({
+		$('#iso25964_created').datepicker({
 			format: 'yyyy-mm-dd'			
 		});		
 		$('#thesaurusForm')

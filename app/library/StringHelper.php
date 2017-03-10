@@ -11,6 +11,17 @@ use Behat\Transliterator\Transliterator;
 class StringHelper extends Transliterator
 {
 
+
+	/**
+	 * Xml text to array
+	 *
+	 * @param string xml raw
+	 */
+	public static function xmltoArray($xmlraw) {
+		$xmlObject = \StringHelper::loadxml($xmlraw);
+		return \StringHelper::xml2array($xmlObject);
+	}
+
 	/**
 	 * Quita los accentos
 	 *

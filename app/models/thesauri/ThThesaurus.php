@@ -1,4 +1,5 @@
 <?php
+
 namespace Thesaurus\Thesauri;
 
 class ThThesaurus extends \Phalcon\Mvc\Model
@@ -53,14 +54,14 @@ class ThThesaurus extends \Phalcon\Mvc\Model
      * @var integer
      * @Column(type="integer", length=32, nullable=false)
      */
-    public $num_terminos;
+    public $term_aprobados;
 
     /**
      *
      * @var integer
      * @Column(type="integer", length=32, nullable=false)
      */
-    public $num_pendientes;
+    public $term_pendientes;
 
     /**
      *
@@ -74,7 +75,7 @@ class ThThesaurus extends \Phalcon\Mvc\Model
      * @var string
      * @Column(type="string", nullable=true)
      */
-    public $xml_metadata;
+    public $xml_iso25964;
 
     /**
      *
@@ -89,6 +90,76 @@ class ThThesaurus extends \Phalcon\Mvc\Model
      * @Column(type="integer", length=32, nullable=true)
      */
     public $id_propietario;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_identifier;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_coverage;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_creator;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=true)
+     */
+    public $iso25964_created;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=true)
+     */
+    public $iso25964_description;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_publisher;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_rights;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_source;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_license;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_type;
 
     /**
      *
@@ -117,7 +188,7 @@ class ThThesaurus extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->setSchema("public");
-        $this->belongsTo('id_propietario', '\AdUsuario', 'id_usuario', ['alias' => 'AdUsuario']);
+        $this->belongsTo('id_propietario', 'Thesaurus\Thesauri\\AdUsuario', 'id_usuario', ['alias' => 'AdUsuario']);
     }
 
     /**

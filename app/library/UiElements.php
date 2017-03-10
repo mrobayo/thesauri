@@ -24,10 +24,10 @@ class UiElements extends Component
                 'action' => 'index'
             ),
         	'sistema' => array(
-        		'caption' => '<i class="fa fa-cog"></i> Admin',
+        		'caption' => '<i class="fa fa-cog"></i> Sistema',
         		'action' => 'index',
         		'items' => array(
-        			'sistema/admin' => array('caption'=>'Ajustes', 'action'=>'index')
+        			'sistema/admin' => array('caption'=>'Administración', 'action'=>'index')
         		)
         	),
         ),

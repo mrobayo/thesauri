@@ -1,7 +1,7 @@
 
 <nav class="breadcrumb">
-  <a class="breadcrumb-item" href="#">Administración</a>  
-  <a class="breadcrumb-item active">Ajustes</a>
+  <a class="breadcrumb-item" href="#">Sistema</a>  
+  <a class="breadcrumb-item active">Administración</a>
 </nav>
 
 

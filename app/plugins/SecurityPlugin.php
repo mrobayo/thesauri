@@ -50,7 +50,7 @@ class SecurityPlugin extends Plugin
 				'products'     => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
 				'producttypes' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
 				'admin'        => array('index', 'thesaurus', 'profile', 'kbase', 'tickets', 'noticias', 'correo', 'seguridad', 'plantillas'),
-				'tesauro'      => array('index', 'edit', 'view'),
+				'thesaurus'    => array('index', 'edit', 'view'),
 				'catalogo'     => array('index')
 			);
 			foreach ($privateResources as $resource => $actions) {

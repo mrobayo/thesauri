@@ -14,7 +14,6 @@ use Thesaurus\Thesauri\ThThesaurus;
  */
 class AdminController extends ControllerBase
 {
-
 	/*
 	 * {@inheritDoc}
 	 * @see \Helpdesk\Controllers\Sistema\ControllerBase::initialize()
@@ -33,6 +32,48 @@ class AdminController extends ControllerBase
     	$this->view->myheading = 'General';
     	$this->view->config_seccion = 'ajustes_general';
     }
+
+    /**
+     * Edit & Save
+     */
+    public function thesaurusAction($id_thesaurus = NULL)
+    {
+    	$this->view->myheading = 'Thesaurus';
+
+    	if (is_numeric($id_thesaurus)) {
+    		$entidad = ThThesaurus::findFirstByid_thesaurus($id_thesaurus);
+
+    		if (!$entidad) {
+    			$this->flash->error("Thesaurus [$id_thesaurus] no encontrado");
+
+    			$this->dispatcher->forward([ 'controller' => "admin", 'action' => 'index' ]);
+    			return;
+    		}
+    	}
+    	else {
+    		$entidad = new ThThesaurus();
+    	}
+
+    	$form = new ThesaurusForm($entidad);
+
+    	if ($this->request->isPost()) {
+    		if ($this->guardarThesaurus($form)) {
+    			return $this->dispatcher->forward( ["controller" => "admin", "action" => "index", ] );
+    		}
+    	}
+
+    	$items_list = [];
+
+    	foreach (ThThesaurus::find() as $c) {
+    		// $c->xml_iso25964 = \StringHelper::xmltoArray($c->xml_iso25964);
+    		$items_list[ $c->id_thesaurus ] = $c;
+    	}
+
+    	$this->view->items_list = $items_list;
+    	$this->view->form = $form;
+    	$this->view->entidad = $entidad;
+    }
+
 
     /**
      * Guardar thesaurus
@@ -54,14 +95,34 @@ class AdminController extends ControllerBase
 
     	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
 
-    	$entidad->is_activo = TRUE;
-    	$entidad->is_publico = TRUE;
-    	$entidad->xml_metadata = (string) $xml;
+
+    	$entidad->xml_iso25964 = (string) $xml;
     	$entidad->aprobar_list = '';
     	$entidad->id_propietario = 1;
-    	$entidad->rdf_uri = \StringHelper::urlize( $entidad->nombre );
-    	$entidad->num_terminos = 0;
-    	$entidad->num_pendientes = 0;
+    	$entidad->rdf_uri = $this->config->rdf->baseUri . \StringHelper::urlize( $entidad->nombre );
+
+    	$entidad->iso25964_identifier = \StringHelper::urlize($entidad->nombre);
+
+    	$entidad->iso25964_description = $form->getString('iso25964_description');
+    	$entidad->iso25964_publisher = $form->getString('iso25964_publisher');
+    	$entidad->iso25964_rights = $form->getString('iso25964_rights');
+
+    	$entidad->iso25964_license = $form->getString('iso25964_license');
+    	$entidad->iso25964_coverage = $form->getString('iso25964_coverage');
+    	$entidad->iso25964_created = $form->getString('iso25964_created');
+
+    	$entidad->iso25964_subject = $form->getString('iso25964_subject');
+    	$entidad->iso25964_language = $form->getString('iso25964_language');
+    	$entidad->iso25964_source = $form->getString('iso25964_source');
+
+    	$entidad->iso25964_creator = $form->getString('iso25964_creator');
+    	$entidad->iso25964_contributor = $form->getString('iso25964_contributor');
+    	$entidad->iso25964_type = $form->getString('iso25964_type');
+
+    	$entidad->term_aprobados = 0;
+    	$entidad->term_pendientes = 0;
+    	$entidad->is_activo = TRUE;
+    	$entidad->is_publico = TRUE;
 
 
     	if (empty($entidad->id_thesaurus)) {
@@ -88,31 +149,6 @@ class AdminController extends ControllerBase
     		$this->logger->error( 'Thesaurus guardado: ' . $entidad->id_thesaurus);
     		return $entidad->id_thesaurus;
     	}
-    }
-
-    /**
-     * Edit & Save
-     */
-    public function thesaurusAction()
-    {
-    	$form = new ThesaurusForm;
-    	$this->view->myheading = 'Thesaurus';
-
-    	if ($this->request->isPost()) {
-
-    		if ($this->guardarThesaurus($form)) {
-    			return $this->dispatcher->forward( ["controller" => "admin", "action" => "index", ] );
-    		}
-    	}
-
-    	$items_list = [];
-
-    	foreach (ThThesaurus::find() as $c) {
-			$c->xml_metadata = $form->textToXml($c->xml_metadata);
-    		$items_list[ $c->id_thesaurus ] = $c;
-    	}
-    	$this->view->items_list = $items_list;
-    	$this->view->form = $form;
     }
 
     /**

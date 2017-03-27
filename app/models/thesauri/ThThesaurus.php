@@ -100,27 +100,6 @@ class ThThesaurus extends \BaseModel
     /**
      *
      * @var string
-     * @Column(type="string", length=100, nullable=true)
-     */
-    public $iso25964_coverage;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", length=100, nullable=true)
-     */
-    public $iso25964_creator;
-
-    /**
-     *
-     * @var string
-     * @Column(type="string", nullable=true)
-     */
-    public $iso25964_created;
-
-    /**
-     *
-     * @var string
      * @Column(type="string", nullable=true)
      */
     public $iso25964_description;
@@ -144,6 +123,41 @@ class ThThesaurus extends \BaseModel
      * @var string
      * @Column(type="string", length=100, nullable=true)
      */
+    public $iso25964_license;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_coverage;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", nullable=true)
+     */
+    public $iso25964_created;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_subject;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_language;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
     public $iso25964_source;
 
     /**
@@ -151,7 +165,14 @@ class ThThesaurus extends \BaseModel
      * @var string
      * @Column(type="string", length=100, nullable=true)
      */
-    public $iso25964_license;
+    public $iso25964_creator;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=100, nullable=true)
+     */
+    public $iso25964_contributor;
 
     /**
      *
@@ -182,12 +203,20 @@ class ThThesaurus extends \BaseModel
     public $fecha_inactivo;
 
     /**
+     *
+     * @var string
+     * @Column(type="string", nullable=false)
+     */
+    public $is_primario;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
         $this->setSchema("public");
-        $this->belongsTo('id_propietario', 'Thesaurus\Thesauri\\AdUsuario', 'id_usuario', ['alias' => 'AdUsuario']);
+        $this->hasMany('id_thesaurus', 'ThTermino', 'id_thesaurus', ['alias' => 'ThTermino']);
+        $this->belongsTo('id_propietario', '\AdUsuario', 'id_usuario', ['alias' => 'AdUsuario']);
     }
 
     /**

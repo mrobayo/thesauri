@@ -73,7 +73,7 @@ return new \Phalcon\Config([
 	'ajustes_general' => [
 		'formato_fecha' => 'text|d/m/Y h:i',
 		'modo_mantenimiento' => 'select|boolean',
-		'pagina_principal' => 'select|enum|Base de Conocimientos|Noticias'
+		'pagina_principal' => 'select|enum|Tesauro Primario|Listado de Tesaurus'
 	]
 
 ]);

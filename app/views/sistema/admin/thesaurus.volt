@@ -46,7 +46,8 @@
 							<th>Título</th>						
 							<th>Térm.<br> Aprobados</th>
 							<th>Térm.<br> Pendientes</th>
-							<th>Ultima<br> Actividad</th>							
+							<th>Ultima<br> Actividad</th>														
+							<th>Prim.</th>
 							<th>Status</th>
 							<th></th>
 						</tr>
@@ -59,7 +60,13 @@
 							<td class="text-center">{{ row.term_aprobados }}</td>
 							<td class="text-center">{{ row.term_pendientes }}</td>
 							<td class="text-center">{{ row.ultima_actividad }}</td>
-							<td class="text-center"><i class="fa fa-check text-success"></i></td>
+							<td class="text-center">
+								<i class="fa {% if row.is_primario %} fa-heart text-danger {% else %} {% endif %}" title="Principal"></i>
+							</td>
+							<td class="text-center">
+								<i title="{% if row.is_activo %} {% if row.is_publico %} Activo y Públicado {% else %} No Publicado {% endif %} {% else %} Desactivado {% endif %}" 
+								class="fa {% if row.is_activo %} {% if row.is_publico %} fa-check text-success {% else %} fa-ban text-warning {% endif %} {% else %} fa-remove text-danger {% endif %}"></i>						
+							</td>
 							<td class="text-center">{{ link_to( 'sistema/admin/thesaurus/'~row.id_thesaurus, '<i class="fa fa-edit"></i>' ) }}</td>
 							
 						</tr>

@@ -1,10 +1,7 @@
-<div class="page-header">
-    <h1> Thesauri - UEES </h1>
-</div>
 
 <div>	
 	
-	<h4 class="card-title" style="margin: 10px 0">{{ myheading }}</h4>
+	<h4 class="card-title" style="margin: 10px 0">{{ myheading }}  </h4>
 	
 	{% if modo_mantenimiento %}  
 	

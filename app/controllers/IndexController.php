@@ -4,6 +4,7 @@ namespace Thesaurus\Controllers;
 
 use Thesaurus\Thesauri\ThTermino;
 use Thesaurus\Forms\TerminoForm;
+use Thesaurus\Sistema\AdConfig;
 
 /**
  * Index
@@ -18,7 +19,10 @@ class IndexController extends ControllerBase
 	 */
 	var $th_options;
 
-
+	/**
+	 * {@inheritDoc}
+	 * @see \Thesaurus\Controllers\ControllerBase::initialize()
+	 */
 	public function initialize()
 	{
 		$this->tag->setTitle('Inicio');
@@ -28,12 +32,22 @@ class IndexController extends ControllerBase
 		$this->th_options['language_list'] = ['es' => 'Español'];
 	}
 
+	/**
+	 * index
+	 */
     public function indexAction()
     {
-    	$this->view->myheading = $this->config->application->appTitle; //print_r($robot, true);
+    	$this->view->myheading = $this->config->application->appTitle;
+    	$this->view->modo_mantenimiento = $this->get_config_value('modo_mantenimiento', FALSE);
+
+    	$this->logger->error('prueba: [' . $this->view->modo_mantenimiento . ']');
+
     	$this->view->t = $this->getTranslation();
     }
 
+    /**
+     * enviar termino
+     */
     public function enviarAction()
     {
     	$this->view->myheading = 'Nuevo Término';

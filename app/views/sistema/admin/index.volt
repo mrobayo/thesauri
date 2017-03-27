@@ -7,7 +7,7 @@
 	    <tbody>
 	    	{% for ckey, cvalue in config[ config_seccion ] %}
 	        <tr>
-	        	<th class="col-4">{{ t[ckey] }} <h6> {{ t[ckey~'_desc'] }}  </h6> </th>
+	        	<th class="col-4">{{ t[ckey] }} <small class="form-text text-muted"> {{ t[ckey~'_desc'] }}  </small> </th>
 	        	<td class="col-8">{{ config_tag(ckey, cvalue) }}</td>        	
 	        </tr>
 	        {% endfor %}

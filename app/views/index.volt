@@ -40,6 +40,15 @@
 				border-bottom: 1px solid #eee;   
     			padding-bottom: 9px;
 			}
+			.sidebar {
+    			  position: -webkit-sticky;
+				  position: -moz-sticky;
+				  position: -o-sticky;
+				  position: -ms-sticky;
+				  position: sticky;
+				  top: 100px;
+				  z-index: 1;
+			}
 		</style>
 		
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>		

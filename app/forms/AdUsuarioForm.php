@@ -17,6 +17,9 @@ use Thesaurus\Sistema\AdUsuario;
  */
 class AdUsuarioForm extends BaseForm
 {
+	const ROLE_TYPES = ['USER'=> 'USUARIO', 'ADMIN'=>'ADMINISTRADOR'];
+	const AVISO_TYPES = ['TERMINO'=> 'TERMINO', 'DIARIO'=>'DIARIO', 'SEMANAL'=>'SEMANAL'];
+
 	/**
 	 *
 	 */
@@ -24,7 +27,12 @@ class AdUsuarioForm extends BaseForm
     {
     	$this->add(new Hidden('id_usuario'));
 
-    	$this->addText('nombre', ['tooltip'=>'Nombre del Usuario (requerido)', 'label'=>'Nombre', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'Nombre es requerido'])] ]);
+    	$this->addText('nombre', ['tooltip'=>'Nombre del Usuario (requerido)', 'label'=>'Nombre', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
+    	$this->addText('email', ['tooltip'=>'Correo electrónico (requerido)', 'label'=>'Email', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
+
+    	$this->addSelect('app_role', ['tooltip'=>'Role de Seguridad', 'label'=>'Role', 'options'=> self::ROLE_TYPES, 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
+    	$this->addSelect('recibir_avisos', ['tooltip'=>'Recibir Avisos y Notificaciones', 'label'=>'Notificaciones', 'options'=> self::AVISO_TYPES, 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
+    	$this->addSelect('is_activo', ['tooltip'=>'Activar / Inactivar', 'label'=>'Activo', 'options'=> ['1' => 'SI', '0' => 'NO'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
 
         if ($this->isEditable($options)) {
 
@@ -44,30 +52,50 @@ class AdUsuarioForm extends BaseForm
      * @param AdUsuario $entidad
      * @return int
      */
-    public function guardar($entidad) {
-    	$this->db->begin();
+    public function guardar($entidad)
+    {
+    	// Binding
 
-    	$entidad->nombre = $this->request->getString('nombre');
+     	$entidad->nombre = $this->getString('nombre');
+     	$entidad->app_role = $this->getString('app_role');
+     	$entidad->email = $this->getString('email');
 
-    	if ($entidad->isNew()) {
-    		$entidad->is_activo = TRUE;
-    		$entidad->fecha_ingreso = new RawValue('now()');
-    	}
+     	$entidad->is_activo = $this->getString('is_activo') ? new RawValue('TRUE'): new RawValue('FALSE');
+     	$entidad->recibir_avisos = $this->getString('recibir_avisos');
 
-    	if ($entidad->save() == false) {
-    		$this->db->rollback();
+     	if ($entidad->isNew()) {
+     		$entidad->is_activo = new RawValue('TRUE');
+     		$entidad->fecha_ingreso = new RawValue('now()');
+     		if (empty($entidad->clave)) $entidad->clave = 'N/A';
+     	}
 
-    		foreach ($entidad->getMessages() as $message) {
-    			$this->flash->error((string) $message);
-    		}
+     	// Validar email
 
-    		return false;
-    	}
+     	$existe = $entidad->findFirstByemail($entidad->email);
 
-    	$this->db->commit();
-    	$this->flash->success('Guardado exitosamente');
+     	if ($existe) {
+     		$this->flash->error("Usuario con el email {$entidad->email} ya existe");
+     		return false;
+     	}
 
-    	return $entidad->id_usuario;
+     	// Guardar
+
+   		$this->db->begin();
+
+   		if ($entidad->save() == false)
+   		{
+   			$this->db->rollback();
+
+   			foreach ($entidad->getMessages() as $message) {
+   				$this->flash->error((string) $message);
+   			}
+   			return false;
+   		}
+
+   		$this->db->commit();
+   		$this->flash->success('Guardado exitosamente');
+
+   		return $entidad->id_usuario;
     }
 
 }

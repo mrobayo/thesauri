@@ -78,7 +78,10 @@
 				    
 				    <div class="card">
 				    
-				    	<div class="card-header"><i class="fa {% if entidad.id_usuario is empty %} fa-file-o {% else %} fa-edit {% endif %}"></i> {% if entidad.id_usuario is empty %} Nuevo {% else %} {{ entidad.nombre }} {% endif %}</div>
+				    	<div class="card-header"><i class="fa {% if entidad.id_usuario is empty %} fa-file-o {% else %} fa-edit {% endif %}"></i> 
+				    		{% if entidad.id_usuario is empty %} Nuevo {% else %} {{ entidad.nombre }} {% endif %}
+				    	</div>
+				    	
 					    <div class="card-block">
 					
 					        <div class="form-group row">
@@ -87,6 +90,47 @@
 					            	{{ form.render('nombre', ['class': 'form-control form-control-success required']) }}					            	
 					            </div>
 					        </div>
+					        
+					        <div class="form-group row">
+					            {{ form.label('email', ['class': 'form-control-label col-sm-12']) }}            
+					            <div class="col-sm-8">
+					            	{{ form.render('email', ['class': 'form-control form-control-success required email']) }}					            	
+					            </div>
+					        </div>
+					        
+					        <div class="form-group row">
+					            {{ form.label('app_role', ['class': 'form-control-label col-sm-12']) }}            
+					            <div class="col-sm-8">
+					            	{{ form.render('app_role', ['class': 'form-control form-control-success']) }}					            	
+					            </div>
+					        </div>
+					        
+					        <div class="form-group row">
+					            {{ form.label('recibir_avisos', ['class': 'form-control-label col-sm-12']) }}            
+					            <div class="col-sm-8">
+					            	{{ form.render('recibir_avisos', ['class': 'form-control form-control-success']) }}					            	
+					            </div>
+					        </div>
+					        
+					        {% if entidad.id_usuario is empty %}
+					        
+					        <div class="form-group row">
+					            {{ form.label('is_activo', ['class': 'form-control-label col-sm-12']) }}            
+					            <div class="col-sm-8">
+					            	SI					            	
+					            </div>
+					        </div>
+					        	
+					        {% else %}
+					        <div class="form-group row">
+					            {{ form.label('is_activo', ['class': 'form-control-label col-sm-12']) }}            
+					            <div class="col-sm-8">
+					            	{{ form.render('is_activo', ['class': 'form-control form-control-success']) }}					            	
+					            </div>
+					        </div>
+					        {% endif %}
+					        
+					        
 				
 						</div>
 						<div class="card-footer">

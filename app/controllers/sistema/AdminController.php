@@ -50,9 +50,7 @@ class AdminController extends ControllerBase
 
     		if (!$entidad) {
     			$this->flash->error("Thesaurus [$id_thesaurus] no encontrado");
-
-    			$this->dispatcher->forward([ 'controller' => "admin", 'action' => 'index' ]);
-    			return;
+    			return $this->dispatcher->forward([ 'controller' => "admin", 'action' => 'index' ]);
     		}
     	}
     	else {
@@ -63,7 +61,7 @@ class AdminController extends ControllerBase
 
     	if ($this->request->isPost()) {
     		if ($form->guardar($entidad)) {
-    			$this->logger->error('guardado exitosmente :D');
+    			$this->logger->error('Thesaurus ['. $entidad->nombre .'] guardado exitosmente');
     			return $this->dispatcher->forward( ["controller" => "admin", "action" => "index", ] );
     		}
     	}
@@ -97,8 +95,7 @@ class AdminController extends ControllerBase
 
     		if (!$entidad) {
     			$this->flash->error("Usuario [$id] no encontrado");
-    			$this->dispatcher->forward([ 'controller' => "admin", 'action' => 'index' ]);
-    			return;
+    			return $this->dispatcher->forward([ 'controller' => 'admin', 'action' => 'index' ]);
     		}
     	}
     	else {
@@ -108,10 +105,18 @@ class AdminController extends ControllerBase
     	$form = new AdUsuarioForm($entidad);
 
     	if ($this->request->isPost()) {
+
+    		$this->logger->error('1');
+
     		if ($form->guardar($entidad)) {
-    			$this->logger->error('guardado exitosmente :D');
-    			return $this->dispatcher->forward( ["controller" => "admin", "action" => "index", ] );
+
+    			$this->logger->error('4');
+
+    			$this->logger->error('Usuario ['. $entidad->nombre .'] guardado exitosamente');
+    			return $this->dispatcher->forward([ 'controller' => 'admin', 'action' => 'index' ]);
     		}
+
+    		$this->logger->error('3');
     	}
 
     	$items_list = [];

@@ -1,5 +1,4 @@
 <?php
-
 namespace Thesaurus\Thesauri;
 
 class ThThesaurus extends \BaseModel

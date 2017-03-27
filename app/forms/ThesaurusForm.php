@@ -53,12 +53,12 @@ class ThesaurusForm extends BaseForm
         $this->addText('iso25964_rights', ['tooltip'=>'Copyright / Otros Derechos de la Información', 'label'=>'Derechos/Copyright', 'filters'=>array('striptags', 'string')]);
 
         $this->addSelect('iso25964_license', ['tooltip'=> 'Licencias para otros trabajos', 'label'=>'Licencia', 'options'=> self::DEFAULT_RIGHTS, 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
-        $this->addText('iso25964_coverage', ['tooltip'=>'Cobertura espacial o temporal del Thesaurus', 'label'=>'Cobertura', 'filters'=>array('striptags', 'string')]);
+        $this->addText('iso25964_coverage', ['tooltip'=>'Cobertura espacial o temporal del Thesaurus', 'label'=>'Cobertura/Alcance', 'filters'=>array('striptags', 'string')]);
         $this->addText('iso25964_created', ['label'=>'Fecha creación', 'filters'=>array('striptags', 'string')]);
 
         $this->addText('iso25964_subject', ['tooltip'=>'Indice de Términos indicando las materias del contenido', 'label'=>'Temática/Contenido', 'filters'=>array('striptags', 'string')]);
         $this->addText('iso25964_language', ['tooltip'=>'Idiomas soportados por el Thesaurus', 'label'=>'Idioma', 'filters'=>array('striptags', 'string')]);
-        $this->addText('iso25964_source', ['tooltip'=>'Recursos desde los cuales el Thesaurus fue derivado', 'label'=>'Fuente', 'filters'=>array('striptags', 'string')]);
+        $this->addText('iso25964_source', ['tooltip'=>'Recursos desde los cuales el Thesaurus fue derivado', 'label'=>'Fuentes', 'filters'=>array('striptags', 'string')]);
 
         $this->addText('iso25964_creator', ['tooltip'=>'Persona o entidad principal responsable de la elaboración', 'label'=>'Creador', 'filters'=>array('striptags', 'string')]);
         $this->addText('iso25964_contributor', ['tooltip'=>'Personas u organizaciones quienes contribuyeron con el Thesaurus', 'label'=>'Colaborador', 'filters'=>array('striptags', 'string')]);

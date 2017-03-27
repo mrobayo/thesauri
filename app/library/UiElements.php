@@ -15,9 +15,9 @@ class UiElements extends Component
 //                 'caption' => 'Inicio',
 //                 'action' => 'index'
 //             ),
-            'enviar' => array(
+            'index' => array(
                 'caption' => '<i class="fa fa-send"></i> Enviar un Término',
-                'action' => 'index'
+                'action' => 'enviar'
             ),
             'database' => array(
                 'caption' => '<i class="fa fa-search"></i> Explorar',

@@ -4,7 +4,7 @@ namespace Thesaurus\Sistema;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;
 
-class AdUsuario extends \Phalcon\Mvc\Model
+class AdUsuario extends \BaseModel
 {
 
     /**

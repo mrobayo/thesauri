@@ -46,21 +46,22 @@
 							<th>Título</th>						
 							<th>Térm.<br> Aprobados</th>
 							<th>Térm.<br> Pendientes</th>
-							<th>Ultima<br> Actividad</th>
-							<th>Url</th>
+							<th>Ultima<br> Actividad</th>							
 							<th>Status</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 						{% for ckey, row in items_list %}
 						<tr>
 							<td>{{ loop.index }}</td>
-							<td>{{ link_to( 'sistema/admin/thesaurus/'~row.id_thesaurus, row.nombre ) }}</td>							
+							<td>{{ link_to( row.rdf_uri, row.nombre ) }}</td>							
 							<td class="text-center">{{ row.term_aprobados }}</td>
 							<td class="text-center">{{ row.term_pendientes }}</td>
 							<td class="text-center">{{ row.ultima_actividad }}</td>
-							<td class="text-center">{{ link_to( row.rdf_uri, '<i class="fa fa-external-link"></i>' ) }}</td>							
 							<td class="text-center"><i class="fa fa-check text-success"></i></td>
+							<td class="text-center">{{ link_to( 'sistema/admin/thesaurus/'~row.id_thesaurus, '<i class="fa fa-edit"></i>' ) }}</td>
+							
 						</tr>
 						{% endfor %} 
 					</tbody>					

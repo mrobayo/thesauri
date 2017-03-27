@@ -4,6 +4,7 @@ namespace Thesaurus\Controllers;
 
 use Thesaurus\Thesauri\ThThesaurus;
 use Thesaurus\Forms\ThesaurusForm;
+use Phalcon\Db\RawValue;
 
 /**
  * Database
@@ -35,9 +36,23 @@ class DatabaseController extends ControllerBase
     	$this->view->myheading = $this->config->application->appTitle;
     	$this->view->id = $identifier;
 
+    	$items_list = [];
+    	$entidad = FALSE;
+
     	if ($identifier != null) {
-    		$this->view->entidad = ThThesaurus::findFirst([ 'iso25964_identifier = :identifier:', 'bind'=>['identifier'=> $identifier]]);
+    		$entidad = ThThesaurus::findFirst([ 'iso25964_identifier = :identifier:', 'bind'=>['identifier'=> $identifier]]);
     	}
+
+    	if (! $entidad)
+    	{
+    		$items = ThThesaurus::find(["conditions" => "is_activo = TRUE AND is_publico = TRUE"]);
+	    	foreach ($items as $c) {
+	    		$items_list[ $c->id_thesaurus ] = $c;
+	    	}
+    	}
+
+    	$this->view->entidad = $entidad;
+    	$this->view->items_list = $items_list;
     }
 
 

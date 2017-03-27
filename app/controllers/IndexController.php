@@ -5,6 +5,7 @@ namespace Thesaurus\Controllers;
 use Thesaurus\Thesauri\ThTermino;
 use Thesaurus\Forms\TerminoForm;
 use Thesaurus\Sistema\AdConfig;
+use Thesaurus\Thesauri\ThThesaurus;
 
 /**
  * Index
@@ -39,10 +40,28 @@ class IndexController extends ControllerBase
     {
     	$this->view->myheading = $this->config->application->appTitle;
     	$this->view->modo_mantenimiento = $this->get_config_value('modo_mantenimiento', FALSE);
-
-    	$this->logger->error('prueba: [' . $this->view->modo_mantenimiento . ']');
-
+    	$this->view->pagina_principal = $this->get_config_value('pagina_principal', 0);
     	$this->view->t = $this->getTranslation();
+
+    	if ($this->view->modo_mantenimiento == '1')
+    	{
+    		return; // continue
+    	}
+
+    	if ($this->view->pagina_principal == '1')
+    	{
+			$entidad = ThThesaurus::findFirst([ 'is_activo = TRUE AND is_publico = TRUE AND is_primario = TRUE']);
+
+			if ($entidad)
+			{
+				return $this->response->redirect( $entidad->rdf_uri );
+			}
+
+    	}
+
+		// Mostrar listado
+		return $this->dispatcher->forward([ 'controller' => "database", 'action' => 'index' ]);
+
     }
 
     /**

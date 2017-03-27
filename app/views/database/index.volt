@@ -1,6 +1,6 @@
 <div class="page-header">
 	{% if entidad is empty %}		
-		<h2>Exploración de Contenidos</h2>
+		<h2>Exploración de Vocabularios</h2>
 	{% else %}
     	<h2> {{ TYPES[ entidad.iso25964_type ] }} </h2>
 	{% endif %}    
@@ -8,7 +8,36 @@
 	
 	{% if entidad is empty %}
 	
-		// TODO :D
+	<div class="card">
+	
+		<div class="card-header">
+			<i class="fa fa-bank"></i> Thesaurus
+		</div>
+		
+		<table class="table table-hover table-bordered table-sm">
+			<thead>
+				<tr><th>#</th>
+					<th class="col-3">Título</th>						
+					<th class="col-8">Descripción</th>
+					<th class="col-1">Ultima<br> Actividad</th>					
+				</tr>
+			</thead>
+			<tbody>
+				{% for ckey, row in items_list %}
+				<tr>
+					<td>{{ loop.index }}</td>
+					<td>{{ link_to( row.rdf_uri, row.nombre ) }}</td>							
+					<td class="">{{ row.iso25964_description }}</td>					
+					<td class="text-center">{{ row.ultima_actividad }}</td>
+					
+					
+				</tr>
+				{% endfor %} 
+			</tbody>					
+			</table>
+	
+	
+	</div>
 	
 	{% else %}
 	

@@ -34,10 +34,13 @@ class SessionController extends ControllerBase
      */
     private function _registerSession(AdUsuario $user)
     {
+    	$this->logger->error("Login - Usuario {$user->nombre} is {$user->app_role}");
+
         $this->session->set('auth', array(
             'id' => $user->id_usuario,
             'nombre' => $user->nombre,
         	'app_role' => $user->app_role,
+        	'is_user' => ($user->app_role == 'USER'),
         	'is_admin' => ($user->app_role == 'ADMIN')
         ));
     }

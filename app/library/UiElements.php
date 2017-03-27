@@ -11,10 +11,7 @@ class UiElements extends Component
 
     private $_headerMenu = array(
         'navbar-left' => array(
-//             'index' => array(
-//                 'caption' => 'Inicio',
-//                 'action' => 'index'
-//             ),
+
             'index' => array(
                 'caption' => '<i class="fa fa-send"></i> Enviar un Término',
                 'action' => 'enviar'
@@ -68,12 +65,13 @@ class UiElements extends Component
 
         // quitar menu admin
         if (! $auth) {
-        	unset($this->_headerMenu['navbar-left']['enviar']);
-
+        	unset($this->_headerMenu['navbar-left']['index']);
+        	unset($this->_headerMenu['navbar-left']['sistema']);
+        }
+        else {
         	if (!isset($auth['is_admin']) || !$auth['is_admin']) {
         		unset($this->_headerMenu['navbar-left']['sistema']);
         	}
-
         }
 
         // session

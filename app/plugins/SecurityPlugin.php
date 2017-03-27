@@ -49,7 +49,7 @@ class SecurityPlugin extends Plugin
 				'companies'    => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
 				'products'     => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
 				'producttypes' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
-				'admin'        => array('index', 'thesaurus', 'usuarios', 'profile', 'noticias', 'correo', 'seguridad', 'plantillas'),
+				'admin'        => array('index', 'thesaurus', 'usuarios', 'profile', 'noticias', 'correo', 'seguridad', 'plantillas', 'guardar'),
 				//'thesaurus'    => array('index', 'edit', 'view'),
 				'catalogo'     => array('index')
 			);

@@ -5,7 +5,12 @@
 
 	<table class="table table-bordered table-striped">
 	    <tbody>
-	    	
+	    	{% for ckey, cvalue in config[ config_seccion ] %}
+	        <tr>
+	        	<th class="col-4">{{ t[ckey] }} <h6> {{ t[ckey~'_desc'] }}  </h6> </th>
+	        	<td class="col-8">{{ config_tag(ckey, cvalue) }}</td>        	
+	        </tr>
+	        {% endfor %}
 	    </tbody>
 	</table>
 
@@ -16,3 +21,4 @@
     </div>
     
 {{ end_form() }}
+

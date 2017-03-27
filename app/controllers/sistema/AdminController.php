@@ -8,6 +8,7 @@ use Thesaurus\Forms\ThesaurusForm;
 use Thesaurus\Forms\AdUsuarioForm;
 use Thesaurus\Thesauri\ThThesaurus;
 use Thesaurus\Sistema\AdUsuario;
+use Thesaurus\Sistema\AdConfig;
 
 /**
  * Administracion
@@ -15,6 +16,9 @@ use Thesaurus\Sistema\AdUsuario;
  */
 class AdminController extends ControllerBase
 {
+
+	static $_global_config = [];
+
 	/*
 	 * {@inheritDoc}
 	 * @see \Helpdesk\Controllers\Sistema\ControllerBase::initialize()
@@ -26,8 +30,117 @@ class AdminController extends ControllerBase
 
         // Transalation messages/es.php
         $this->view->t = $this->getTranslation();
+
+        // Registra function en Volt
+        $volt = $this->di->getShared("volt", [$this->view, $this->di]);
+        $volt->getCompiler()->addFunction('config_tag', function ($resolvedArgs, $exprArgs) {
+        	return get_class($this)."::config_tag(" . $resolvedArgs . ")";
+        });
+
+
+        // Leer configuracion
+        $config = AdConfig::find([
+        			"columns" => "id_config, descripcion",
+        			"conditions" => "tipo_config = ?1",
+        			"bind"       => [1 => "global_config"]
+        ]);
+
+        foreach ($config as $c) {
+        	SELF::$_global_config[$c->id_config] = $c->descripcion;
+        }
     }
 
+    /**
+     * Config Tag
+     *
+     * @param string $ckey
+     * @param string $cvalue
+     * @return string
+     */
+    public static function config_tag($ckey, $cvalue) {
+    	$c = explode('|', $cvalue);
+    	$value = isset(SELF::$_global_config[$ckey]) ? SELF::$_global_config[$ckey] : FALSE;
+
+    	if ($value === FALSE) {
+    		$value = isset($c[1])? $c[1] :'';
+    	}
+
+    	if ($c[0] == 'text') {
+    		$tag = Tag::textField(["id_config[$ckey]", 'class' => 'form-control', 'value' => $value]);
+    	}
+    	elseif ($c[0] == 'password') {
+    		$tag = Tag::passwordField(["id_config[$ckey]", 'class' => 'form-control', 'value' => $value]);
+    	}
+    	elseif ($c[0] == 'integer') {
+    		$tag = Tag::numericField(["id_config[$ckey]", 'class' => 'form-control', 'value' => $value]);
+    	}
+    	elseif ($c[0] == 'select') {
+    		$options = [];
+    		if ($c[1] == 'boolean') {
+    			$options = ['1'=>'SI', '0'=>'NO'];
+    		}
+    		elseif ($c[1] == 'enum') {
+    			$options = array_slice($c, 2);
+    		}
+    		$tag = Tag::selectStatic(["id_config[$ckey]", 'class' => 'form-control', 'value' => $value], $options);
+    	}
+    	else {
+    		$tag = $cvalue;
+    	}
+
+    	$tag .= Tag::hiddenField(["tipo_valor[$ckey]", 'value' => $c[0]]);
+    	return $tag;
+    }
+
+    /**
+     * Guardar configuracion
+     */
+    public function guardarAction()
+    {
+    	if ($this->request->isPost()) {
+    		$exito = false;
+
+    		$config_form = $this->request->getPost('id_config');
+    		$tvalor_form = $this->request->getPost('tipo_valor');
+
+    		foreach ($config_form as $config_key => $config_value) {
+    			$this->db->begin();
+
+    			$ad = new AdConfig();
+
+    			$ad->id_config = $config_key;
+    			$ad->tipo_config = 'global_config';
+    			$ad->is_activo = 1;
+    			$ad->descripcion = $config_value;
+    			$ad->nombre = $config_key;
+    			$ad->orden = 0;
+
+    			$ad->tipo_prop = 'user';
+    			$ad->is_requerido = 0;
+    			$ad->tipo_valor = $tvalor_form[$config_key];
+
+    			if ($ad->save() == false) {
+    				foreach ($ad->getMessages() as $message) {
+    					$this->logger->error((string) $message);
+    					$this->flash->error((string) $message);
+    					break;
+    				}
+    				$this->db->rollback();
+    			}
+    			else {
+    				$exito = true;
+    				$this->db->commit();
+    			}
+    		}
+    		if ($exito) $this->flash->success('Configuración guardada exitosamente');
+    	}
+
+    	return $this->response->redirect('sistema/admin/'.$this->request->getPost('success_forward'));
+    }
+
+    /**
+     * Index
+     */
     public function indexAction()
     {
     	$this->view->myheading = 'General';

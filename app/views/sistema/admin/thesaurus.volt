@@ -144,7 +144,7 @@
 					            <div class="col-sm-8">    
 					            	<div class="input-group">
 					            	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>        
-					            	{{ form.render('iso25964_created', ['class': 'form-control form-control-success']) }}
+					            	{{ form.render('iso25964_created', ['class': 'form-control form-control-success required']) }}
 					            	</div>
 					            </div>            
 					        </div>

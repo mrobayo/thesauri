@@ -60,8 +60,10 @@ class AdminController extends ControllerBase
     	$form = new ThesaurusForm($entidad);
 
     	if ($this->request->isPost()) {
+
     		if ($form->guardar($entidad)) {
-    			$this->logger->error('Thesaurus ['. $entidad->nombre .'] guardado exitosmente');
+
+    			$this->logger->error("Thesaurus {$entidad->nombre} guardado exitosamente");
     			return $this->dispatcher->forward( ["controller" => "admin", "action" => "index", ] );
     		}
     	}
@@ -104,19 +106,13 @@ class AdminController extends ControllerBase
 
     	$form = new AdUsuarioForm($entidad);
 
-    	if ($this->request->isPost()) {
-
-    		$this->logger->error('1');
-
-    		if ($form->guardar($entidad)) {
-
-    			$this->logger->error('4');
-
-    			$this->logger->error('Usuario ['. $entidad->nombre .'] guardado exitosamente');
+    	if ($this->request->isPost())
+    	{
+    		if ($form->guardar($entidad))
+    		{
+    			$this->logger->error("Usuario {$entidad->nombre} guardado exitosamente");
     			return $this->dispatcher->forward([ 'controller' => 'admin', 'action' => 'index' ]);
     		}
-
-    		$this->logger->error('3');
     	}
 
     	$items_list = [];

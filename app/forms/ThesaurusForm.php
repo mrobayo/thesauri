@@ -84,16 +84,14 @@ class ThesaurusForm extends BaseForm
      * @param ThThesaurus $entidad
      * @return int
      */
-    public function guardar($entidad) {
-    	$this->db->begin();
+    public function guardar($entidad)
+    {
+    	// Binding
 
-    	$xml = $this->postToXml($this->request);
-
-    	// $entidad->id_thesaurus = $this->request->getPost('id_thesaurus');
-    	$entidad->nombre = $this->request->getPost('nombre', array('string', 'striptags'));
+    	$entidad->nombre = $this->getString('nombre');
     	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
 
-    	$entidad->xml_iso25964 = (string) $xml;
+    	$entidad->xml_iso25964 = (string) $this->postToXml();
     	$entidad->rdf_uri = $this->config->rdf->baseUri . \StringHelper::urlize( $entidad->nombre );
     	$entidad->iso25964_identifier = \StringHelper::urlize($entidad->nombre);
 
@@ -116,8 +114,8 @@ class ThesaurusForm extends BaseForm
     	if ($entidad->isNew()) {
     		$entidad->term_aprobados = 0;
     		$entidad->term_pendientes = 0;
-    		$entidad->is_activo = TRUE;
-    		$entidad->is_publico = TRUE;
+    		$entidad->is_activo = new RawValue('TRUE');
+    		$entidad->is_publico = new RawValue('TRUE');
     		$entidad->aprobar_list = '';
     		$entidad->id_propietario = 1;
     		$entidad->fecha_ingreso = new RawValue('now()');
@@ -125,6 +123,17 @@ class ThesaurusForm extends BaseForm
     	else {
     		$entidad->fecha_modifica = new RawValue('now()');
     	}
+
+    	// Validar nombre
+
+    	$existe = $entidad->findFirstBynombre($entidad->nombre);
+
+    	if ($existe) {
+    		$this->flash->error("Thesaurus {$entidad->nombre} ya existe");
+    		return false;
+    	}
+
+    	$this->db->begin();
 
     	if ($entidad->save() == false) {
     		$this->db->rollback();
@@ -148,6 +157,7 @@ class ThesaurusForm extends BaseForm
      * @return \Thesaurus\Forms\FluidXml
      */
     public function postToXml() {
+
     	$xml = new FluidXml('thesaurus');
 
     	$title = $this->getString("nombre");
@@ -185,8 +195,8 @@ class ThesaurusForm extends BaseForm
     	]);
 
     	$language = explode(',', $this->getString("language"));
-
-    	foreach($language as $lang) {
+    	if (is_array($language)) foreach($language as $lang)
+    	{
     		$xml->add(['language' => $lang]);
     	}
 

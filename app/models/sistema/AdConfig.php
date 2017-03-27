@@ -1,7 +1,7 @@
 <?php
 namespace Thesaurus\Sistema;
 
-class AdConfig extends \Phalcon\Mvc\Model
+class AdConfig extends \BaseModel
 {
 
     /**

@@ -65,8 +65,6 @@ class TerminoForm extends BaseForm
     	$entidad->nombre = $this->getString('nombre');
     	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
 
-    	$entidad->rdf_uri = $this->config->rdf->baseUri . 'termino/' . \StringHelper::urlize( $entidad->nombre );
-
     	$entidad->iso25964_language = $this->getString('iso25964_language');
     	$entidad->description = $this->getString('description');
 
@@ -80,6 +78,7 @@ class TerminoForm extends BaseForm
     		$entidad->estado_termino = self::CANDIDATO;
     		$entidad->fecha_ingreso = new RawValue('now()');
     		$entidad->id_ingreso = $auth['id'];
+    		$entidad->rdf_uri = $this->config->rdf->baseUri . 'termino/';
     	}
     	else {
     		$entidad->fecha_modifica = new RawValue('now()');
@@ -107,6 +106,11 @@ class TerminoForm extends BaseForm
 
     		return false;
     	}
+
+    	// Crear URI
+
+    	$entidad->rdf_uri = $this->config->rdf->baseUri . 'termino/' . $entidad->id_termino . '/' . \StringHelper::urlize( $entidad->nombre );
+    	$entidad->save();
 
     	// Actualizar thesaurus
 

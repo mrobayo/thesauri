@@ -85,9 +85,9 @@ class DatabaseController extends ControllerBase
     /**
      * Presenta un termino
      */
-    public function terminoAction($identifier) {
+    public function terminoAction($identifier, $id_termino) {
 		$this->view->disable();
-		echo 'muestra un termino: '. $identifier;
+		echo 'muestra un termino: '. $id_termino . ' = '. $identifier;
     }
 
 	/**

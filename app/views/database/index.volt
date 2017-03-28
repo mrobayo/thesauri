@@ -179,7 +179,8 @@
 		
 		
 		$('.alfabetoByJson').click(function(e) {
-			e.preventDefault();
+			e.preventDefault();			
+			$('.alfabetoByJson').removeClass('bg-faded');
 			
 			$.get($(this).attr('href'), function(data){				
 				tBody = $('#terminosTable tbody').empty();
@@ -187,8 +188,8 @@
 				$.each(data.result, function(key, value){					
 					tBody.append('<tr><td><a href="'+value[1]+'">'+ value[0]+'</a></td></tr>');					
 				});
-				
-				
+								
+				$(this).addClass('bg-faded');				
 			}, 'json');
 		});
 		

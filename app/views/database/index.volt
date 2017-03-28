@@ -34,7 +34,7 @@
 				</tr>
 				{% endfor %} 
 			</tbody>					
-			</table>
+		</table>
 	
 	
 	</div>
@@ -66,7 +66,25 @@
 						<div class="card-block">
 							<div class="tab-content">
 						    <div id="xlist" role="tabpanel" class="tab-pane active">						    		
-						    		abc						    
+						    		
+						    		<!-- Terminos Aprobados -->
+									<table class="table table-hover table-bordered table-sm">
+										<thead>
+											<tr><th>#</th>
+												<th class="col-3">Término</th>						
+																													
+											</tr>
+										</thead>
+										<tbody>
+											{% for ckey, row in terms_list %}
+											<tr>
+												<td class="">{{ loop.index }}</td>
+												<td class="col-12">{{ link_to( row.rdf_uri, row.nombre ) }}</td>												
+											</tr>
+											{% endfor %} 
+										</tbody>					
+									</table>				    		
+						    								    								    
 						    </div>
 							</div>
 						</div>							
@@ -81,7 +99,7 @@
 						<tbody>
 							<tr> <td class="col-2">Titulo</td><td>{{ entidad.nombre }}</td> </tr>
 							<tr> <td class="col-2">Identificador</td><td>{{ entidad.iso25964_identifier }}</td> </tr>					
-							<tr> <td>Resource URI</td><td>{{ link_to( entidad.rdf_uri, entidad.rdf_uri ) }}</td> </tr>
+							<tr> <td>URI</td><td>{{ link_to( entidad.rdf_uri, entidad.rdf_uri ) }}</td> </tr>
 							<tr> <td>Editor</td><td>{{ entidad.iso25964_publisher }}</td> </tr>
 							<tr> <td>Derechos/Copyright</td><td>{{ entidad.iso25964_rights }}</td> </tr>							
 							<tr> <td>Licencia</td><td>{{ entidad.iso25964_license }}</td> </tr>

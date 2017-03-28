@@ -5,6 +5,8 @@ namespace Thesaurus\Controllers;
 use Thesaurus\Thesauri\ThThesaurus;
 use Thesaurus\Forms\ThesaurusForm;
 use Phalcon\Db\RawValue;
+use Thesaurus\Thesauri\ThTermino;
+use Thesaurus\Forms\TerminoForm;
 
 /**
  * Database
@@ -37,7 +39,9 @@ class DatabaseController extends ControllerBase
     	$this->view->id = $identifier;
 
     	$items_list = [];
+
     	$entidad = FALSE;
+    	$terms_list = [];
 
     	if ($identifier != null) {
     		$entidad = ThThesaurus::findFirst([ 'iso25964_identifier = :identifier:', 'bind'=>['identifier'=> $identifier]]);
@@ -50,8 +54,14 @@ class DatabaseController extends ControllerBase
 	    		$items_list[ $c->id_thesaurus ] = $c;
 	    	}
     	}
+    	else
+    	{ // mostrar terminos
+    		$terms_list = ThTermino::find([ 'id_thesaurus = ?1 AND estado_termino = ?2',
+    				'bind' => [1 => $entidad->id_thesaurus, 2 => TerminoForm::APROBADO ], 'order' => 'nombre ASC']);
+    	}
 
     	$this->view->entidad = $entidad;
+    	$this->view->terms_list = $terms_list;
     	$this->view->items_list = $items_list;
     }
 

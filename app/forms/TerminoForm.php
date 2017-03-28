@@ -2,9 +2,7 @@
 namespace Thesaurus\Forms;
 
 use Phalcon\Db\RawValue;
-use \FluidXml\FluidXml;
 use Phalcon\Forms\Element\Hidden;
-use Phalcon\Forms\Element\Text;
 use Phalcon\Validation\Validator\PresenceOf;
 use Thesaurus\Thesauri\ThTermino;
 use Thesaurus\Thesauri\ThThesaurus;
@@ -16,8 +14,10 @@ use Thesaurus\Thesauri\ThThesaurus;
  */
 class TerminoForm extends BaseForm
 {
-	const CANDIDATO = 'CANDIDATO';
-	const ESTADO_LIST = ['APROBADO', 'CANDIDATO', 'REEMPLAZADO', 'DEPRECADO'];
+	const CANDIDATO = 'CANDIDATO',
+		  APROBADO  = 'APROBADO';
+
+	const ESTADO_LIST = [APROBADO, CANDIDATO, 'REEMPLAZADO', 'DEPRECADO'];
 
 	/**
 	 *
@@ -27,7 +27,7 @@ class TerminoForm extends BaseForm
     	$this->add(new Hidden('id_termino'));
 
     	$this->addText('nombre', ['tooltip'=>'Nombre del Término', 'label'=>'Término', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
-    	$this->addTextArea('descripcion', ['label'=>'Descripción', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
+    	$this->addTextArea('descripcion', ['label'=>'Definición', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
 
     	if (! isset($options['thesaurus_list']))
     	{
@@ -83,6 +83,15 @@ class TerminoForm extends BaseForm
     	}
     	else {
     		$entidad->fecha_modifica = new RawValue('now()');
+    	}
+
+    	// Validar
+
+    	$existe = $entidad->findFirst(['notilde = ?1', 'bind'=>[1 => $entidad->notilde]]);
+
+    	if ($existe) {
+    		$this->flash->error("Termino [{$entidad->nombre}] ya esta registrado.");
+    		return false;
     	}
 
     	// Guardar

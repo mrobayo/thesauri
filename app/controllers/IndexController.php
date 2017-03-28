@@ -29,7 +29,12 @@ class IndexController extends ControllerBase
 		$this->tag->setTitle('Inicio');
 		parent::initialize();
 
-		$this->th_options['thesaurus_list'] = [1 => 'COIP'];
+		$thesaurus_list = [];
+		foreach (ThThesaurus::find(['is_activo = TRUE', 'order'=>'nombre']) as $row)
+		{
+			$thesaurus_list[ $row->id_thesaurus ] = $row->nombre;
+		}
+		$this->th_options['thesaurus_list'] = $thesaurus_list;
 		$this->th_options['language_list'] = ['es' => 'Español'];
 	}
 
@@ -50,7 +55,7 @@ class IndexController extends ControllerBase
 
     	if ($this->view->pagina_principal == '1')
     	{
-			$entidad = ThThesaurus::findFirst([ 'is_activo = TRUE AND is_publico = TRUE AND is_primario = TRUE']);
+			$entidad = ThThesaurus::findFirst(['is_activo = TRUE AND is_publico = TRUE AND is_primario = TRUE']);
 
 			if ($entidad)
 			{
@@ -67,22 +72,33 @@ class IndexController extends ControllerBase
     /**
      * enviar termino
      */
-    public function enviarAction()
+    public function enviarAction($id_thesaurus = NULL)
     {
     	$this->view->myheading = 'Nuevo Término';
    		$id_termino = $this->request->isPost() ? $this->request->getPost("id_termino") : FALSE;
 
+   		if (is_numeric($id_thesaurus)) {
+    		$thesaurus = ThThesaurus::findFirstByid_thesaurus($id_thesaurus);
+   		}
+   		else {
+   			$thesaurus = ThThesaurus::findFirst(['is_primario = TRUE']);
+   		}
+
     	if (is_numeric($id_termino)) {
-    		$entidad = ThThesaurus::findFirstByid_termino($id_termino);
+    		$entidad = ThTermino::findFirstByid_termino($id_termino);
 
     		if (!$entidad) {
     			$this->flash->error("Termino [$id_termino] no encontrado");
-    			$this->dispatcher->forward([ 'controller' => "admin", 'action' => 'index' ]);
-    			return;
+    			return $this->dispatcher->forward([ 'controller' => "admin", 'action' => 'index' ]);
     		}
     	}
     	else {
     		$entidad = new ThTermino();
+
+    		if ($thesaurus) {
+    			$entidad->id_thesaurus = $thesaurus-> id_thesaurus;
+    		}
+
     	}
 
     	$form = new TerminoForm($entidad, $this->th_options);

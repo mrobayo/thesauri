@@ -67,7 +67,7 @@ return new \Phalcon\Config([
 
 	// Dominio de RDF
 	'rdf' => [
-			'baseUri' => 'database/'
+			'baseUri' => 'explorar/'
 	],
 
 	'ajustes_general' => [

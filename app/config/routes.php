@@ -9,12 +9,19 @@ $router->add('/:controller/:action/:params', [
     'params'     => 3,
 ]);
 
-$router->add('/database/:params', [
+$router->add('/explorar/:params', [
 		'namespace'  => 'Thesaurus\Controllers',
 		'controller' => 'database',
 		'action'     => 'index',
 		'params'     => 1,
 ]);
+
+// $router->add('/database/:params', [
+// 		'namespace'  => 'Thesaurus\Controllers',
+// 		'controller' => 'database',
+// 		'action'     => 'index',
+// 		'params'     => 1,
+// ]);
 
 $router->add('/:controller', [
     'namespace'  => 'Thesaurus\Controllers',

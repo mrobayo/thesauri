@@ -65,20 +65,32 @@
 						</div>					
 						<div class="card-block">
 							<div class="tab-content">
-						    <div id="xlist" role="tabpanel" class="tab-pane active">						    		
+						    <div id="xlist" role="tabpanel" class="tab-pane active">
+						    
+						    	<div class="text-center" style="padding: 0em 4em 1em 4em;">
+						    		{% for letra, num in letras_list %}
+						    		
+							    		{% if num is empty %}		
+											<span class="text-muted">{{ letra }}</span>
+										{% else %}
+									    	<a href="{{ url('database/json/'~entidad.id_thesaurus~'/'~letra) }}" title="{{ num }} términos" class="alfabetoByJson">{{ letra }}</a>
+										{% endif %}
+										
+										&nbsp;																    		
+						    		{% endfor %}
+						    	</div>					    		
 						    		
 						    		<!-- Terminos Aprobados -->
-									<table class="table table-hover table-bordered table-sm">
-										<thead>
+									<table id="terminosTable" class="table table-hover table-sm">
+										<!-- <thead>
 											<tr><th>#</th>
-												<th class="col-3">Término</th>						
-																													
+												<th class="col-3">Término</th>																															
 											</tr>
-										</thead>
+										</thead> -->
 										<tbody>
 											{% for ckey, row in terms_list %}
 											<tr>
-												<td class="">{{ loop.index }}</td>
+												<!-- <td class="">{{ loop.index }}</td> -->
 												<td class="col-12">{{ link_to( row.rdf_uri, row.nombre ) }}</td>												
 											</tr>
 											{% endfor %} 
@@ -160,6 +172,28 @@
 	
 	{% endif %}
 	
-	 
+
+
+	<script>
+	$(function() {
+		
+		
+		$('.alfabetoByJson').click(function(e) {
+			e.preventDefault();
+			
+			$.get($(this).attr('href'), function(data){				
+				tBody = $('#terminosTable tbody').empty();
+				
+				$.each(data.result, function(key, value){					
+					tBody.append('<tr><td><a href="'+value[1]+'">'+ value[0]+'</a></td></tr>');					
+				});
+				
+				
+			}, 'json');
+		});
+		
+	})
+	
+	</script>
 
 

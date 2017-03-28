@@ -46,12 +46,12 @@ class SecurityPlugin extends Plugin
 
 			//Private area resources
 			$privateResources = array(
-				'companies'    => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
-				'products'     => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
-				'producttypes' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
+				//'companies'    => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
+				//'products'     => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
+				//'producttypes' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
 				'admin'        => array('index', 'thesaurus', 'usuarios', 'profile', 'noticias', 'correo', 'seguridad', 'plantillas', 'guardar'),
 				//'thesaurus'    => array('index', 'edit', 'view'),
-				'catalogo'     => array('index')
+				//'catalogo'     => array('index')
 			);
 			foreach ($privateResources as $resource => $actions) {
 				$acl->addResource(new Resource($resource), $actions);
@@ -61,7 +61,7 @@ class SecurityPlugin extends Plugin
 			$publicResources = array(
 				'index'      => array('index', 'info', 'enviar', 'sha1'),
 				'about'      => array('index'),
-				'database'   => array('index'),
+				'database'   => array('index', 'termino', 'json'),
 				'register'   => array('index'),
 				'errors'     => array('show401', 'show404', 'show500'),
 				'session'    => array('index', 'register', 'start', 'end'),

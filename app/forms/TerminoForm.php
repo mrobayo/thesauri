@@ -65,7 +65,7 @@ class TerminoForm extends BaseForm
     	$entidad->nombre = $this->getString('nombre');
     	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
 
-    	$entidad->rdf_uri = $this->config->rdf->baseUri . \StringHelper::urlize( $entidad->nombre );
+    	$entidad->rdf_uri = $this->config->rdf->baseUri . 'termino/' . \StringHelper::urlize( $entidad->nombre );
 
     	$entidad->iso25964_language = $this->getString('iso25964_language');
     	$entidad->description = $this->getString('description');

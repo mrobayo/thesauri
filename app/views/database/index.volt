@@ -52,7 +52,7 @@
 			
 			<div class="row">
 			
-				<div class="col-sm-6 sidebar">
+				<div class="col-sm-5 sidebar">
 					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;">Explorar</h4>					
 					
 					<div class="card panel-default" style="min-height:720px;">
@@ -67,7 +67,7 @@
 							<div class="tab-content">
 						    <div id="xlist" role="tabpanel" class="tab-pane active">
 						    
-						    	<div class="text-center" style="padding: 0em 4em 1em 4em;">
+						    	<div class="text-center" style="padding: 0em 2em 1em 2em;">
 						    		{% for letra, num in letras_list %}
 						    		
 							    		{% if num is empty %}		
@@ -107,7 +107,7 @@
 								
 				</div>
 				
-				<div id="infoDetalle" class="col-sm-6">
+				<div id="infoDetalle" class="col-sm-7">
 					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;"> {{ TYPES[ entidad.iso25964_type ] }} </h4>					
 					<table class="table table-striped table-bordered">
 						<tbody>
@@ -198,7 +198,7 @@
 				tBody = $('#terminosTable tbody').empty();
 				
 				$.each(data.result, function(key, value){
-					vLink = $('<a href="../'+value[1]+'">'+ value[0]+'</a>').click( fnVerInfoDetalle );					
+					vLink = $('<a href="'+value[1]+'">'+ value[0]+'</a>').click( fnVerInfoDetalle );					
 					tBody.append( $('<tr>').append( $('<td>').append(vLink) ));					
 				});
 				

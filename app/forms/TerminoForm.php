@@ -14,6 +14,8 @@ use Thesaurus\Thesauri\ThThesaurus;
  */
 class TerminoForm extends BaseForm
 {
+	const RELATION_TYPES = ['TP'=>'Término Preferente', 'TE'=>'Término Específico', 'TG'=>'Término General', 'TR'=>'Término Relacionado', 'SIN'=>'Término Alternativo'];
+
 	const CANDIDATO = 'CANDIDATO',
 		  APROBADO  = 'APROBADO';
 

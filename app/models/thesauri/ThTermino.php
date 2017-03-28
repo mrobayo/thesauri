@@ -110,9 +110,11 @@ class ThTermino extends \BaseModel
     public function initialize()
     {
         $this->setSchema("public");
-        $this->belongsTo('id_aprobador', '\AdUsuario', 'id_usuario', ['alias' => 'AdUsuario']);
-        $this->belongsTo('id_ingreso', '\AdUsuario', 'id_usuario', ['alias' => 'AdUsuario']);
-        $this->belongsTo('id_thesaurus', '\ThThesaurus', 'id_thesaurus', ['alias' => 'ThThesaurus']);
+        $this->hasMany('id_termino', 'Thesaurus\Thesauri\ThRelacion', 'id_termino', ['alias' => 'ThRelacion']);
+        $this->hasMany('id_termino', 'Thesaurus\Thesauri\ThRelacion', 'id_termino_rel', ['alias' => 'ThRelacion']);
+        $this->belongsTo('id_thesaurus', 'Thesaurus\Thesauri\\ThThesaurus', 'id_thesaurus', ['alias' => 'ThThesaurus']);
+        $this->belongsTo('id_aprobador', 'Thesaurus\Sistema\\AdUsuario', 'id_usuario', ['alias' => 'AdUsuario']);
+        $this->belongsTo('id_ingreso', 'Thesaurus\Sistema\\AdUsuario', 'id_usuario', ['alias' => 'AdUsuario']);
     }
 
     /**

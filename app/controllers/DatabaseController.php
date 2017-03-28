@@ -4,10 +4,10 @@ namespace Thesaurus\Controllers;
 
 use Thesaurus\Thesauri\ThThesaurus;
 use Thesaurus\Forms\ThesaurusForm;
-use Phalcon\Db\RawValue;
 use Thesaurus\Thesauri\ThTermino;
 use Thesaurus\Forms\TerminoForm;
 use Phalcon\Mvc\View;
+use Phalcon\Mvc\Url;
 
 /**
  * Database
@@ -20,6 +20,7 @@ use Phalcon\Mvc\View;
  */
 class DatabaseController extends ControllerBase
 {
+
 	public function initialize()
 	{
 		$this->tag->setTitle('Database');
@@ -27,7 +28,9 @@ class DatabaseController extends ControllerBase
 
 		// Transalation messages/es.php
 		$this->view->t = $this->getTranslation();
+
 		$this->view->TYPES = ThesaurusForm::DEFAULT_TYPES;
+		$this->view->RELATION_TYPES = TerminoForm::RELATION_TYPES;
 	}
 
 	/**
@@ -75,10 +78,12 @@ class DatabaseController extends ControllerBase
     		}
     	}
 
+    	// Thesauri info
     	$this->view->entidad = $entidad;
     	$this->view->letras_list = $letras_list;
     	$this->view->terms_list = $terms_list;
 
+    	// Listado de thesaurus
     	$this->view->items_list = $items_list;
     }
 
@@ -90,18 +95,32 @@ class DatabaseController extends ControllerBase
 		//echo 'muestra un termino: '. $id_termino . ' = '. $identifier;
 
     	$entidad = ThTermino::findFirstByid_termino($id_termino);
+    	$relaciones_list = [];
 
     	if (! $entidad) {
-    		$this->flash->error("Termino no encontrado.");
-    		return $this->dispatcher->forward( ["controller" => "index", "action" => "index", ] );
+    		$entidad = new ThTermino();
+    		//$this->flash->error("Termino no encontrado.");
+    		//return $this->dispatcher->forward( ["controller" => "index", "action" => "index", ] );
     	}
     	else {
-    		$ultima_mod = strtotime(empty($entidad->fecha_modifica) ? $entidad->fecha_ingreso : $entidad->fecha_modifica); //date_create_from_format('Y-m-d H:i:s.u', $entidad->fecha_modifica);
-    		$this->view->ultima_mod = date( $this->get_ts_format(), $ultima_mod);
+    		// Consultar Relaciones
+    		$sql = 'select r.tipo_relacion, r.id_termino_rel, t.nombre, t.rdf_uri
+					  from th_termino t join th_relacion r on (r.id_termino_rel = t.id_termino)
+					 where r.id_termino = ?';
+
+     		$result = $this->db->query($sql, [$entidad->id_termino]);
+    		while ($row = $result->fetch()) {
+    			$relaciones_list[] = $row;
+    		}
     	}
 
+    	$ultima_mod = strtotime(empty($entidad->fecha_modifica) ? $entidad->fecha_ingreso : $entidad->fecha_modifica); //date_create_from_format('Y-m-d H:i:s.u', $entidad->fecha_modifica);
+    	$this->view->ultima_mod = date( $this->get_ts_format(), $ultima_mod);
+
     	$this->view->setRenderLevel( View::LEVEL_ACTION_VIEW );
+
     	$this->view->entidad = $entidad;
+    	$this->view->relaciones_list = $relaciones_list;
     }
 
 	/**
@@ -117,8 +136,10 @@ class DatabaseController extends ControllerBase
         ]);
 
     	$terminos = [];
+    	$url = new Url();
+
         foreach ($result as $c) {
-        	$terminos[ $c->id_termino ] = [ $c->nombre, $c->rdf_uri ];
+        	$terminos[ $c->id_termino ] = [ $c->nombre, $url->get($c->rdf_uri) ];
         }
 
     	$this->json_response();

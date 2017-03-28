@@ -7,6 +7,7 @@ use Phalcon\Forms\Element\Hidden;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Validation\Validator\PresenceOf;
 use Thesaurus\Thesauri\ThTermino;
+use Thesaurus\Thesauri\ThThesaurus;
 
 /**
  * Formulario de Termino
@@ -15,6 +16,8 @@ use Thesaurus\Thesauri\ThTermino;
  */
 class TerminoForm extends BaseForm
 {
+	const CANDIDATO = 'CANDIDATO';
+	const ESTADO_LIST = ['APROBADO', 'CANDIDATO', 'REEMPLAZADO', 'DEPRECADO'];
 
 	/**
 	 *
@@ -55,46 +58,36 @@ class TerminoForm extends BaseForm
      * @param ThTermino $entidad
      * @return int
      */
-    public function guardar($entidad) {
-    	$this->db->begin();
+    public function guardar($entidad)
+    {
+    	// Binding
 
-    	$xml = $this->postToXml($this->request);
-
-    	$entidad->nombre = $this->request->getPost('nombre', array('string', 'striptags'));
+    	$entidad->nombre = $this->getString('nombre');
     	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
 
-    	$entidad->xml_iso25964 = (string) $xml;
     	$entidad->rdf_uri = $this->config->rdf->baseUri . \StringHelper::urlize( $entidad->nombre );
-    	$entidad->iso25964_identifier = \StringHelper::urlize($entidad->nombre);
 
-    	$entidad->iso25964_description = $this->getString('iso25964_description');
-    	$entidad->iso25964_publisher = $this->getString('iso25964_publisher');
-    	$entidad->iso25964_rights = $this->getString('iso25964_rights');
-
-    	$entidad->iso25964_license = $this->getString('iso25964_license');
-    	$entidad->iso25964_coverage = $this->getString('iso25964_coverage');
-    	$entidad->iso25964_created = $this->getString('iso25964_created');
-
-    	$entidad->iso25964_subject = $this->getString('iso25964_subject');
     	$entidad->iso25964_language = $this->getString('iso25964_language');
-    	$entidad->iso25964_source = $this->getString('iso25964_source');
+    	$entidad->description = $this->getString('description');
 
-    	$entidad->iso25964_creator = $this->getString('iso25964_creator');
-    	$entidad->iso25964_contributor = $this->getString('iso25964_contributor');
-    	$entidad->iso25964_type = $this->getString('iso25964_type');
+    	$es_nuevo = FALSE;
 
     	if ($entidad->isNew()) {
-    		$entidad->term_aprobados = 0;
-    		$entidad->term_pendientes = 0;
-    		$entidad->is_activo = TRUE;
-    		$entidad->is_publico = TRUE;
-    		$entidad->aprobar_list = '';
-    		$entidad->id_propietario = 1;
+    		$es_nuevo = TRUE;
+    		$auth = $this->session->get('auth');
+
+    		$entidad->id_thesaurus = $this->getString('id_thesaurus');
+    		$entidad->estado_termino = self::CANDIDATO;
     		$entidad->fecha_ingreso = new RawValue('now()');
+    		$entidad->id_ingreso = $auth['id'];
     	}
     	else {
     		$entidad->fecha_modifica = new RawValue('now()');
     	}
+
+    	// Guardar
+
+    	$this->db->begin();
 
     	if ($entidad->save() == false) {
     		$this->db->rollback();
@@ -106,62 +99,22 @@ class TerminoForm extends BaseForm
     		return false;
     	}
 
+    	// Actualizar thesaurus
+
+    	$thesa = ThThesaurus::findFirstByid_thesaurus($entidad->id_thesaurus);
+
+    	if ($thesa) {
+    		$thesa->term_pendientes += $es_nuevo ? 1: 0;
+    		$thesa->ultima_actividad = new RawValue('now()');
+
+    		$thesa->save();
+    	}
+
     	$this->db->commit();
-    	$this->flash->success('Guardado exitosamente');
+    	$this->flash->success("Termino [{$entidad->nombre}] guardado exitosamente");
 
     	return $entidad->id_thesaurus;
     }
 
-    /**
-     * Post a Xml
-     *
-     * @return \Thesaurus\Forms\FluidXml
-     */
-    public function postToXml() {
-    	$xml = new FluidXml('thesaurus');
-
-    	$title = $this->getString("nombre");
-    	$identifier = \StringHelper::urlize($title);
-
-    	$description = $this->getString("iso25964_description");
-
-    	$rights = $this->getString("iso25964_rights");
-    	$source = $this->getString("iso25964_source");
-
-    	$publisher = $this->getString("iso25964_publisher");
-    	$license = $this->getString("iso25964_license");
-    	$coverage = $this->getString("iso25964_coverage");
-    	$creator = $this->getString("iso25964_creator");
-
-    	$created = $this->getString("iso25964_created");
-    	$modified = $this->getString("iso25964_modified");
-    	$type = $this->getString("iso25964_type");
-
-    	$xml->add([
-    			'identifier'  => $identifier,
-    			'coverage' => $coverage,
-    			'creator' => $creator,
-    			'date' => $created,
-    			'created' => $created,
-    			'modified' => $modified,
-    			'description' => $description,
-    			'format' => 'text/xml',
-    			'publisher' => $publisher,
-    			'rights' => $rights,
-    			'source' => $source,
-    			'title' => $title,
-    			'license' => $license,
-    			'type' => $type
-    	]);
-
-    	$language = explode(',', $this->getString("language"));
-
-    	foreach($language as $lang) {
-    		$xml->add(['language' => $lang]);
-    	}
-
-    	// $this->logger->error((string) $xml);
-    	return $xml;
-    }
 
 }

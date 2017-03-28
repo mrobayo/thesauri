@@ -58,7 +58,7 @@ class ThTermino extends \BaseModel
     /**
      *
      * @var string
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", nullable=true)
      */
     public $descripcion;
 
@@ -72,7 +72,7 @@ class ThTermino extends \BaseModel
     /**
      *
      * @var string
-     * @Column(type="string", nullable=false)
+     * @Column(type="string", nullable=true)
      */
     public $fecha_aprobado;
 

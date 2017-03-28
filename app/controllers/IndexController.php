@@ -105,8 +105,7 @@ class IndexController extends ControllerBase
 
     	if ($this->request->isPost()) {
     		if ($form->guardar($entidad)) {
-    			$this->logger->error('guardado exitosmente :D');
-    			return $this->dispatcher->forward( ["controller" => "admin", "action" => "index", ] );
+    			return $this->dispatcher->forward( ["controller" => "index", "action" => "index", ] );
     		}
     	}
 

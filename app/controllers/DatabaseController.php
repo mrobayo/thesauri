@@ -7,6 +7,7 @@ use Thesaurus\Forms\ThesaurusForm;
 use Phalcon\Db\RawValue;
 use Thesaurus\Thesauri\ThTermino;
 use Thesaurus\Forms\TerminoForm;
+use Phalcon\Mvc\View;
 
 /**
  * Database
@@ -52,6 +53,7 @@ class DatabaseController extends ControllerBase
     	{
     		$items = ThThesaurus::find(["conditions" => "is_activo = TRUE AND is_publico = TRUE"]);
 	    	foreach ($items as $c) {
+    			$c->ultima_actividad = date( $this->get_ts_format(), strtotime($c->ultima_actividad));
 	    		$items_list[ $c->id_thesaurus ] = $c;
 	    	}
     	}
@@ -78,16 +80,28 @@ class DatabaseController extends ControllerBase
     	$this->view->terms_list = $terms_list;
 
     	$this->view->items_list = $items_list;
-
     }
-
 
     /**
      * Presenta un termino
      */
     public function terminoAction($identifier, $id_termino) {
-		$this->view->disable();
-		echo 'muestra un termino: '. $id_termino . ' = '. $identifier;
+		//$this->view->disable();
+		//echo 'muestra un termino: '. $id_termino . ' = '. $identifier;
+
+    	$entidad = ThTermino::findFirstByid_termino($id_termino);
+
+    	if (! $entidad) {
+    		$this->flash->error("Termino no encontrado.");
+    		return $this->dispatcher->forward( ["controller" => "index", "action" => "index", ] );
+    	}
+    	else {
+    		$ultima_mod = strtotime(empty($entidad->fecha_modifica) ? $entidad->fecha_ingreso : $entidad->fecha_modifica); //date_create_from_format('Y-m-d H:i:s.u', $entidad->fecha_modifica);
+    		$this->view->ultima_mod = date( $this->get_ts_format(), $ultima_mod);
+    	}
+
+    	$this->view->setRenderLevel( View::LEVEL_ACTION_VIEW );
+    	$this->view->entidad = $entidad;
     }
 
 	/**

@@ -91,7 +91,9 @@
 											{% for ckey, row in terms_list %}
 											<tr>
 												<!-- <td class="">{{ loop.index }}</td> -->
-												<td class="col-12">{{ link_to( row.rdf_uri, row.nombre ) }}</td>												
+												<td>
+													<a href={{ url( row.rdf_uri ) }} class="verTerminoLink">{{ row.nombre }}</a>
+												</td>												
 											</tr>
 											{% endfor %} 
 										</tbody>					
@@ -105,7 +107,7 @@
 								
 				</div>
 				
-				<div class=" col-sm-6">
+				<div id="infoDetalle" class="col-sm-6">
 					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;"> {{ TYPES[ entidad.iso25964_type ] }} </h4>					
 					<table class="table table-striped table-bordered">
 						<tbody>
@@ -177,20 +179,32 @@
 	<script>
 	$(function() {
 		
+		function fnVerInfoDetalle(e){
+			e.preventDefault();			
+			$('#infoDetalle').empty();
+			
+			$.get($(this).attr('href'), function(data){				
+				console.log(data);
+				$('#infoDetalle').html(data);
+			});
+		}
+
+		$('.verTerminoLink').click(fnVerInfoDetalle);
 		
 		$('.alfabetoByJson').click(function(e) {
 			e.preventDefault();			
-			$('.alfabetoByJson').removeClass('bg-faded');
-			
+						
 			$.get($(this).attr('href'), function(data){				
 				tBody = $('#terminosTable tbody').empty();
 				
-				$.each(data.result, function(key, value){					
-					tBody.append('<tr><td><a href="'+value[1]+'">'+ value[0]+'</a></td></tr>');					
+				$.each(data.result, function(key, value){
+					vLink = $('<a href="../'+value[1]+'">'+ value[0]+'</a>').click( fnVerInfoDetalle );					
+					tBody.append( $('<tr>').append( $('<td>').append(vLink) ));					
 				});
-								
-				$(this).addClass('bg-faded');				
+				
 			}, 'json');
+			
+			$(this).addClass('bg-faded').siblings().removeClass('bg-faded');
 		});
 		
 	})

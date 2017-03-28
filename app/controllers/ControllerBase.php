@@ -61,6 +61,13 @@ class ControllerBase extends Controller
 	}
 
 	/**
+	 * formato de la fecha/hora
+	 */
+	protected function get_ts_format() {
+		return $this->get_config_value('formato_fecha', 'd/m/Y h:i');
+	}
+
+	/**
 	 * MultiLingual Support
 	 *
 	 * @return \Phalcon\Translate\Adapter\NativeArray

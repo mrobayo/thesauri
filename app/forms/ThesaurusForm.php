@@ -119,14 +119,16 @@ class ThesaurusForm extends BaseForm
     		$entidad->aprobar_list = '';
     		$entidad->id_propietario = 1;
     		$entidad->fecha_ingreso = new RawValue('now()');
+
+    		$existe = $entidad->findFirst(['notilde = ?1', 'bind'=>[1 => $entidad->notilde]]);
     	}
     	else {
     		$entidad->fecha_modifica = new RawValue('now()');
+
+    		$existe = $entidad->findFirst(['notilde = ?1 AND id_thesaurus != ?2', 'bind'=>[1 => $entidad->notilde, 2 => $entidad->id_thesaurus ]]);
     	}
 
-    	// Validar nombre
-
-    	$existe = $entidad->findFirstBynombre($entidad->nombre);
+    	// Validar duplicado
 
     	if ($existe) {
     		$this->flash->error("Thesaurus {$entidad->nombre} ya existe");

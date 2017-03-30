@@ -45,6 +45,27 @@
 					            	{{ form.render('descripcion', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
+					        					       
+					        <div class="form-group row">
+					            {{ form.label('TG', ['class': 'form-control-label col-sm-12']) }}
+					            <div class="col-sm-8">            
+					            	{{ form.render('TG', ['class': 'form-control form-control-success']) }}
+					            </div>
+					        </div> 
+					        					        	
+					        <div class="form-group row">
+					            {{ form.label('SIN', ['class': 'form-control-label col-sm-12']) }}
+					            <div class="col-sm-8">	
+					        	<table class="table table-condensed">					        	
+					        	<tbody>
+					        		<!-- <td> <button type="button" class="btn btn-outline-danger"> <i class="fa fa-minus"></i></button> </td> -->
+					        		<tr> <td class="col-12"> {{ form.render('SIN', ['class': 'form-control form-control-success']) }} </td>  </tr>					        		
+					        	</tbody>
+					        	</table>
+					        	<button id="addSinonimoBtn" type="button" class="btn btn-outline-primary"> <i class="fa fa-plus"></i></button>
+					        	</div>
+					        </div>					        
+					        
 					        					        
 					        <div class="form-group row">
 					            {{ form.label('id_thesaurus', ['class': 'form-control-label col-sm-12']) }}
@@ -78,3 +99,19 @@
 		</div>		
 		
 </div>		
+
+<script>
+$(function() {
+	
+	$('#addSinonimoBtn').click(function(e){
+		vInput = $('<input>', {
+			'name': 'SIN',
+			'class':'form-control'});
+		$(this).prev('table').find('tbody').append( $('<tr>').append( $('<td>').append(vInput)))
+		
+		vInput.focus();		
+	});
+	
+});
+
+</script>

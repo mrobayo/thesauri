@@ -98,15 +98,39 @@ class IndexController extends ControllerBase
     		if ($thesaurus) {
     			$entidad->id_thesaurus = $thesaurus-> id_thesaurus;
     		}
-
     	}
+
+    	$this->logger->error('--alfa--');
 
     	$form = new TerminoForm($entidad, $this->th_options);
 
     	if ($this->request->isPost()) {
+
     		if ($form->guardar($entidad)) {
+
+    			// Guardar Termino preferido
+    			$form->guardarRelacion($entidad, $entidad->nombre, TerminoForm::TP_REL_EQ);
+
+    			$this->logger->error('--ALLA--');
+
+    			// Guardar Termino General
+    			$te_general = $this->request->getPost(TerminoForm::TG_REL_EQ);
+
+    			$this->logger->error('--mas--');
+
+    			$form->guardarRelacion($entidad, $te_general, TerminoForm::TG_REL_EQ);
+
+    			$this->logger->error('--SIM--');
+
+    			// Guardar Sinonimos
+    			// $sin = $this->request->getPost(TerminoForm::SIN_REL_EQ);
+    			$this->logger->error('SIN: ' . print_r($sin, true));
+
+    			// $form->guardarRelacion($entidad, TerminoForm::TG_REL_EQ);
+
     			return $this->dispatcher->forward( ["controller" => "index", "action" => "index", ] );
     		}
+
     	}
 
     	$items_list = [];

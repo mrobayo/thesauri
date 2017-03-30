@@ -144,11 +144,11 @@
 			<div class="pull-right">
 			{% if entidad.ultima_actividad is empty %}
 			
-			<p>No ha registrado ninguna actividad.</p>
+			<p class="text-muted">No ha registrado ninguna actividad.</p>
 			
 			{% else %}
 			
-			<p>Última Actividad: {{ entidad.ultima_actividad }}.</p>
+			<small class="text-muted">Última Actividad: {{ entidad.ultima_actividad }}.</small>
 	
 			{% endif %}
 			</div>

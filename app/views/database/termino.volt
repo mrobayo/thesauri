@@ -1,9 +1,17 @@
 
-	<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;"> {{ entidad.nombre }} </h4>	
+	<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;"> 
+	
+		{% if auth['is_admin'] %}
+		<button class="btn btn-sm btn-primary pull-right"> <i class="fa fa-edit"></i> </button>		
+		{% endif %}
+		
+		{{ entidad.nombre }} 
+	
+	</h4>	
 						
 	<table class="table table-striped table-bordered">
 		<tbody>
-			<!-- <tr> <td class="col-2">Término Preferente</td><td>{{ entidad.nombre }}</td> </tr> -->
+			
 			<tr> <td>Definición</td><td>{{ entidad.descripcion }}</td> </tr>
 			
 			{% for row in relaciones_list %}
@@ -12,8 +20,6 @@
 			
 			{% endfor %}
 			
-			<tr> <td>Término General</td><td> </td> </tr>					
-			<tr> <td>Términos Relacionados</td><td> </td> </tr>
 			<tr> <td>Comentario</td><td> </td> </tr>
 			<tr> <td>URI</td><td>{{ link_to( entidad.rdf_uri, entidad.rdf_uri ) }}</td> </tr>							
 								

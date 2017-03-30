@@ -67,11 +67,16 @@ class AdUsuarioForm extends BaseForm
      		$entidad->is_activo = new RawValue('TRUE');
      		$entidad->fecha_ingreso = new RawValue('now()');
      		if (empty($entidad->clave)) $entidad->clave = 'N/A';
+
+     		//
+     		$existe = $entidad->findFirst(['email = ?1', 'bind'=>[1 => $entidad->email ]]);
+     	}
+     	else
+     	{
+     		$existe = $entidad->findFirst(['email = ?1 AND id_usuario != ?2', 'bind'=>[1 => $entidad->email, 2 => $entidad->id_usuario ]]);
      	}
 
-     	// Validar email
-
-     	$existe = $entidad->findFirstByemail($entidad->email);
+     	// Validar email duplicado
 
      	if ($existe) {
      		$this->flash->error("Usuario con el email {$entidad->email} ya existe");

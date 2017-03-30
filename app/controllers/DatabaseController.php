@@ -62,6 +62,8 @@ class DatabaseController extends ControllerBase
     	}
     	else
     	{
+    		$entidad->ultima_actividad = date( $this->get_ts_format(), strtotime($entidad->ultima_actividad));
+
     		// mostrar terminos
     		$terms_list = ThTermino::find([ 'id_thesaurus = ?1 AND estado_termino = ?2',
     				'bind' => [1 => $entidad->id_thesaurus, 2 => TerminoForm::APROBADO ], 'order' => 'nombre ASC']);
@@ -91,6 +93,8 @@ class DatabaseController extends ControllerBase
      * Presenta un termino
      */
     public function terminoAction($identifier, $id_termino) {
+    	$this->view->auth = $this->session->get('auth');
+
 		//$this->view->disable();
 		//echo 'muestra un termino: '. $id_termino . ' = '. $identifier;
 

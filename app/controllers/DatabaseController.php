@@ -65,13 +65,14 @@ class DatabaseController extends ControllerBase
     		$entidad->ultima_actividad = date( $this->get_ts_format(), strtotime($entidad->ultima_actividad));
 
     		// mostrar terminos
-    		$terms_list = ThTermino::find([ 'id_thesaurus = ?1 AND estado_termino = ?2',
-    				'bind' => [1 => $entidad->id_thesaurus, 2 => TerminoForm::APROBADO ], 'order' => 'nombre ASC']);
+
+    		//$terms_list = ThTermino::find([ 'id_thesaurus = ?1 AND estado_termino = ?2',
+    		//		'bind' => [1 => $entidad->id_thesaurus, 2 => TerminoForm::APROBADO ], 'order' => 'nombre ASC']);
 
     		// letras habilitadas del alfabeto
     		$result = $this->db->query(
     	  		"SELECT CHR(ALPHA.LETRA) LETRA, T.NUM FROM (SELECT GENERATE_SERIES( ASCII('A'), ASCII('Z')) LETRA) ALPHA
-				   LEFT JOIN (SELECT UPPER(SUBSTR(T.NOTILDE, 1, 1)) LETRA, SUM(CASE T.ESTADO_TERMINO WHEN 'APROBADO' THEN 1 ELSE 0 END) NUM
+				   LEFT JOIN (SELECT UPPER(SUBSTR(T.NOTILDE, 1, 1)) LETRA, SUM(CASE T.ESTADO_TERMINO WHEN 'APROBADO' THEN 1 WHEN 'CANDIDATO' THEN 1 ELSE 0 END) NUM
  				   FROM TH_TERMINO T WHERE T.ID_THESAURUS = ?
     	  		  GROUP BY UPPER(SUBSTR(T.NOTILDE, 1, 1))) T ON (T.LETRA = CHR(ALPHA.LETRA))", [$entidad->id_thesaurus]);
 
@@ -93,7 +94,6 @@ class DatabaseController extends ControllerBase
      * Presenta un termino
      */
     public function terminoAction($identifier, $id_termino) {
-    	$this->view->auth = $this->session->get('auth');
 
 		//$this->view->disable();
 		//echo 'muestra un termino: '. $id_termino . ' = '. $identifier;
@@ -127,23 +127,61 @@ class DatabaseController extends ControllerBase
     	$this->view->relaciones_list = $relaciones_list;
     }
 
+    /**
+     * Editar terminos
+     * @param unknown $identifier
+     * @param unknown $id_termino
+     */
+    public function editarAction($id_termino) {
+    	$entidad = ThTermino::findFirstByid_termino($id_termino);
+
+    	if (!$entidad) {
+    		$this->flash->error("Termino [$id] no encontrado");
+    		return $this->dispatcher->forward([ 'controller' => 'index', 'action' => 'index' ]);
+    	}
+
+    	$form = new TerminoForm($entidad);
+
+    	$this->view->entidad = $entidad;
+    	$this->view->form = $form;
+    	$this->view->thesaurus = ThThesaurus::findFirst(['id_thesaurus = ?1', 'bind'=>[1=> $entidad->id_thesaurus] ]);
+
+    	$this->view->myheading = 'Editar Término';
+    }
+
 	/**
 	 * Consulta terminos alfabeticamente
 	 * @param integer $id_thesaurus
 	 */
     public function jsonAction($id_thesaurus, $letra)
     {
+    	$is_admin = $this->view->auth['is_admin'];
+
+    	//$conditions = "id_thesaurus = ?1 AND estado_termino = ?2 AND notilde ILIKE ?3";
+    	//$bind = [1 => $id_thesaurus, 2 => TerminoForm::APROBADO, 3 => $letra.'%'];
+
+    	//if ($is_admin)
+    	//{
+			$conditions = "id_thesaurus = ?1 AND (estado_termino = ?2 OR estado_termino = ?4) AND notilde ILIKE ?3";
+			$bind = [1 => $id_thesaurus, 2 => TerminoForm::APROBADO, 3 => $letra.'%', 4 => TerminoForm::CANDIDATO];
+    	//}
+
     	$result = ThTermino::find([
-        			"columns" => "id_termino, nombre, rdf_uri",
-        			"conditions" => "id_thesaurus = ?1 AND estado_termino = ?2 AND notilde ILIKE ?3",
-        			"bind"       => [1 => $id_thesaurus, 2 => TerminoForm::APROBADO, 3 => $letra.'%']
+        		"columns" => "id_termino, nombre, rdf_uri, estado_termino",
+        		"conditions" => $conditions, "bind" => $bind
         ]);
 
     	$terminos = [];
     	$url = new Url();
 
         foreach ($result as $c) {
-        	$terminos[ $c->id_termino ] = [ $c->nombre, $url->get($c->rdf_uri) ];
+        	if ($is_admin) {
+        		$terminos[ $c->id_termino ] = [ $c->nombre, $url->get($c->rdf_uri), $c->estado_termino ];
+        	}
+        	else {
+        		$terminos[ $c->id_termino ] = [ $c->nombre, ($c->estado_termino == TerminoForm::APROBADO) ? $url->get($c->rdf_uri) : '', $c->estado_termino ];
+        	}
+
         }
 
     	$this->json_response();

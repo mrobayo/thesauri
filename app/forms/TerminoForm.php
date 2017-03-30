@@ -49,6 +49,8 @@ class TerminoForm extends BaseForm
         $this->addSelect('id_thesaurus', ['tooltip'=>'Thesaurus', 'label'=>'Thesaurus', 'options'=> $options['thesaurus_list'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
         $this->addSelect('iso25964_language', ['tooltip'=>'Idioma', 'label'=>'Idioma', 'options'=> $options['language_list'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
 
+        $this->addSelect('estado_termino', ['tooltip'=>'Aprobar un término', 'label'=>'Estado', 'options'=> SELF::ESTADO_LIST, 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
+
         if ($this->isEditable($options)) {
 
         }

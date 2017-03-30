@@ -26,6 +26,7 @@ class ControllerBase extends Controller
 	protected function initialize() {
 		$this->tag->prependTitle ( $this->config->application->appTitle . ' | ' );
 		$this->view->setTemplateAfter ( 'main' );
+		$this->view->auth = $this->session->get('auth');
 	}
 
 	/**

@@ -2,7 +2,7 @@
 	<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;"> 
 	
 		{% if auth['is_admin'] %}
-		<button class="btn btn-sm btn-primary pull-right"> <i class="fa fa-edit"></i> </button>		
+		<a href="{{ url('database/editar/'~entidad.id_termino) }}" class="btn btn-sm btn-primary pull-right"> <i class="fa fa-edit"></i> </a>		
 		{% endif %}
 		
 		{{ entidad.nombre }} 
@@ -21,8 +21,12 @@
 			{% endfor %}
 			
 			<tr> <td>Comentario</td><td> </td> </tr>
-			<tr> <td>URI</td><td>{{ link_to( entidad.rdf_uri, entidad.rdf_uri ) }}</td> </tr>							
-								
+			<tr> <td>URI</td><td>{{ link_to( entidad.rdf_uri, entidad.rdf_uri ) }}</td> </tr>
+			
+			{% if auth['is_admin']  %}
+			<tr> <td>Estado</td><td> {{ entidad.estado_termino }} </td> </tr>
+			{% endif %}
+
 		</tbody>
 		<tfoot>
 			<tr>

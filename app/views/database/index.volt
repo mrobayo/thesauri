@@ -184,7 +184,7 @@
 			$('#infoDetalle').empty();
 			
 			$.get($(this).attr('href'), function(data){				
-				console.log(data);
+				// console.log(data);
 				$('#infoDetalle').html(data);
 			});
 		}
@@ -198,8 +198,18 @@
 				tBody = $('#terminosTable tbody').empty();
 				
 				$.each(data.result, function(key, value){
-					vLink = $('<a href="'+value[1]+'">'+ value[0]+'</a>').click( fnVerInfoDetalle );					
-					tBody.append( $('<tr>').append( $('<td>').append(vLink) ));					
+					vObs = (value[2] == 'CANDIDATO') ? ' <span class="text-muted text-italic">(pendiente aprobación)</span>' : '';
+					
+					if (value[1]) 
+					{
+						vLink = $('<a href="'+value[1]+'">'+ value[0]+'</a>').click( fnVerInfoDetalle );
+					}
+					else 
+					{
+												
+						vLink = '<span>'+ value[0] +' </span> ';	
+					}
+					tBody.append( $('<tr>').append( $('<td>').append(vLink).append(vObs) ));					
 				});
 				
 			}, 'json');

@@ -205,8 +205,7 @@
 						vLink = $('<a href="'+value[1]+'">'+ value[0]+'</a>').click( fnVerInfoDetalle );
 					}
 					else 
-					{
-												
+					{												
 						vLink = '<span>'+ value[0] +' </span> ';	
 					}
 					tBody.append( $('<tr>').append( $('<td>').append(vLink).append(vObs) ));					

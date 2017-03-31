@@ -5,6 +5,7 @@ namespace Thesaurus\Controllers;
 use Phalcon\Mvc\Controller;
 use Phalcon\Translate\Adapter\NativeArray;
 use Thesaurus\Sistema\AdConfig;
+use Thesaurus\Thesauri\ThThesaurus;
 
 /**
  * Base
@@ -53,6 +54,14 @@ class ControllerBase extends Controller
 		}
 
 		return $lang_array;
+	}
+
+	/**
+	 * Thesaurus by id
+	 */
+	protected function get_thesaurus($id_thesaurus) {
+		$thesaurus = ThThesaurus::findFirstByid_thesaurus($id_thesaurus);
+		return $thesaurus;
 	}
 
 	/**

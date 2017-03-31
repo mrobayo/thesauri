@@ -171,13 +171,10 @@ class DatabaseController extends ControllerBase
     	$url = new Url();
 
         foreach ($result as $c) {
-        	if ($is_admin) {
-        		$terminos[ $c->id_termino ] = [ $c->nombre, $url->get($c->rdf_uri), $c->estado_termino ];
-        	}
-        	else {
-        		$terminos[ $c->id_termino ] = [ $c->nombre, ($c->estado_termino == TerminoForm::APROBADO) ? $url->get($c->rdf_uri) : '', $c->estado_termino ];
-        	}
+        	$rdf_uri = $url->get( str_replace('%', $c->id_termino, $c->rdf_uri) );
+        	$rdf_uri = ($is_admin || $c->estado_termino == TerminoForm::APROBADO) ? $rdf_uri : '';
 
+        	$terminos[ $c->id_termino ] = [ $c->nombre, $rdf_uri, $c->estado_termino ];
         }
 
     	$this->json_response();

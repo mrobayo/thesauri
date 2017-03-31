@@ -6,6 +6,7 @@ use Thesaurus\Thesauri\ThTermino;
 use Thesaurus\Forms\TerminoForm;
 use Thesaurus\Sistema\AdConfig;
 use Thesaurus\Thesauri\ThThesaurus;
+use Phalcon\Version;
 
 /**
  * Index
@@ -30,7 +31,7 @@ class IndexController extends ControllerBase
 		parent::initialize();
 
 		$thesaurus_list = [];
-		foreach (ThThesaurus::find(['is_activo = TRUE', 'order'=>'nombre']) as $row)
+		foreach (ThThesaurus::find(['is_activo = TRUE', 'order' => 'nombre']) as $row)
 		{
 			$thesaurus_list[ $row->id_thesaurus ] = $row->nombre;
 		}
@@ -70,7 +71,8 @@ class IndexController extends ControllerBase
 
     public function sha1Action() {
     	$this->view->disable();
-    	echo print_r($this->get_isocodes('qu,es,en'), true);
+    	//echo print_r($this->get_isocodes('qu,es,en'), true);
+    	echo Version::getId();
     }
 
     /**
@@ -82,7 +84,7 @@ class IndexController extends ControllerBase
    		$id_termino = $this->request->isPost() ? $this->request->getPost("id_termino") : FALSE;
 
    		if (is_numeric($id_thesaurus)) {
-    		$thesaurus = ThThesaurus::findFirstByid_thesaurus($id_thesaurus);
+    		$thesaurus = $this->get_thesaurus($id_thesaurus);
    		}
    		else {
    			$thesaurus = ThThesaurus::findFirst(['is_primario = TRUE']);
@@ -104,8 +106,6 @@ class IndexController extends ControllerBase
     		}
     	}
 
-    	//$this->logger->error('--alfa--');
-
     	$this->th_options['language_list'] = $this->get_isocodes( $thesaurus->iso25964_language );
     	$form = new TerminoForm($entidad, $this->th_options);
 
@@ -116,24 +116,17 @@ class IndexController extends ControllerBase
     			// Guardar Termino preferido
     			$form->guardarRelacion($entidad, $entidad->nombre, TerminoForm::TP_REL_EQ);
 
-    			//$this->logger->error('--ALLA--');
-
     			// Guardar Termino General
     			$te_general = $this->request->getPost(TerminoForm::TG_REL_EQ);
 
-    			//$this->logger->error('--mas--');
-
     			$form->guardarRelacion($entidad, $te_general, TerminoForm::TG_REL_EQ);
-
-    			//$this->logger->error('--SIM--');
 
     			// Guardar Sinonimos
     			// $sin = $this->request->getPost(TerminoForm::SIN_REL_EQ);
-    			//$this->logger->error('SIN: ' . print_r($sin, true));
-
     			// $form->guardarRelacion($entidad, TerminoForm::TG_REL_EQ);
 
-    			return $this->dispatcher->forward( ["controller" => "index", "action" => "index", ] );
+    			//return $this->dispatcher->forward( ["controller" => "index", "action" => "index", ] );
+    			return $this->response->redirect($this->config->rdf->baseUri . $thesaurus->iso25964_identifier);
     		}
 
     	}

@@ -165,7 +165,7 @@ class TerminoForm extends BaseForm
     		return false;
     	}
 
-    	$this->logger->error('--saved#--');
+    	//$this->logger->error('--saved#--');
 
     	// Actualizar thesaurus
 

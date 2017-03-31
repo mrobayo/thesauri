@@ -62,7 +62,7 @@ class TerminoForm extends BaseForm
     }
 
 	/**
-	 * Guardar relacion
+	 * Guardar relacion (sor patrocinio)
 	 *
 	 * @param ThTermino $entidad
 	 * @param string $termino_rel
@@ -71,28 +71,25 @@ class TerminoForm extends BaseForm
     public function guardarRelacion($entidad, $termino_rel, $tipo_relacion) {
     	$auth = $this->session->get('auth');
 
-    	$this->logger->error('Guardar Relacion: '. $entidad->id_termino . ' ' . $termino_rel . ' - ' . $tipo_relacion);
+    	// $this->logger->error('Guardar Relacion: '. $entidad->id_termino . ' ' . $termino_rel . ' - ' . $tipo_relacion);
 
     	$rel_notilde = \StringHelper::notilde( $termino_rel );
-    	$entidad_rel = ThTermino::findFirst(['notilde = ?1', 'bind'=> [1 => $rel_notilde] ]);
 
-    	$this->logger->error('1@');
+    	$entidad_rel = ThTermino::findFirst([
+    			'notilde=?1 AND id_thesaurus=?2', 'bind'=> [1=>$rel_notilde, 2=>$entidad->id_thesaurus] ]);
 
-    	if (! $entidad_rel) {
-
-    		$this->guardarTermino(NULL, $termino_rel, NULL, 'es', $entidad->id_thesaurus);
-
+    	if (! $entidad_rel)
+    	{
+    		$this->guardarTermino(NULL, $termino_rel, NULL, $entidad->iso25964_language, $entidad->id_thesaurus);
     	}
     	else
     	{
-    		$this->logger->error('45@');
-
     		// Verificar si la relacion ya existe
+    		$rel = ThRelacion::findFirst([
+    			'id_termino = ?1 AND id_termino_rel = ?2 AND tipo_relacion = ?3',
+    			'bind' => [1=> $entidad->id_termino, 2=>$entidad_rel->id_termino, 3=> $tipo_relacion] ]);
 
-    		$rel = ThRelacion::findFirst(['id_termino = ?1 AND id_termino_rel = ?2 AND tipo_relacion = ?3', 'bind' => [1=> $entidad->id_termino, 2=>$entidad_rel->id_termino, 3=> $tipo_relacion] ]);
-    		if ($rel) {
-    			return $rel;
-    		}
+    		if ($rel) return $rel;
     	}
 
     	// Guardar nueva relacion
@@ -103,8 +100,6 @@ class TerminoForm extends BaseForm
 		$rel->id_termino = $entidad->id_termino;
 		$rel->id_thesaurus = $entidad->id_thesaurus;
 		$rel->id_termino_rel = $entidad_rel->id_termino;
-
-		$this->logger->error('67@');
 
 		$rel->save();
 		return $rel;
@@ -138,26 +133,31 @@ class TerminoForm extends BaseForm
     	}
     	else {
     		$entidad->fecha_modifica = new RawValue('now()');
+    		$entidad->estado_termino = $this->getString('estado_termino');
     	}
 
     	return $es_nuevo;
     }
 
     /**
-     * Guardar
-     * @param  $entidad
+     * Valida si ya existe
+     * @param ThTermino $entidad
      */
-    public function guardar2($entidad)
-    {
+    private function valida_existe($entidad) {
+    	$es_nuevo = $entidad->isNew();
 
+    	$bind = [1 => $entidad->notilde, 2=> $entidad->id_thesaurus];
+    	if (!$es_nuevo) $bind[3] = $entidad->id_termino;
+
+    	$existe = $entidad->findFirst(['notilde=?1 AND id_thesaurus=?2'.($es_nuevo?'':' AND id_termino!=?3'),'bind'=> $bind]);
+    	return $existe;
     }
-
 
     /**
      * Guardar termino
 
      * @param ThTermino $entidad
-     * @return int
+     * @return integer
      */
     public function guardar($entidad)
     {
@@ -165,18 +165,12 @@ class TerminoForm extends BaseForm
     	$es_nuevo = $this->bind_post($entidad);
 
     	// Validar duplicado
-//     	$bind = [1 => $entidad->notilde];
-//     	if ($es_nuevo) $bind[2] = $entidad->id_termino;
-
-//     	$existe = $entidad->findFirst(['notilde = ?1' . ($es_nuevo ? '': ' AND id_termino != ?2') , 'bind'=> $bind]);
-
-//     	if ($existe) {
-//     		$this->flash->error("Termino [{$entidad->nombre}] ya esta registrado.");
-//     		return false;
-//     	}
+     	if ($this->valida_existe($entidad)) {
+     		$this->flash->error("Termino [{$entidad->nombre}] ya esta registrado.");
+     		return false;
+     	}
 
     	// Guardar
-
     	$this->db->begin();
 
     	if ($entidad->save() == false) {
@@ -189,18 +183,18 @@ class TerminoForm extends BaseForm
     		return false;
     	}
 
-    	//$this->logger->error('--saved#--');
+	    // Guardar Termino preferido
+   		$this->guardarRelacion($entidad, $entidad->nombre, self::TP_REL_EQ);
+
+   		// Guardar Termino General
+   		$te_general = $this->request->getPost(TerminoForm::TG_REL_EQ);
+
+   		if (! empty($te_general)) {
+   			$this->guardarRelacion($entidad, $te_general, TerminoForm::TG_REL_EQ);
+   		}
 
     	// Actualizar thesaurus
-
-    	$thesa = ThThesaurus::findFirstByid_thesaurus($entidad->id_thesaurus);
-
-    	if ($thesa) {
-    		$thesa->term_pendientes += $es_nuevo ? 1: 0;
-    		$thesa->ultima_actividad = new RawValue('now()');
-
-    		$thesa->save();
-    	}
+    	$this->actualizar_actividad($entidad->id_thesaurus);
 
     	$this->db->commit();
     	$this->flash->success("Termino [{$entidad->nombre}] guardado exitosamente");
@@ -209,18 +203,32 @@ class TerminoForm extends BaseForm
     }
 
     /**
+     * Actualizar actividad
+     *
+     * @param integer $id_thesaurus
+     */
+    private function actualizar_actividad($id_thesaurus)
+    {
+    	$sql = 'UPDATE th_thesaurus
+    			   SET term_aprobados = (SELECT count(1) FROM th_termino e WHERE e.id_thesaurus = th_thesaurus.id_thesaurus AND e.estado_termino = ?)
+    	  			 , term_pendientes = (SELECT count(1) FROM th_termino e WHERE e.id_thesaurus = th_thesaurus.id_thesaurus AND e.estado_termino = ?)
+    	  			 , ultima_actividad = now()
+    			 WHERE id_thesaurus = ?';
+    	$this->db->execute($sql, [self::APROBADO, self::CANDIDATO, $id_thesaurus]);
+    }
+
+    /**
      * Guardar termino
      */
-    public function guardarTermino($id_termino, $nombre, $descripcion, $lang, $id_thesaurus)
+    public function guardarTermino($nombre, $descripcion, $lang, $id_thesaurus)
     {
     	$entidad = new ThTermino();
 
     	// Binding
-    	$entidad->id_termino = $id_termino;
     	$entidad->nombre = $nombre;
     	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
     	$entidad->iso25964_language = $lang;
-    	$entidad->description = $descripcion;
+    	$entidad->descripcion = $descripcion;
     	$entidad->rdf_uri = $this->config->rdf->baseUri . 'termino/%/' . \StringHelper::urlize( $entidad->nombre );
 
     	$es_nuevo = FALSE;
@@ -233,27 +241,19 @@ class TerminoForm extends BaseForm
     		$entidad->estado_termino = self::CANDIDATO;
     		$entidad->fecha_ingreso = new RawValue('now()');
     		$entidad->id_ingreso = $auth['id'];
-
-    		$existe = $entidad->findFirst(['notilde = ?1', 'bind'=>[1 => $entidad->notilde]]);
     	}
     	else {
     		$entidad->fecha_modifica = new RawValue('now()');
-
-    		$existe = $entidad->findFirst(['notilde = ?1 AND id_termino != ?2', 'bind'=>[1 => $entidad->notilde, 2 => $entidad->id_termino ]]);
     	}
 
     	// Validar
-
-    	if ($existe) {
+    	if ($this->valida_existe($entidad)) {
     		$this->flash->error("Termino [{$entidad->nombre}] ya esta registrado.");
     		return false;
     	}
 
     	// Guardar
-    	$this->db->begin();
-
     	if ($entidad->save() == false) {
-    		$this->db->rollback();
 
     		foreach ($entidad->getMessages() as $message) {
     			$this->flash->error((string) $message);
@@ -261,19 +261,7 @@ class TerminoForm extends BaseForm
     		return false;
     	}
 
-    	// Actualizar thesaurus
-    	$thesa = ThThesaurus::findFirstByid_thesaurus($entidad->id_thesaurus);
-
-    	if ($thesa) {
-    		$thesa->term_pendientes += $es_nuevo ? 1: 0;
-    		$thesa->ultima_actividad = new RawValue('now()');
-
-    		$thesa->save();
-    	}
-
-    	$this->db->commit();
     	$this->flash->success("Termino [{$entidad->nombre}] guardado exitosamente");
-
     	return $entidad->id_thesaurus;
     }
 

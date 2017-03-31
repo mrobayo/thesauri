@@ -28,7 +28,7 @@ class TerminoForm extends BaseForm
 	const CANDIDATO = 'CANDIDATO',
 		  APROBADO  = 'APROBADO';
 
-	const ESTADO_LIST = ['APROBADO', 'CANDIDATO', 'REEMPLAZADO', 'DEPRECADO'];
+	const ESTADO_LIST = ['APROBADO'=>'APROBADO', 'CANDIDATO'=>'CANDIDATO', 'REEMPLAZADO'=>'REEMPLAZADO', 'DEPRECADO'=>'DEPRECADO'];
 
 	/**
 	 *
@@ -70,17 +70,15 @@ class TerminoForm extends BaseForm
 	 */
     public function guardarRelacion($entidad, $termino_rel, $tipo_relacion) {
     	$auth = $this->session->get('auth');
+    	$this->logger->error('Guardar Relacion: '. $entidad->id_termino . ' ' . $termino_rel . ' - ' . $tipo_relacion);
 
-    	// $this->logger->error('Guardar Relacion: '. $entidad->id_termino . ' ' . $termino_rel . ' - ' . $tipo_relacion);
-
-    	$rel_notilde = \StringHelper::notilde( $termino_rel );
-
+    	$rel_notilde = \StringHelper::notilde($termino_rel);
     	$entidad_rel = ThTermino::findFirst([
     			'notilde=?1 AND id_thesaurus=?2', 'bind'=> [1=>$rel_notilde, 2=>$entidad->id_thesaurus] ]);
 
     	if (! $entidad_rel)
     	{
-    		$this->guardarTermino(NULL, $termino_rel, NULL, $entidad->iso25964_language, $entidad->id_thesaurus);
+    		$this->guardarTermino($termino_rel, NULL, $entidad->iso25964_language, $entidad->id_thesaurus);
     	}
     	else
     	{
@@ -88,12 +86,10 @@ class TerminoForm extends BaseForm
     		$rel = ThRelacion::findFirst([
     			'id_termino = ?1 AND id_termino_rel = ?2 AND tipo_relacion = ?3',
     			'bind' => [1=> $entidad->id_termino, 2=>$entidad_rel->id_termino, 3=> $tipo_relacion] ]);
-
     		if ($rel) return $rel;
     	}
 
     	// Guardar nueva relacion
-
 		$rel = new ThRelacion();
 
 		$rel->tipo_relacion = $tipo_relacion;
@@ -101,7 +97,9 @@ class TerminoForm extends BaseForm
 		$rel->id_thesaurus = $entidad->id_thesaurus;
 		$rel->id_termino_rel = $entidad_rel->id_termino;
 
-		$rel->save();
+		if ($rel->save() == false) {
+			return false; // Fallo al guardar
+		}
 		return $rel;
     }
 
@@ -188,7 +186,6 @@ class TerminoForm extends BaseForm
 
    		// Guardar Termino General
    		$te_general = $this->request->getPost(TerminoForm::TG_REL_EQ);
-
    		if (! empty($te_general)) {
    			$this->guardarRelacion($entidad, $te_general, TerminoForm::TG_REL_EQ);
    		}

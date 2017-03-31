@@ -37,7 +37,7 @@ class DatabaseController extends ControllerBase
 	 * Index
 	 * @param string $identifier
 	 */
-    public function indexAction($identifier)
+    public function indexAction($identifier = NULL)
     {
     	$this->view->myheading = $this->config->application->appTitle;
     	$this->view->id = $identifier;
@@ -132,32 +132,24 @@ class DatabaseController extends ControllerBase
     	$entidad = $this->get_termino($id_termino);
 
     	if (!$entidad) {
-    		$this->flash->error("Termino [$id] no encontrado");
+    		$this->flash->error("Termino [$id_termino] no encontrado");
     		return $this->dispatcher->forward([ 'controller' => 'index', 'action' => 'index' ]);
     	}
 
     	// Consultar thesaurus
-    	$thesaurus = ThThesaurus::findFirst(['id_thesaurus = ?1', 'bind'=>[1=> $entidad->id_thesaurus] ]);
+    	$thesaurus = $this->get_thesaurus($entidad->id_thesaurus);
     	$isocodes_list = $this->get_isocodes( $thesaurus->iso25964_language );
 
     	$form = new TerminoForm($entidad, ['language_list'=>$isocodes_list]);
 
    		if ($this->request->isPost() && $form->guardar($entidad)) {
 
-   			// Guardar Termino preferido
-   			$form->guardarRelacion($entidad, $entidad->nombre, TerminoForm::TP_REL_EQ);
+   			$this->logger->error('1s');
 
-   			// Guardar Termino General
-   			$te_general = $this->request->getPost(TerminoForm::TG_REL_EQ);
-
-   			if (! empty($te_general)) {
-   				$form->guardarRelacion($entidad, $te_general, TerminoForm::TG_REL_EQ);
-   			}
-
-   			//return $this->dispatcher->forward( ["controller" => "index", "action" => "index", ] );
-   			return $this->response->redirect($this->config->rdf->baseUri . $thesaurus->iso25964_identifier);
+   			return $this->response->redirect($thesaurus->rdf_uri);
    		}
 
+   		$this->logger->error('4h');
 
     	$this->view->entidad = $entidad;
     	$this->view->form = $form;
@@ -166,6 +158,8 @@ class DatabaseController extends ControllerBase
     	$this->view->isocodes_list = $isocodes_list;
 
     	$this->view->myheading = 'Editar Término';
+
+    	$this->logger->error('5g');
     }
 
     /**

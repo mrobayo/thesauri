@@ -78,57 +78,34 @@ class IndexController extends ControllerBase
     /**
      * enviar termino
      */
-    public function enviarAction($id_thesaurus = NULL)
+    public function enviarAction()
     {
     	$this->view->myheading = 'Nuevo Término';
    		$id_termino = $this->request->isPost() ? $this->request->getPost("id_termino") : FALSE;
 
-   		if (is_numeric($id_thesaurus)) {
-    		$thesaurus = $this->get_thesaurus($id_thesaurus);
-   		}
-   		else {
-   			$thesaurus = ThThesaurus::findFirst(['is_primario = TRUE']);
-   		}
-
     	if (is_numeric($id_termino)) {
-    		$entidad = ThTermino::findFirstByid_termino($id_termino);
+    		$entidad = $this->get_termino($id_termino);
 
     		if (!$entidad) {
     			$this->flash->error("Termino [$id_termino] no encontrado");
-    			return $this->dispatcher->forward([ 'controller' => "admin", 'action' => 'index' ]);
+    			return $this->dispatcher->forward([ 'controller' => "index", 'action' => 'index' ]);
     		}
     	}
     	else {
     		$entidad = new ThTermino();
 
+    		$thesaurus = ThThesaurus::findFirst(['is_primario = TRUE']);
     		if ($thesaurus) {
-    			$entidad->id_thesaurus = $thesaurus-> id_thesaurus;
+    			$entidad->id_thesaurus = $thesaurus->id_thesaurus;
     		}
     	}
 
-    	$this->th_options['language_list'] = $this->get_isocodes( $thesaurus->iso25964_language );
+    	$this->th_options['language_list'] = $this->get_isocodes();
     	$form = new TerminoForm($entidad, $this->th_options);
 
-    	if ($this->request->isPost()) {
-
-    		if ($form->guardar($entidad)) {
-
-    			// Guardar Termino preferido
-    			$form->guardarRelacion($entidad, $entidad->nombre, TerminoForm::TP_REL_EQ);
-
-    			// Guardar Termino General
-    			$te_general = $this->request->getPost(TerminoForm::TG_REL_EQ);
-
-    			$form->guardarRelacion($entidad, $te_general, TerminoForm::TG_REL_EQ);
-
-    			// Guardar Sinonimos
-    			// $sin = $this->request->getPost(TerminoForm::SIN_REL_EQ);
-    			// $form->guardarRelacion($entidad, TerminoForm::TG_REL_EQ);
-
-    			//return $this->dispatcher->forward( ["controller" => "index", "action" => "index", ] );
-    			return $this->response->redirect($this->config->rdf->baseUri . $thesaurus->iso25964_identifier);
-    		}
-
+    	if ($this->request->isPost() && $form->guardar($entidad)) {
+    		$thesaurus = $this->get_thesaurus($entidad->id_thesaurus);
+    		return $this->response->redirect($this->config->rdf->baseUri . $thesaurus->iso25964_identifier);
     	}
 
     	$items_list = [];

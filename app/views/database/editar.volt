@@ -19,7 +19,7 @@
 		<div class="tab-content col-sm-10">
 		
 			<div id="xnuevo" role="tabpanel" class="tab-pane active">
-			{{ form('index/enviar', 'id': 'thisForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
+			{{ form( 'database/editar/' ~ entidad.id_termino, 'id': 'thisForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
 				
 				<fieldset>
 				    {{ form.render('id_termino') }}

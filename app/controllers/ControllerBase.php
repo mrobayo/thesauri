@@ -6,6 +6,7 @@ use Phalcon\Mvc\Controller;
 use Phalcon\Translate\Adapter\NativeArray;
 use Thesaurus\Sistema\AdConfig;
 use Thesaurus\Thesauri\ThThesaurus;
+use Thesaurus\Thesauri\ThTermino;
 
 /**
  * Base
@@ -57,11 +58,24 @@ class ControllerBase extends Controller
 	}
 
 	/**
-	 * Thesaurus by id
+	 * Consultar thesaurus
+	 *
+	 * @param integer $id_thesaurus
+	 * @return ThThesaurus
 	 */
 	protected function get_thesaurus($id_thesaurus) {
 		$thesaurus = ThThesaurus::findFirstByid_thesaurus($id_thesaurus);
 		return $thesaurus;
+	}
+
+	/**
+	 * Consultar Termino
+	 *
+	 * @param integer $id_termino
+	 * @return ThTermino
+	 */
+	protected function get_termino($id_termino) {
+		return ThTermino::findFirstByid_termino($id_termino);
 	}
 
 	/**

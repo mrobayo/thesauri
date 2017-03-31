@@ -95,7 +95,7 @@ class DatabaseController extends ControllerBase
      */
     public function terminoAction($identifier, $id_termino) {
 
-    	$entidad = ThTermino::findFirstByid_termino($id_termino);
+    	$entidad = $this->get_termino($id_termino);
     	$relaciones_list = [];
 
     	if (! $entidad) {
@@ -119,16 +119,17 @@ class DatabaseController extends ControllerBase
     	$this->view->setRenderLevel( View::LEVEL_ACTION_VIEW );
 
     	$this->view->entidad = $entidad;
+    	$this->view->rdf_uri = str_replace('%', $entidad->id_termino, $entidad->rdf_uri);
     	$this->view->relaciones_list = $relaciones_list;
     }
 
     /**
-     * Editar terminos
-     * @param unknown $identifier
-     * @param unknown $id_termino
+     * Editar termino
+     *
+     * @param integer $id_termino
      */
     public function editarAction($id_termino) {
-    	$entidad = ThTermino::findFirstByid_termino($id_termino);
+    	$entidad = $this->get_termino($id_termino);
 
     	if (!$entidad) {
     		$this->flash->error("Termino [$id] no encontrado");
@@ -141,6 +142,23 @@ class DatabaseController extends ControllerBase
 
     	$form = new TerminoForm($entidad, ['language_list'=>$isocodes_list]);
 
+   		if ($this->request->isPost() && $form->guardar($entidad)) {
+
+   			// Guardar Termino preferido
+   			$form->guardarRelacion($entidad, $entidad->nombre, TerminoForm::TP_REL_EQ);
+
+   			// Guardar Termino General
+   			$te_general = $this->request->getPost(TerminoForm::TG_REL_EQ);
+
+   			if (! empty($te_general)) {
+   				$form->guardarRelacion($entidad, $te_general, TerminoForm::TG_REL_EQ);
+   			}
+
+   			//return $this->dispatcher->forward( ["controller" => "index", "action" => "index", ] );
+   			return $this->response->redirect($this->config->rdf->baseUri . $thesaurus->iso25964_identifier);
+   		}
+
+
     	$this->view->entidad = $entidad;
     	$this->view->form = $form;
 
@@ -148,6 +166,15 @@ class DatabaseController extends ControllerBase
     	$this->view->isocodes_list = $isocodes_list;
 
     	$this->view->myheading = 'Editar Término';
+    }
+
+    /**
+     * Guardar un termino
+     */
+    public function guardarAction() {
+		$entidad = $this->get_termino( $this->request->getPost('id_termino') );
+		$form = new TerminoForm($entidad, $this->th_options);
+
     }
 
 	/**

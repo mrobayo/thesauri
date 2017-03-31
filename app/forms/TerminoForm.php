@@ -110,21 +110,19 @@ class TerminoForm extends BaseForm
 		return $rel;
     }
 
+
     /**
-     * Guardar termino
-
+     * ThTermino
+     *
      * @param ThTermino $entidad
-     * @return int
+     * @return boolean
      */
-    public function guardar($entidad)
-    {
-    	// Binding
-
+    private function bind_post($entidad) {
     	$entidad->nombre = $this->getString('nombre');
     	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
 
     	$entidad->iso25964_language = $this->getString('iso25964_language');
-    	$entidad->description = $this->getString('description');
+    	$entidad->descripcion = $this->getString('descripcion');
 
     	$es_nuevo = FALSE;
 
@@ -142,14 +140,40 @@ class TerminoForm extends BaseForm
     		$entidad->fecha_modifica = new RawValue('now()');
     	}
 
-    	// Validar
+    	return $es_nuevo;
+    }
 
-    	$existe = $entidad->findFirst(['notilde = ?1', 'bind'=>[1 => $entidad->notilde]]);
+    /**
+     * Guardar
+     * @param  $entidad
+     */
+    public function guardar2($entidad)
+    {
 
-    	if ($existe) {
-    		$this->flash->error("Termino [{$entidad->nombre}] ya esta registrado.");
-    		return false;
-    	}
+    }
+
+
+    /**
+     * Guardar termino
+
+     * @param ThTermino $entidad
+     * @return int
+     */
+    public function guardar($entidad)
+    {
+    	// Binding
+    	$es_nuevo = $this->bind_post($entidad);
+
+    	// Validar duplicado
+//     	$bind = [1 => $entidad->notilde];
+//     	if ($es_nuevo) $bind[2] = $entidad->id_termino;
+
+//     	$existe = $entidad->findFirst(['notilde = ?1' . ($es_nuevo ? '': ' AND id_termino != ?2') , 'bind'=> $bind]);
+
+//     	if ($existe) {
+//     		$this->flash->error("Termino [{$entidad->nombre}] ya esta registrado.");
+//     		return false;
+//     	}
 
     	// Guardar
 

@@ -21,7 +21,7 @@
 			{% endfor %}
 			
 			<tr> <td>Comentario</td><td> </td> </tr>
-			<tr> <td>URI</td><td>{{ link_to( entidad.rdf_uri, entidad.rdf_uri ) }}</td> </tr>
+			<tr> <td>URI</td><td>{{ link_to( rdf_uri, rdf_uri ) }}</td> </tr>
 			
 			{% if auth['is_admin']  %}
 			<tr> <td>Estado</td><td> {{ entidad.estado_termino }} </td> </tr>

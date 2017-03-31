@@ -139,8 +139,6 @@ class DatabaseController extends ControllerBase
     	$thesaurus = ThThesaurus::findFirst(['id_thesaurus = ?1', 'bind'=>[1=> $entidad->id_thesaurus] ]);
     	$isocodes_list = $this->get_isocodes( $thesaurus->iso25964_language );
 
-    	//$this->logger->error( $thesaurus->iso25964_language . ' = ' . print_r($isocodes_list, true) );
-
     	$form = new TerminoForm($entidad, ['language_list'=>$isocodes_list]);
 
     	$this->view->entidad = $entidad;

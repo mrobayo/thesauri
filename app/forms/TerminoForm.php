@@ -46,10 +46,10 @@ class TerminoForm extends BaseForm
     	$this->addText(self::TG_REL_EQ, ['tooltip'=>'Término más general', 'label'=>'Término General', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
     	$this->addText(self::SIN_REL_EQ, ['label'=>'Sinónimos', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
 
-        $this->addSelect('id_thesaurus', ['tooltip'=>'Thesaurus', 'label'=>'Thesaurus', 'options'=> $options['thesaurus_list'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
-        $this->addSelect('iso25964_language', ['tooltip'=>'Idioma', 'label'=>'Idioma', 'options'=> $options['language_list'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
+        $this->addSelect('id_thesaurus', ['label'=>'Thesaurus', 'options'=> $options['thesaurus_list'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
+        $this->addSelect('iso25964_language', ['label'=>'Idioma', 'options'=> $options['language_list'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
 
-        $this->addSelect('estado_termino', ['tooltip'=>'Aprobar un término', 'label'=>'Estado', 'options'=> SELF::ESTADO_LIST, 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
+        $this->addSelect('estado_termino', ['label'=>'Estado', 'options'=> SELF::ESTADO_LIST, 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
 
         if ($this->isEditable($options)) {
 

@@ -104,8 +104,9 @@ class IndexController extends ControllerBase
     		}
     	}
 
-    	$this->logger->error('--alfa--');
+    	//$this->logger->error('--alfa--');
 
+    	$this->th_options['language_list'] = $this->get_isocodes( $thesaurus->iso25964_language );
     	$form = new TerminoForm($entidad, $this->th_options);
 
     	if ($this->request->isPost()) {
@@ -115,20 +116,20 @@ class IndexController extends ControllerBase
     			// Guardar Termino preferido
     			$form->guardarRelacion($entidad, $entidad->nombre, TerminoForm::TP_REL_EQ);
 
-    			$this->logger->error('--ALLA--');
+    			//$this->logger->error('--ALLA--');
 
     			// Guardar Termino General
     			$te_general = $this->request->getPost(TerminoForm::TG_REL_EQ);
 
-    			$this->logger->error('--mas--');
+    			//$this->logger->error('--mas--');
 
     			$form->guardarRelacion($entidad, $te_general, TerminoForm::TG_REL_EQ);
 
-    			$this->logger->error('--SIM--');
+    			//$this->logger->error('--SIM--');
 
     			// Guardar Sinonimos
     			// $sin = $this->request->getPost(TerminoForm::SIN_REL_EQ);
-    			$this->logger->error('SIN: ' . print_r($sin, true));
+    			//$this->logger->error('SIN: ' . print_r($sin, true));
 
     			// $form->guardarRelacion($entidad, TerminoForm::TG_REL_EQ);
 

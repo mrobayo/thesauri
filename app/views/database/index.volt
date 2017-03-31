@@ -18,8 +18,8 @@
 			<thead>
 				<tr><th>#</th>
 					<th class="col-3">Título</th>						
-					<th class="col-8">Descripción</th>
-					<th class="col-1">Ultima<br> Actividad</th>					
+					<th class="col-7">Descripción</th>
+					<th class="col-2">Ultima<br> Actividad</th>					
 				</tr>
 			</thead>
 			<tbody>

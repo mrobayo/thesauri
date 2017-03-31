@@ -66,7 +66,11 @@ class IndexController extends ControllerBase
 
 		// Mostrar listado
 		return $this->dispatcher->forward([ 'controller' => "database", 'action' => 'index' ]);
+    }
 
+    public function sha1Action() {
+    	$this->view->disable();
+    	echo print_r($this->get_isocodes('qu,es,en'), true);
     }
 
     /**

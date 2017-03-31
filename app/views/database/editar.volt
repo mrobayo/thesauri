@@ -62,7 +62,9 @@
 					        		<tr> <td class="col-12"> {{ form.render('SIN', ['class': 'form-control form-control-success']) }} </td>  </tr>					        		
 					        	</tbody>
 					        	</table>
-					        	<button id="addSinonimoBtn" type="button" class="btn btn-outline-primary"> <i class="fa fa-plus"></i></button>
+
+					        	<small id="SINHelp" class="form-text text-muted">Término relacionados</small>
+					        	<button id="addSinonimoBtn" type="button" class="btn btn-outline-primary"> <i class="fa fa-plus"></i></button>				     					        	
 					        	</div>
 					        </div>
 					        					        					        
@@ -105,3 +107,19 @@
 		</div>		
 		
 </div>		
+
+<script>
+$(function() {
+	
+	$('#addSinonimoBtn').click(function(e){
+		vInput = $('<input>', {
+			'name': 'SIN',
+			'class':'form-control'});
+		$(this).parent().find('table').find('tbody').append( $('<tr>').append( $('<td>').append(vInput)))
+		
+		vInput.focus();		
+	});
+	
+});
+
+</script>

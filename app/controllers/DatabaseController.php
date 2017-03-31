@@ -95,16 +95,11 @@ class DatabaseController extends ControllerBase
      */
     public function terminoAction($identifier, $id_termino) {
 
-		//$this->view->disable();
-		//echo 'muestra un termino: '. $id_termino . ' = '. $identifier;
-
     	$entidad = ThTermino::findFirstByid_termino($id_termino);
     	$relaciones_list = [];
 
     	if (! $entidad) {
     		$entidad = new ThTermino();
-    		//$this->flash->error("Termino no encontrado.");
-    		//return $this->dispatcher->forward( ["controller" => "index", "action" => "index", ] );
     	}
     	else {
     		// Consultar Relaciones
@@ -140,11 +135,19 @@ class DatabaseController extends ControllerBase
     		return $this->dispatcher->forward([ 'controller' => 'index', 'action' => 'index' ]);
     	}
 
-    	$form = new TerminoForm($entidad);
+    	// Consultar thesaurus
+    	$thesaurus = ThThesaurus::findFirst(['id_thesaurus = ?1', 'bind'=>[1=> $entidad->id_thesaurus] ]);
+    	$isocodes_list = $this->get_isocodes( $thesaurus->iso25964_language );
+
+    	//$this->logger->error( $thesaurus->iso25964_language . ' = ' . print_r($isocodes_list, true) );
+
+    	$form = new TerminoForm($entidad, ['language_list'=>$isocodes_list]);
 
     	$this->view->entidad = $entidad;
     	$this->view->form = $form;
-    	$this->view->thesaurus = ThThesaurus::findFirst(['id_thesaurus = ?1', 'bind'=>[1=> $entidad->id_thesaurus] ]);
+
+    	$this->view->thesaurus = $thesaurus;
+    	$this->view->isocodes_list = $isocodes_list;
 
     	$this->view->myheading = 'Editar Término';
     }
@@ -157,14 +160,9 @@ class DatabaseController extends ControllerBase
     {
     	$is_admin = $this->view->auth['is_admin'];
 
-    	//$conditions = "id_thesaurus = ?1 AND estado_termino = ?2 AND notilde ILIKE ?3";
-    	//$bind = [1 => $id_thesaurus, 2 => TerminoForm::APROBADO, 3 => $letra.'%'];
+		$conditions = "id_thesaurus = ?1 AND (estado_termino = ?2 OR estado_termino = ?4) AND notilde ILIKE ?3";
+		$bind = [1 => $id_thesaurus, 2 => TerminoForm::APROBADO, 3 => $letra.'%', 4 => TerminoForm::CANDIDATO];
 
-    	//if ($is_admin)
-    	//{
-			$conditions = "id_thesaurus = ?1 AND (estado_termino = ?2 OR estado_termino = ?4) AND notilde ILIKE ?3";
-			$bind = [1 => $id_thesaurus, 2 => TerminoForm::APROBADO, 3 => $letra.'%', 4 => TerminoForm::CANDIDATO];
-    	//}
 
     	$result = ThTermino::find([
         		"columns" => "id_termino, nombre, rdf_uri, estado_termino",

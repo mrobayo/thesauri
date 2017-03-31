@@ -30,6 +30,32 @@ class ControllerBase extends Controller
 	}
 
 	/**
+	 * Isocodes Languages
+	 *
+	 * @param array $iso_codes
+	 * @return array
+	 */
+	protected function get_isocodes($iso_codes = []) {
+		if (! is_array($iso_codes))
+		{
+			$iso_codes = explode(',', $iso_codes);
+		}
+
+		$lang_array = [];
+		$raw_isocodes = file_get_contents(BASE_PATH.'/public/iso-codes.json');
+
+		foreach(json_decode($raw_isocodes) as $code)
+		{
+			if (empty($iso_codes) || in_array($code->value, $iso_codes))
+			{
+				$lang_array[ $code->value ] = $code->text;
+			}
+		}
+
+		return $lang_array;
+	}
+
+	/**
 	 * Config
 	 *
 	 * @param string $id_config

@@ -115,6 +115,7 @@ class ThesaurusForm extends BaseForm
     		$entidad->term_aprobados = 0;
     		$entidad->term_pendientes = 0;
     		$entidad->is_activo = new RawValue('TRUE');
+    		$entidad->is_primario = new RawValue('FALSE');
     		$entidad->is_publico = new RawValue('TRUE');
     		$entidad->aprobar_list = '';
     		$entidad->id_propietario = 1;

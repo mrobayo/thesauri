@@ -38,10 +38,10 @@ class NotFoundPlugin extends Plugin
 			}
 		}
 
-		$dispatcher->forward(array(
-			'controller' => 'errors',
-			'action'     => 'show500'
-		));
+// 		$dispatcher->forward(array(
+// 			'controller' => 'errors',
+// 			'action'     => 'show500'
+// 		));
 		return false;
 	}
 }

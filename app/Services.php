@@ -4,6 +4,7 @@ use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\File as FileLogger;
+use Phalcon\Logger\Adapter\Stream as StreamLogger;
 use Phalcon\Logger\Formatter\Line as FormatterLine;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\Model\Metadata\Memory as MetaData;
@@ -155,7 +156,7 @@ class Services extends \Base\Services
     	$formatter = new FormatterLine('%date% [%type%] %message%', 'Y-m-d H:i');
     	if ($this->get('config')->application->isHeroku)
     	{
-    		$logger = new StreamAdapter("php://stderr");
+    		$logger = new StreamLogger("php://stderr");
     		$logger->setFormatter($formatter);
     		$logger->setLogLevel(Logger::DEBUG); // $config->get('logger')->logLevel);
     		return $logger;

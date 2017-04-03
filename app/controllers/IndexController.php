@@ -38,37 +38,37 @@ class IndexController extends ControllerBase
 	 */
     public function indexAction()
     {
-    	$thesaurus_list = [];
-    	foreach (ThThesaurus::find(['is_activo = TRUE', 'order' => 'nombre']) as $row)
-    	{
-    		$thesaurus_list[ $row->id_thesaurus ] = $row->nombre;
-    	}
-    	$this->th_options['thesaurus_list'] = $thesaurus_list;
-    	$this->th_options['language_list'] = ['es' => 'Español'];
+//     	$thesaurus_list = [];
+//     	foreach (ThThesaurus::find(['is_activo = TRUE', 'order' => 'nombre']) as $row)
+//     	{
+//     		$thesaurus_list[ $row->id_thesaurus ] = $row->nombre;
+//     	}
+//     	$this->th_options['thesaurus_list'] = $thesaurus_list;
+//     	$this->th_options['language_list'] = ['es' => 'Español'];
 
     	$this->view->myheading = $this->config->application->appTitle;
     	$this->view->modo_mantenimiento = $this->get_config_value('modo_mantenimiento', FALSE);
     	$this->view->pagina_principal = $this->get_config_value('pagina_principal', 0);
     	$this->view->t = $this->getTranslation();
 
-    	if ($this->view->modo_mantenimiento == '1')
-    	{
-    		return; // continue
-    	}
+//     	if ($this->view->modo_mantenimiento == '1')
+//     	{
+//     		return; // continue
+//     	}
 
-    	if ($this->view->pagina_principal == '1')
-    	{
-			$entidad = ThThesaurus::findFirst(['is_activo = TRUE AND is_publico = TRUE AND is_primario = TRUE']);
+//     	if ($this->view->pagina_principal == '1')
+//     	{
+// 			$entidad = ThThesaurus::findFirst(['is_activo = TRUE AND is_publico = TRUE AND is_primario = TRUE']);
 
-			if ($entidad)
-			{
-				return $this->response->redirect( $entidad->rdf_uri );
-			}
+// 			if ($entidad)
+// 			{
+// 				return $this->response->redirect( $entidad->rdf_uri );
+// 			}
 
-    	}
+//     	}
 
-		// Mostrar listado
-		return $this->dispatcher->forward([ 'controller' => "database", 'action' => 'index' ]);
+// 		// Mostrar listado
+// 		return $this->dispatcher->forward([ 'controller' => "database", 'action' => 'index' ]);
     }
 
     public function sha1Action() {

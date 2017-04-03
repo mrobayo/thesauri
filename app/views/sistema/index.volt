@@ -12,7 +12,9 @@
 		{{ stylesheet_link("css/bootstrap-tagsinput.css") }} <!-- vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css -->
 		{{ stylesheet_link("css/bootstrap-tagsinput-typeahead.css") }} <!-- vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput-typeahead.css -->	
 		{{ stylesheet_link("css/bootstrap-datepicker3.min.css") }} <!-- vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css -->
-		{{ stylesheet_link("css/font-awesome.min.css") }} <!-- vendor/components-font-awesome/css/font-awesome.min.css -->		
+
+		<!-- vendor/components-font-awesome/css/font-awesome.min.css -->		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 		
 		<style type="text/css">
 			html {

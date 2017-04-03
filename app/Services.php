@@ -28,6 +28,9 @@ class Services extends \Base\Services
      */
     protected function initDispatcher()
     {
+    	error_log('SERVICES - **** initDispatcher ***** ');
+
+
         $eventsManager = new EventsManager;
 
         /**

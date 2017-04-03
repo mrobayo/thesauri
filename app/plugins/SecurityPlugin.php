@@ -103,6 +103,8 @@ class SecurityPlugin extends Plugin
 	 */
 	public function beforeDispatch(Event $event, Dispatcher $dispatcher)
 	{
+		error_log( 'SECURITY PLUGIN = ***** ' . (string) $controller . ' **** ');
+
 		$auth = $this->session->get('auth');
 		if (!$auth){
 			$role = 'Guests';
@@ -115,7 +117,7 @@ class SecurityPlugin extends Plugin
 
 		$acl = $this->getAcl();
 
-		error_log( 'SECURITY PLUGIN = ***** ' . (string) $controller . ' **** ');
+
 
 		if (!$acl->isResource($controller)) {
 			$dispatcher->forward([

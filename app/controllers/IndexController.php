@@ -49,10 +49,10 @@ class IndexController extends ControllerBase
     	$this->view->pagina_principal = $this->get_config_value('pagina_principal', 0);
     	$this->view->t = $this->getTranslation();
 
-//     	if ($this->view->modo_mantenimiento == '1')
-//     	{
-//     		return; // continue
-//     	}
+    	if ($this->view->modo_mantenimiento == '1')
+    	{
+    		return; // continue
+    	}
 
 //     	if ($this->view->pagina_principal == '1')
 //     	{

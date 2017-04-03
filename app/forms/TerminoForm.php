@@ -44,7 +44,7 @@ class TerminoForm extends BaseForm
     	$this->addTextArea('descripcion', ['label'=>'Definición', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
 
     	$this->addText(self::TG_REL_EQ, ['tooltip'=>'Término más general', 'label'=>'Término General', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
-    	$this->addText(self::SIN_REL_EQ, ['label'=>'Sinónimos', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
+    	$this->addText(self::SIN_REL_EQ . '[]', ['label'=>'Sinónimos', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
 
         $this->addSelect('id_thesaurus', ['label'=>'Thesaurus', 'options'=> $options['thesaurus_list'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
         $this->addSelect('iso25964_language', ['label'=>'Idioma', 'options'=> $options['language_list'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
@@ -189,6 +189,14 @@ class TerminoForm extends BaseForm
    		if (! empty($te_general)) {
    			$this->guardarRelacion($entidad, $te_general, TerminoForm::TG_REL_EQ);
    		}
+
+   		// Guardar sinonimos
+   		$sinonimos_list = $this->request->getPost(TerminoForm::SIN_REL_EQ);
+		foreach ($sinonimos_list as $sin)
+		{
+			if (empty($sin)) continue;
+			$this->guardarRelacion($entidad, $sin, TerminoForm::SIN_REL_EQ);
+		}
 
     	// Actualizar thesaurus
     	$this->actualizar_actividad($entidad->id_thesaurus);

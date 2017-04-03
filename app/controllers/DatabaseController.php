@@ -131,7 +131,8 @@ class DatabaseController extends ControllerBase
     public function editarAction($id_termino) {
     	$entidad = $this->get_termino($id_termino);
 
-    	if (!$entidad) {
+    	if (! $entidad)
+    	{
     		$this->flash->error("Termino [$id_termino] no encontrado");
     		return $this->dispatcher->forward([ 'controller' => 'index', 'action' => 'index' ]);
     	}
@@ -142,14 +143,10 @@ class DatabaseController extends ControllerBase
 
     	$form = new TerminoForm($entidad, ['language_list'=>$isocodes_list]);
 
-   		if ($this->request->isPost() && $form->guardar($entidad)) {
-
-   			$this->logger->error('1s');
-
+   		if ($this->request->isPost() && $form->guardar($entidad))
+   		{
    			return $this->response->redirect($thesaurus->rdf_uri);
    		}
-
-   		$this->logger->error('4h');
 
     	$this->view->entidad = $entidad;
     	$this->view->form = $form;
@@ -158,8 +155,6 @@ class DatabaseController extends ControllerBase
     	$this->view->isocodes_list = $isocodes_list;
 
     	$this->view->myheading = 'Editar Término';
-
-    	$this->logger->error('5g');
     }
 
     /**

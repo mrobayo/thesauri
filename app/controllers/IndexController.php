@@ -44,6 +44,8 @@ class IndexController extends ControllerBase
 	 */
     public function indexAction()
     {
+    	error_log(" XXX --- this is INDEX! --- ZZZ ");
+
     	$this->view->myheading = $this->config->application->appTitle;
     	$this->view->modo_mantenimiento = $this->get_config_value('modo_mantenimiento', FALSE);
     	$this->view->pagina_principal = $this->get_config_value('pagina_principal', 0);

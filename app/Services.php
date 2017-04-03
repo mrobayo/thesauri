@@ -36,12 +36,12 @@ class Services extends \Base\Services
         /**
          * Check if the user is allowed to access certain action using the SecurityPlugin
          */
-        //$eventsManager->attach('dispatch:beforeDispatch', new SecurityPlugin);
+        $eventsManager->attach('dispatch:beforeDispatch', new SecurityPlugin);
 
         /**
          * Handle exceptions and not-found exceptions using NotFoundPlugin
          */
-        //$eventsManager->attach('dispatch:beforeException', new NotFoundPlugin);
+        $eventsManager->attach('dispatch:beforeException', new NotFoundPlugin);
 
         $dispatcher = new Dispatcher;
         $dispatcher->setDefaultNamespace('Thesaurus\Controllers');
@@ -159,14 +159,14 @@ class Services extends \Base\Services
      * Logger service
      */
     protected function initLogger() {
-//     	if (! $this->get('config')->application->isHeroku) {
-//     		$format   = '%date% [%type%] %message%';
-//     		$formatter = new FormatterLine($format, 'Y-m-d H:i');
-//     		$logger = new FileLogger(BASE_PATH. DIRECTORY_SEPARATOR .'logs'. DIRECTORY_SEPARATOR .'app.log');
-//     		$logger->setFormatter($formatter);
-//     		$logger->setLogLevel(Logger::DEBUG); // $config->get('logger')->logLevel);
-//     		return $logger;
-//     	}
+    	if (! $this->get('config')->application->isHeroku) {
+    		$format   = '%date% [%type%] %message%';
+    		$formatter = new FormatterLine($format, 'Y-m-d H:i');
+    		$logger = new FileLogger(BASE_PATH. DIRECTORY_SEPARATOR .'logs'. DIRECTORY_SEPARATOR .'app.log');
+    		$logger->setFormatter($formatter);
+    		$logger->setLogLevel(Logger::DEBUG); // $config->get('logger')->logLevel);
+    		return $logger;
+    	}
     	return null;
     }
 

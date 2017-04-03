@@ -145,6 +145,12 @@ class AdminController extends ControllerBase
     {
     	$this->view->myheading = 'General';
     	$this->view->config_seccion = 'ajustes_general';
+
+    	$config_items = [];
+    	foreach ($this->config->ajustes_general as $k => $c) {
+    		$config_items[$k] = $c;
+    	}
+    	$this->view->config_items = $config_items;
     }
 
     /**

@@ -30,13 +30,7 @@ class IndexController extends ControllerBase
 		$this->tag->setTitle('Inicio');
 		parent::initialize();
 
-		$thesaurus_list = [];
-		foreach (ThThesaurus::find(['is_activo = TRUE', 'order' => 'nombre']) as $row)
-		{
-			$thesaurus_list[ $row->id_thesaurus ] = $row->nombre;
-		}
-		$this->th_options['thesaurus_list'] = $thesaurus_list;
-		$this->th_options['language_list'] = ['es' => 'Español'];
+
 	}
 
 	/**
@@ -44,6 +38,14 @@ class IndexController extends ControllerBase
 	 */
     public function indexAction()
     {
+    	$thesaurus_list = [];
+    	foreach (ThThesaurus::find(['is_activo = TRUE', 'order' => 'nombre']) as $row)
+    	{
+    		$thesaurus_list[ $row->id_thesaurus ] = $row->nombre;
+    	}
+    	$this->th_options['thesaurus_list'] = $thesaurus_list;
+    	$this->th_options['language_list'] = ['es' => 'Español'];
+
     	$this->view->myheading = $this->config->application->appTitle;
     	$this->view->modo_mantenimiento = $this->get_config_value('modo_mantenimiento', FALSE);
     	$this->view->pagina_principal = $this->get_config_value('pagina_principal', 0);

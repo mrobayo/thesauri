@@ -28,7 +28,7 @@ else {
         'password'    => 'thesauri',
         'dbname'      => 'thesauri'
     ];
-	$base_uri = '/thesauri/';
+	$base_uri = '/';
 	$is_heroku = false;
 }
 

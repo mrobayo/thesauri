@@ -4,7 +4,6 @@ namespace Thesaurus\Controllers;
 
 use Thesaurus\Thesauri\ThTermino;
 use Thesaurus\Forms\TerminoForm;
-use Thesaurus\Sistema\AdConfig;
 use Thesaurus\Thesauri\ThThesaurus;
 use Phalcon\Version;
 
@@ -44,8 +43,6 @@ class IndexController extends ControllerBase
 	 */
     public function indexAction()
     {
-    	error_log(" XXX --- this is INDEX! --- ZZZ ");
-
     	$this->view->myheading = $this->config->application->appTitle;
     	$this->view->modo_mantenimiento = $this->get_config_value('modo_mantenimiento', FALSE);
     	$this->view->pagina_principal = $this->get_config_value('pagina_principal', 0);
@@ -58,26 +55,22 @@ class IndexController extends ControllerBase
 
      	if ($this->view->pagina_principal == '1')
      	{
+     		// Mostrar thesauri x defecto (primario)
  			$entidad = ThThesaurus::findFirst(['is_activo = TRUE AND is_publico = TRUE AND is_primario = TRUE']);
-
-// 			if ($entidad)
-// 			{
-// 				return $this->response->redirect( $entidad->rdf_uri );
-// 			}
-
+ 			if ($entidad)
+			{
+				return $this->response->redirect( $entidad->rdf_uri );
+			}
      	}
-
  		// Mostrar listado
-// 		return $this->dispatcher->forward([ 'controller' => "database", 'action' => 'index' ]);
+ 		return $this->dispatcher->forward([ 'controller' => "database", 'action' => 'index' ]);
     }
 
     public function sha1Action() {
-    	error_log(" XXX --- this is a test! --- ZZZ ");
-
     	$this->view->disable();
-    	//echo print_r($this->get_isocodes('qu,es,en'), true);
-    	//echo Version::getId();
-    	echo 'test :)';
+
+    	$this->logger->error(PHP_EOL.PHP_EOL.' *********** EJEMPLO DE LOG ************* '.PHP_EOL);
+    	echo Version::getId();
     }
 
     /**

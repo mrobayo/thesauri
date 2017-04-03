@@ -18,7 +18,7 @@ use Phalcon\Mvc\Url;
  *
  * @author mrobayo@gmail.com
  */
-class DatabaseController extends ControllerBase
+class DatabaseController extends \ControllerBase
 {
 
 	public function initialize()

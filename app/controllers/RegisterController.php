@@ -10,7 +10,7 @@ use Thesaurus\Sistema\AdUsuario;
  *
  * Permite a los usuarios registrarse
  */
-class RegisterController extends ControllerBase
+class RegisterController extends \ControllerBase
 {
     public function initialize()
     {

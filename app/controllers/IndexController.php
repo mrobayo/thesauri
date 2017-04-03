@@ -11,7 +11,7 @@ use Phalcon\Version;
  * Index
  * @author mrobayo@gmail.com
  */
-class IndexController extends ControllerBase
+class IndexController extends \ControllerBase
 {
 
 	/**

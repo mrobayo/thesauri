@@ -2,7 +2,7 @@
 
 namespace Thesaurus\Controllers;
 
-class ErrorsController extends ControllerBase
+class ErrorsController extends \ControllerBase
 {
     public function initialize()
     {

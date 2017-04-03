@@ -14,7 +14,7 @@ use Thesaurus\Sistema\AdConfig;
  * Administracion
  * @author mrobayo
  */
-class AdminController extends ControllerBase
+class AdminController extends \ControllerBase
 {
 
 	static $_global_config = [];
@@ -191,6 +191,7 @@ class AdminController extends ControllerBase
 
     	foreach (ThThesaurus::find() as $c) {
     		// $c->xml_iso25964 = \StringHelper::xmltoArray($c->xml_iso25964);
+    		$c->ultima_actividad = date( $this->get_ts_format(), strtotime($c->ultima_actividad));
     		$items_list[ $c->id_thesaurus ] = $c;
     	}
 

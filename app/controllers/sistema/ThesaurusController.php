@@ -9,7 +9,7 @@ use Thesaurus\Thesauri\ThThesaurus;
 use Thesaurus\Forms\ThesaurusForm;
 
 
-class ThesaurusController extends ControllerBase
+class ThesaurusController extends \ControllerBase
 {
 
 	/*

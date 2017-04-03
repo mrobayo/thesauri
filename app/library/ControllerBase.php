@@ -1,6 +1,6 @@
 <?php
 
-namespace Thesaurus\Controllers;
+//namespace Thesaurus\Controllers;
 
 use Phalcon\Mvc\Controller;
 use Phalcon\Translate\Adapter\NativeArray;

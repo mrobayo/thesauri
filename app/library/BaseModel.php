@@ -1,7 +1,5 @@
 <?php
 
-//namespace Thesaurus\Model;
-
 class BaseModel extends \Phalcon\Mvc\Model {
 
 	/**

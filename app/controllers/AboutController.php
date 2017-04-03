@@ -6,7 +6,7 @@ namespace Thesaurus\Controllers;
  *
  * @author mrobayo
  */
-class AboutController extends ControllerBase
+class AboutController extends \ControllerBase
 {
     public function initialize()
     {

@@ -8,7 +8,7 @@ use Thesaurus\Sistema\AdUsuario;
  *
  * @author mrobayo
  */
-class SessionController extends ControllerBase
+class SessionController extends \ControllerBase
 {
     public function initialize()
     {

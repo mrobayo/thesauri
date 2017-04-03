@@ -121,7 +121,7 @@ class AdminController extends ControllerBase
 
     			if ($ad->save() == false) {
     				foreach ($ad->getMessages() as $message) {
-    					$this->logger->error((string) $message);
+    					// $this->logger->error((string) $message);
     					$this->flash->error((string) $message);
     					break;
     				}
@@ -176,7 +176,7 @@ class AdminController extends ControllerBase
 
     		if ($form->guardar($entidad)) {
 
-    			$this->logger->error("Thesaurus {$entidad->nombre} guardado exitosamente");
+    			// $this->logger->error("Thesaurus {$entidad->nombre} guardado exitosamente");
     			return $this->dispatcher->forward( ["controller" => "admin", "action" => "index", ] );
     		}
     	}
@@ -223,7 +223,7 @@ class AdminController extends ControllerBase
     	{
     		if ($form->guardar($entidad))
     		{
-    			$this->logger->error("Usuario {$entidad->nombre} guardado exitosamente");
+    			// $this->logger->error("Usuario {$entidad->nombre} guardado exitosamente");
     			return $this->dispatcher->forward([ 'controller' => 'admin', 'action' => 'index' ]);
     		}
     	}

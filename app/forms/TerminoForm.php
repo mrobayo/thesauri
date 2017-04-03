@@ -70,7 +70,7 @@ class TerminoForm extends BaseForm
 	 */
     public function guardarRelacion($entidad, $termino_rel, $tipo_relacion) {
     	$auth = $this->session->get('auth');
-    	$this->logger->error('Guardar Relacion: '. $entidad->id_termino . ' ' . $termino_rel . ' - ' . $tipo_relacion);
+    	// $this->logger->error('Guardar Relacion: '. $entidad->id_termino . ' ' . $termino_rel . ' - ' . $tipo_relacion);
 
     	$rel_notilde = \StringHelper::notilde($termino_rel);
     	$entidad_rel = ThTermino::findFirst([

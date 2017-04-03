@@ -96,19 +96,20 @@ class Services extends \Base\Services
         unset($dbconfig['adapter']);
         $db = new $dbClass($dbconfig);
 
-        if (! $this->get('config')->application->isHeroku) {
-        	$formatter = new FormatterLine('%date% [%type%] %message%', 'Y-m-d H:i');
-        	$logger = new FileLogger(BASE_PATH. DIRECTORY_SEPARATOR .'logs'. DIRECTORY_SEPARATOR .'sql.log');
-        	$logger->setFormatter($formatter);
-        	$eventsManager = new \Phalcon\Events\Manager();
-        	$eventsManager->attach('db', function($event, $dbClass) use ($logger) {
-        		if ($event->getType() == 'beforeQuery') {
-        	    	$logger->log($dbClass->getSQLStatement().' '.
-        	    	(is_array($dbClass->getSQLVariables()) ? join(', ', $dbClass->getSQLVariables()) : ''));
-        	    }
-        	});
-        	$db->setEventsManager($eventsManager);
-        }
+//         if (! $this->get('config')->application->isHeroku) {
+//         	$formatter = new FormatterLine('%date% [%type%] %message%', 'Y-m-d H:i');
+//         	$logger = new FileLogger(BASE_PATH. DIRECTORY_SEPARATOR .'logs'. DIRECTORY_SEPARATOR .'sql.log');
+//         	$logger->setFormatter($formatter);
+//         	$eventsManager = new \Phalcon\Events\Manager();
+//         	$eventsManager->attach('db', function($event, $dbClass) use ($logger) {
+//         		if ($event->getType() == 'beforeQuery') {
+//         	    	$logger->log($dbClass->getSQLStatement().' '.
+//         	    	(is_array($dbClass->getSQLVariables()) ? join(', ', $dbClass->getSQLVariables()) : ''));
+//         	    }
+//         	});
+//         	$db->setEventsManager($eventsManager);
+//         }
+
         return $db;
     }
 
@@ -155,14 +156,14 @@ class Services extends \Base\Services
      * Logger service
      */
     protected function initLogger() {
-    	if (! $this->get('config')->application->isHeroku) {
-    		$format   = '%date% [%type%] %message%';
-    		$formatter = new FormatterLine($format, 'Y-m-d H:i');
-    		$logger = new FileLogger(BASE_PATH. DIRECTORY_SEPARATOR .'logs'. DIRECTORY_SEPARATOR .'app.log');
-    		$logger->setFormatter($formatter);
-    		$logger->setLogLevel(Logger::DEBUG); // $config->get('logger')->logLevel);
-    		return $logger;
-    	}
+//     	if (! $this->get('config')->application->isHeroku) {
+//     		$format   = '%date% [%type%] %message%';
+//     		$formatter = new FormatterLine($format, 'Y-m-d H:i');
+//     		$logger = new FileLogger(BASE_PATH. DIRECTORY_SEPARATOR .'logs'. DIRECTORY_SEPARATOR .'app.log');
+//     		$logger->setFormatter($formatter);
+//     		$logger->setLogLevel(Logger::DEBUG); // $config->get('logger')->logLevel);
+//     		return $logger;
+//     	}
     	return null;
     }
 

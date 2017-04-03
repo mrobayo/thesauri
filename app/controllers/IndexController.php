@@ -56,16 +56,16 @@ class IndexController extends ControllerBase
     		return; // continue
     	}
 
-//     	if ($this->view->pagina_principal == '1')
-//     	{
-// 			$entidad = ThThesaurus::findFirst(['is_activo = TRUE AND is_publico = TRUE AND is_primario = TRUE']);
+     	if ($this->view->pagina_principal == '1')
+     	{
+ 			$entidad = ThThesaurus::findFirst(['is_activo = TRUE AND is_publico = TRUE AND is_primario = TRUE']);
 
 // 			if ($entidad)
 // 			{
 // 				return $this->response->redirect( $entidad->rdf_uri );
 // 			}
 
-//     	}
+     	}
 
  		// Mostrar listado
 // 		return $this->dispatcher->forward([ 'controller' => "database", 'action' => 'index' ]);

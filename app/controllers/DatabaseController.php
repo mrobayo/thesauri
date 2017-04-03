@@ -116,7 +116,9 @@ class DatabaseController extends ControllerBase
     	$ultima_mod = strtotime(empty($entidad->fecha_modifica) ? $entidad->fecha_ingreso : $entidad->fecha_modifica); //date_create_from_format('Y-m-d H:i:s.u', $entidad->fecha_modifica);
     	$this->view->ultima_mod = date( $this->get_ts_format(), $ultima_mod);
 
-    	$this->view->setRenderLevel( View::LEVEL_ACTION_VIEW );
+    	if ($this->request->isPost()) {
+    		$this->view->setRenderLevel( View::LEVEL_ACTION_VIEW );
+    	}
 
     	$this->view->entidad = $entidad;
     	$this->view->rdf_uri = str_replace('%', $entidad->id_termino, $entidad->rdf_uri);

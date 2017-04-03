@@ -183,7 +183,7 @@
 			e.preventDefault();			
 			$('#infoDetalle').empty();
 			
-			$.get($(this).attr('href'), function(data){				
+			$.post($(this).attr('href'), function(data){				
 				// console.log(data);
 				$('#infoDetalle').html(data);
 			});

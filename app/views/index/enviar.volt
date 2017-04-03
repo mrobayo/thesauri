@@ -22,7 +22,7 @@
 			{{ form('index/enviar', 'id': 'thisForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
 				
 				<fieldset>
-				    {{ form.render('id_termino') }}
+				    {{  form.render('id_termino') }}
 				    
 				    <div class="card">
 				    
@@ -54,12 +54,12 @@
 					        </div> 
 					        					        	
 					        <div class="form-group row">
-					            {{ form.label('SIN', ['class': 'form-control-label col-sm-12']) }}
+					            {{ form.label('SIN[]', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">	
 					        	<table class="table table-condensed">					        	
 					        	<tbody>
 					        		<!-- <td> <button type="button" class="btn btn-outline-danger"> <i class="fa fa-minus"></i></button> </td> -->
-					        		<tr> <td class="col-12"> {{ form.render('SIN', ['class': 'form-control form-control-success']) }} </td>  </tr>					        		
+					        		<tr> <td class="col-12"> {{ form.render('SIN[]', ['class': 'form-control form-control-success']) }} </td>  </tr>					        		
 					        	</tbody>
 					        	</table>
 					        	<button id="addSinonimoBtn" type="button" class="btn btn-outline-primary"> <i class="fa fa-plus"></i></button>

@@ -72,7 +72,8 @@ class IndexController extends ControllerBase
     public function sha1Action() {
     	$this->view->disable();
     	//echo print_r($this->get_isocodes('qu,es,en'), true);
-    	echo Version::getId();
+    	//echo Version::getId();
+    	echo 'test :)';
     }
 
     /**

@@ -50,7 +50,7 @@ return new \Phalcon\Config([
     	'messagesDir'    => APP_PATH . '/messages/',
         'cacheDir'       => BASE_PATH . '/cache/',
         // By web server rewrite rules. This can also be set to a static path.
-        'baseUri'        => $base_uri, //preg_replace('/public([\/\\\\])index.php$/', '', $_SERVER["PHP_SELF"])
+        'baseUri'        => $base_uri,
     	'publicUrl'      => 'thesauri.herokuapp.com',
     ],
 	'mail' => [

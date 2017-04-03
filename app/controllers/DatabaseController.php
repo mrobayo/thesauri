@@ -113,7 +113,7 @@ class DatabaseController extends ControllerBase
     		}
     	}
 
-    	$ultima_mod = strtotime(empty($entidad->fecha_modifica) ? $entidad->fecha_ingreso : $entidad->fecha_modifica); //date_create_from_format('Y-m-d H:i:s.u', $entidad->fecha_modifica);
+    	$ultima_mod = strtotime(empty($entidad->fecha_modifica) ? $entidad->fecha_ingreso : $entidad->fecha_modifica);
     	$this->view->ultima_mod = date( $this->get_ts_format(), $ultima_mod);
 
     	if ($this->request->isPost()) {

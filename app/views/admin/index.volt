@@ -6,7 +6,7 @@
 	<table class="table table-bordered table-striped">
 	    <tbody>
 	    	{% for ckey, cvalue in config_items %}
-	        <tr>
+	        <tr class="row">
 	        	<th class="col-4">{{ t[ckey] }} <small class="form-text text-muted"> {{ t[ckey~'_desc'] }}  </small> </th>
 	        	<td class="col-8">{{ config_tag(ckey, cvalue) }}</td>        	
 	        </tr>

@@ -14,27 +14,32 @@
 			<i class="fa fa-bank"></i> Thesaurus
 		</div>
 		
-		<table class="table table-hover table-bordered table-sm">
+		<div class="card-block">
+		
+
+		
+		<table class="table table-hover table-bordered">
 			<thead>
-				<tr><th>#</th>
-					<th class="col-3">Título</th>						
-					<th class="col-7">Descripción</th>
-					<th class="col-2">Ultima<br> Actividad</th>					
+				<tr>
+					<th>#</th>
+					<th>Título</th>						
+					<th>Descripción</th>
+					<th>Ultima<br> Actividad</th>					
 				</tr>
 			</thead>
 			<tbody>
 				{% for ckey, row in items_list %}
 				<tr>
-					<td>{{ loop.index }}</td>
-					<td>{{ link_to( row.rdf_uri, row.nombre ) }}</td>							
-					<td class="">{{ row.iso25964_description }}</td>					
-					<td class="text-center">{{ row.ultima_actividad }}</td>
-					
-					
+					<td style="width: 1px">{{ loop.index }}</td>
+					<td style="width: 30%">{{ link_to( row.rdf_uri, row.nombre ) }}</td>							
+					<td style="width: 55%">{{ row.iso25964_description }}</td>					
+					<td style="width: 15%" class="text-center">{{ row.ultima_actividad }}</td>										
 				</tr>
 				{% endfor %} 
 			</tbody>					
 		</table>
+		
+		</div>
 	
 	
 	</div>

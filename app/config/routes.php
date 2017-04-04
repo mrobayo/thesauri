@@ -9,6 +9,20 @@ $router->add('/:controller/:action/:params', [
     'params'     => 3,
 ]);
 
+$router->add('/reset-password/:params', [
+		'namespace'  => 'Thesaurus\Controllers',
+		'controller' => 'register',
+		'action'     => 'reset',
+		'params'     => 1
+]);
+
+$router->add('/confirmar-password/:params', [
+		'namespace'  => 'Thesaurus\Controllers',
+		'controller' => 'register',
+		'action'     => 'confirmar',
+		'params'     => 1
+]);
+
 $router->add('/explorar/:params', [
 		'namespace'  => 'Thesaurus\Controllers',
 		'controller' => 'database',

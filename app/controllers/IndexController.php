@@ -70,7 +70,7 @@ class IndexController extends \ControllerBase
     	$this->view->disable();
 
     	$this->logger->error(PHP_EOL.PHP_EOL.' *********** EJEMPLO DE LOG ************* '.PHP_EOL);
-    	echo Version::getId();
+    	echo date('Ymd') . '33'; // Version::getId();
     }
 
     /**

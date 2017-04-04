@@ -62,7 +62,7 @@ class SecurityPlugin extends Plugin
 				'index'      => array('index', 'info', 'enviar', 'sha1'),
 				'about'      => array('index'),
 				'database'   => array('index', 'termino', 'json', 'editar', 'guardar'),
-				'register'   => array('index'),
+				'register'   => array('index', 'confirmar', 'reset'),
 				'errors'     => array('show401', 'show404', 'show500'),
 				'session'    => array('index', 'register', 'start', 'end'),
 				'contact'    => array('index', 'send')

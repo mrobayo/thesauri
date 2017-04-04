@@ -83,7 +83,7 @@ class Mail extends Component
             ])
             ->setBody($template, 'text/html');
 
-            if (!$this->transport) {
+        if (!$this->transport) {
 
                 $this->transport = Smtp::newInstance(
                     $mailSettings->smtp->server,
@@ -93,12 +93,16 @@ class Mail extends Component
                 ->setUsername($mailSettings->smtp->username)
                 ->setPassword($mailSettings->smtp->password)
                 ->setStreamOptions( ['ssl' => ['allow_self_signed' => true, 'verify_peer' => false]] );
-            }
+        }
 
-            // Create the Mailer using your created Transport
-            $mailer = \Swift_Mailer::newInstance($this->transport);
+        // Create the Mailer using your created Transport
+        $mailer = \Swift_Mailer::newInstance($this->transport);
 
-            return $mailer->send($message);
+        if (! empty($to)) {
+        	$user_email = array_keys($to);
+        	$this->logger->info('Email '.$name.' a: ' .$user_email[0]. ' enviado. Asunto: '. $subject);
+        }
 
+		return $mailer->send($message);
     }
 }

@@ -84,7 +84,6 @@ class IndexController extends \ControllerBase
     			}
     		}
 
-
     		$thesaurus_lang[ $row->id_thesaurus ] =
 	    		array_filter($language_list, function($v, $k) use ($row) {
 	    			return strpos($row->iso25964_language, $k) !== false;
@@ -117,6 +116,12 @@ class IndexController extends \ControllerBase
     	if ($this->request->isPost() && $form->guardar($entidad)) {
     		$thesaurus = $this->get_thesaurus($entidad->id_thesaurus);
     		return $this->response->redirect($this->config->rdf->baseUri . $thesaurus->iso25964_identifier);
+    	}
+
+
+    	if (empty($thesaurus_list)) {
+    		$this->flash->error("No tiene permisos para enviar un término. Por favor solicite permiso de [Editor] al Administrador.");
+    		return $this->dispatcher->forward([ 'controller' => "index", 'action' => 'index' ]);
     	}
 
     	$items_list = [];

@@ -199,5 +199,15 @@ class DatabaseController extends \ControllerBase
     	echo json_encode(['id' => $id_thesaurus, 'letra' => $letra, 'result' => $terminos]);
     }
 
+    /**
+     * Arbor
+     * @param unknown $identifier
+     */
+    public function arborAction($identifier = NULL)
+    {
+
+
+    }
+
 }
 

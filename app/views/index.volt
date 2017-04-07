@@ -71,6 +71,10 @@
     	    	
     	<!-- jqueryvalidation -->
     	{{ javascript_include('js/vendor/jquery.validate.min.js') }} <!-- vendor/jquery-validation/dist/jquery.validate.min.js --> 
-    	{{ javascript_include('js/form-validate.js') }}        
+    	{{ javascript_include('js/form-validate.js') }}
+    	
+    	
+    	<!-- arbor: http://arborjs.org/ -->
+    	{{ javascript_include('js/vendor/arbor.js') }}     
     </body>
 </html>

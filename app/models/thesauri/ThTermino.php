@@ -1,4 +1,5 @@
 <?php
+
 namespace Thesaurus\Thesauri;
 
 class ThTermino extends \BaseModel
@@ -64,6 +65,13 @@ class ThTermino extends \BaseModel
 
     /**
      *
+     * @var string
+     * @Column(type="string", length=120, nullable=true)
+     */
+    public $dc_source;
+
+    /**
+     *
      * @var integer
      * @Column(type="integer", length=32, nullable=true)
      */
@@ -110,6 +118,7 @@ class ThTermino extends \BaseModel
     public function initialize()
     {
         $this->setSchema("public");
+        $this->hasMany('id_termino', 'Thesaurus\Thesauri\ThNota', 'id_termino', ['alias' => 'ThNota']);
         $this->hasMany('id_termino', 'Thesaurus\Thesauri\ThRelacion', 'id_termino', ['alias' => 'ThRelacion']);
         $this->hasMany('id_termino', 'Thesaurus\Thesauri\ThRelacion', 'id_termino_rel', ['alias' => 'ThRelacion']);
         $this->belongsTo('id_thesaurus', 'Thesaurus\Thesauri\\ThThesaurus', 'id_thesaurus', ['alias' => 'ThThesaurus']);

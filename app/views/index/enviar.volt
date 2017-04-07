@@ -65,7 +65,13 @@
 					        	<button id="addSinonimoBtn" type="button" class="btn btn-outline-primary"> <i class="fa fa-plus"></i></button>
 					        	</div>
 					        </div>					        
-					        
+					        					        
+					        <div class="form-group row">
+					        	 {{ form.label('dc_source', ['class': 'form-control-label col-sm-12']) }}
+					            <div class="col-sm-8">            
+					            	{{ form.render('dc_source', ['class': 'form-control form-control-success']) }}
+					            </div>
+					        </div>
 					        					        
 					        <div class="form-group row">
 					            {{ form.label('id_thesaurus', ['class': 'form-control-label col-sm-12']) }}
@@ -80,8 +86,7 @@
 					            	{{ form.render('iso25964_language', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
-					        
-					        				               				        
+					        			               				        
 				
 						</div>
 						<div class="card-footer">

@@ -113,7 +113,15 @@
 				</div>
 				
 				<div id="infoDetalle" class="col-sm-7">
-					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;"> {{ TYPES[ entidad.iso25964_type ] }} </h4>					
+					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;"> 
+											
+						<a href="{{ url('database/arbor/'~entidad.iso25964_identifier) }}" title="Visualizar" class="btn btn-sm btn-primary pull-right"> 
+							<i class="fa fa-code-fork fa-rotate-90"></i> 
+						</a>
+						
+						{{ TYPES[ entidad.iso25964_type ] }} 
+					
+					</h4>					
 					<table class="table table-striped table-bordered">
 						<tbody>
 							<tr> <td class="col-2">Titulo</td><td>{{ entidad.nombre }}</td> </tr>

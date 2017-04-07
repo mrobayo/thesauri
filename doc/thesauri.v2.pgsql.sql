@@ -86,12 +86,13 @@ ALTER TABLE th_thesaurus_id_thesaurus_seq OWNER TO thesauri;
 create table th_termino (
   id_termino        serial                          not null,
   nombre            character varying(100)          not null,
-	character varying(20)           not null DEFAULT 'CANDIDATO' CHECK (estado_termino IN ('APROBADO', 'CANDIDATO', 'REEMPLAZADO', 'DEPRECADO') ),  
+  estado_termino    character varying(20)           not null DEFAULT 'CANDIDATO' CHECK (estado_termino IN ('APROBADO', 'CANDIDATO', 'REEMPLAZADO', 'DEPRECADO') ),  
   rdf_uri           character varying(100)          not null,      
   iso25964_language character(2)                    not null DEFAULT 'es' CHECK (iso25964_language = lower(iso25964_language)),      
   id_thesaurus      integer                         not null,
   notilde           character varying(100)          not null,  
   descripcion       text,    
+  dc_source         character varying(120)          not null,
   id_aprobador      integer,
   fecha_aprobado    timestamp,  	
   id_ingreso        integer,  
@@ -138,6 +139,32 @@ ALTER TABLE th_relacion_id_relacion_seq OWNER TO thesauri;
 --   dc_coverage       character varying(100),
 --   dc_creator        character varying(100),  
 --   dc_description    character varying(600),
+
+
+
+-- drop table th_nota;
+create table th_nota (
+  id_nota           serial           not null,  
+  tipo_nota         character varying(20)           not null,  
+  contenido         text,
+  dc_source         character varying(120),
+  id_termino        integer                         not null,
+  estado_nota       character varying(20),
+  id_thesaurus      integer                         not null,
+  id_aprobador      integer,
+  fecha_aprobado    timestamp,
+  id_ingreso        integer,  
+  fecha_ingreso     timestamp                       not null default now(),  
+  id_modifica       integer,  
+  fecha_modifica    timestamp without time zone,  
+  CONSTRAINT th_nota_pkey PRIMARY KEY (id_nota),
+  CONSTRAINT th_nota_thesaurus_fkey FOREIGN KEY (id_thesaurus) REFERENCES th_thesaurus(id_thesaurus),
+  CONSTRAINT th_nota_termino_fkey FOREIGN KEY (id_termino) REFERENCES th_termino(id_termino)  
+);
+COMMENT ON TABLE public.th_nota IS 'Nota tecnica';
+ALTER TABLE th_nota OWNER TO thesauri;
+ALTER TABLE th_nota_id_nota_seq OWNER TO thesauri;
+
 
 
 -- drop table th_thesaurus_version;

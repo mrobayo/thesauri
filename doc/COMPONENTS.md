@@ -21,6 +21,11 @@
    
 		composer require behat/transliterator
   
+
+# http://sigmajs.org/
+ - Sigma is a JavaScript library dedicated to graph drawing. It makes easy to publish networks
+
+  https://github.com/jacomyal/sigma.js/releases/
     
   [Remove accents with doctrine](http://usualcarrot.com/how-to-remove-accents-in-php)
   

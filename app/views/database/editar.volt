@@ -66,6 +66,32 @@
 					        	<button id="addSinonimoBtn" type="button" class="btn btn-outline-primary"> <i class="fa fa-plus"></i></button>				     					        	
 					        	</div>
 					        </div>
+					        
+					        <div class="form-group row">
+					        	 {{ form.label('dc_source', ['class': 'form-control-label col-sm-12']) }}
+					            <div class="col-sm-8">            
+					            	{{ form.render('dc_source', ['class': 'form-control form-control-success']) }}
+					            </div>
+					        </div>
+					        
+					        <div class="form-group row">
+					        	<label class="form-control-label col-sm-12"> Nota </label>
+					        	<div class="col-sm-8">
+					        	
+					        	<table class="table table-condensed">					        	
+					        	<tbody>
+					        		<tr><td class="col-12">					        		
+					        			<textarea rows="" cols="" class="form-control"></textarea> 
+					        		</td></tr>					        		
+					        	</tbody>
+					        	</table>
+
+					        	<small id="SINHelp" class="form-text text-muted">Término relacionados</small>
+					        	<button id="addSinonimoBtn" type="button" class="btn btn-outline-primary"> <i class="fa fa-plus"></i></button>					        	
+					        	
+					        	</div>
+					        
+					        </div>
 					        					        					        
 					        <div class="form-group row">
 					            {{ form.label('id_thesaurus', ['class': 'form-control-label col-sm-12']) }}

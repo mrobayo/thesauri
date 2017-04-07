@@ -43,6 +43,8 @@ class TerminoForm extends BaseForm
     	$this->addText('nombre', ['tooltip'=>'Término preferido', 'label'=>'Término', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
     	$this->addTextArea('descripcion', ['label'=>'Definición', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
 
+    	$this->addText('dc_source', ['tooltip'=>'Referencia, fuente o contribución del término', 'label'=>'Referencia/Fuente', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
+
     	$this->addText(self::TG_REL_EQ, ['tooltip'=>'Término más general', 'label'=>'Término General', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
     	$this->addText(self::SIN_REL_EQ . '[]', ['label'=>'Sinónimos', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
 
@@ -114,6 +116,7 @@ class TerminoForm extends BaseForm
     	$entidad->nombre = $this->getString('nombre');
     	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
 
+    	$entidad->dc_source = $this->getString('dc_source');
     	$entidad->iso25964_language = $this->getString('iso25964_language');
     	$entidad->descripcion = $this->getString('descripcion');
 

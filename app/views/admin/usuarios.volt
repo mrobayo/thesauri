@@ -56,11 +56,11 @@
 						<tr>
 							<td>{{ loop.index }}</td>
 							<td>{{ link_to( 'sistema/admin/usuarios/'~row.id_usuario, row.nombre ) }}</td>							
-							<td class="text-center">{{ row.email }}</td>
-							<td class="text-center">{{ row.app_role }}</td>
+							<td class="">{{ row.email }}</td>
+							<td class=""> <i class="fa {{ (row.app_role == 'ADMIN' ? 'fa-user' : 'fa-user-o') }}" title="{{ row.app_role }}"></i> {{ ROLE_TYPES[ row.app_role ] }}</td>
 							<td class="text-center">{{ row.recibir_avisos }}</td>
 							<td class="text-center">{{ row.login_history }}</td>															
-							<td class="text-center"><i class="fa fa-check text-success"></i></td>
+							<td class="text-center"> <i class="fa {{ (row.is_activo ? 'fa-check text-success' : 'fa-times text-danger') }}"></i> </td>
 						</tr>
 						{% endfor %} 
 					</tbody>					
@@ -125,7 +125,7 @@
 					        <div class="form-group row">
 					            {{ form.label('is_activo', ['class': 'form-control-label col-sm-12']) }}            
 					            <div class="col-sm-8">
-					            	{{ form.render('is_activo', ['class': 'form-control form-control-success']) }}					            	
+					            	{{ form.render('is_activo', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
 					        {% endif %}

@@ -32,11 +32,11 @@ class SecurityPlugin extends Plugin
 			$roles = [
 				'users'  => new Role(
 					'Users',
-					'Member privileges, granted after sign in.'
+					'Miembros privilegiados, autorizados despues de ingresar.'
 				),
 				'guests' => new Role(
 					'Guests',
-					'Anyone browsing the site who is not signed in is considered to be a "Guest".'
+					'Cualquiera que navega el sitio que no ha ingresado es considerado como "Guest".'
 				)
 			];
 
@@ -49,7 +49,7 @@ class SecurityPlugin extends Plugin
 				//'companies'    => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
 				//'products'     => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
 				//'producttypes' => array('index', 'search', 'new', 'edit', 'save', 'create', 'delete'),
-				'admin'        => array('index', 'thesaurus', 'usuarios', 'profile', 'noticias', 'correo', 'seguridad', 'plantillas', 'guardar'),
+				'admin'        => array('index', 'thesaurus', 'usuarios', 'profile', 'noticias', 'correo', 'seguridad', 'plantillas', 'guardar', 'permisos'),
 				//'thesaurus'    => array('index', 'edit', 'view'),
 				//'catalogo'     => array('index')
 			);

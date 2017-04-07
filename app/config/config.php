@@ -71,6 +71,7 @@ return new \Phalcon\Config([
 	],
 
 	'ajustes_general' => [
+		'lector_permiso' => 'select|enum|Anonimo|Usuario Registrado',
 		'formato_fecha' => 'text|d/m/Y h:i',
 		'modo_mantenimiento' => 'select|boolean',
 		'pagina_principal' => 'select|enum|Listado de Tesaurus|Tesauro Primario'

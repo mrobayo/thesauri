@@ -13,5 +13,7 @@ $messages = [
 		'pagina_principal' => 'Thesaurus a mostrar en la página principal',
 		'pagina_principal_desc' => 'Puede seleccionar el Thesaurus se mostrará en la página principal.',
 
+		'lector_permiso' => 'Lector Anónimo',
+		'lector_permiso_desc' => 'Consultar Tesauro como Lector Anónimo o Usuario Registrado',
 
 ];

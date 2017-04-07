@@ -32,6 +32,13 @@ class ControllerBase extends Controller
 	}
 
 	/**
+	 * Indica si esta loggedado
+	 */
+	protected function is_logged() {
+		return $this->session->get('auth') != FALSE;
+	}
+
+	/**
 	 * Isocodes Languages
 	 *
 	 * @param array $iso_codes

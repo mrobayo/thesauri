@@ -17,6 +17,12 @@ use Thesaurus\Sistema\AdUsuario;
  */
 class AdUsuarioForm extends BaseForm
 {
+	const PERMISO_LECTOR = 'LECTOR';
+	const PERMISO_EDITOR = 'EDITOR';
+	const PERMISO_EXPERTO = 'EXPERTO';
+
+	const PERMISOS_TYPES = [self::PERMISO_LECTOR=> 'Explorar y consultar', self::PERMISO_EDITOR=> 'Ingresar términos', self::PERMISO_EXPERTO => 'Ingresar y Aprobar términos'];
+
 	const ROLE_TYPES = ['USER'=> 'USUARIO', 'ADMIN'=>'ADMINISTRADOR'];
 	const AVISO_TYPES = ['TERMINO'=> 'TERMINO', 'DIARIO'=>'DIARIO', 'SEMANAL'=>'SEMANAL'];
 
@@ -32,7 +38,7 @@ class AdUsuarioForm extends BaseForm
 
     	$this->addSelect('app_role', ['tooltip'=>'Role de Seguridad', 'label'=>'Role', 'options'=> self::ROLE_TYPES, 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
     	$this->addSelect('recibir_avisos', ['tooltip'=>'Recibir Avisos y Notificaciones', 'label'=>'Notificaciones', 'options'=> self::AVISO_TYPES, 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
-    	$this->addSelect('is_activo', ['tooltip'=>'Activar / Inactivar', 'label'=>'Activo', 'options'=> ['1' => 'SI', '0' => 'NO'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
+    	$this->addSelect('is_activo', ['tooltip'=>'Activar / Inactivar', 'label'=>'Activo', 'options'=> [0 => 'NO', 1 => 'SI'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
 
         if ($this->isEditable($options)) {
 

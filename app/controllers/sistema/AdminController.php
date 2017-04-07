@@ -155,6 +155,7 @@ class AdminController extends \ControllerBase
 
     /**
      * Edit & Save
+     * @param integer $id_thesaurus
      */
     public function thesaurusAction($id_thesaurus = NULL)
     {
@@ -164,10 +165,23 @@ class AdminController extends \ControllerBase
     		$id_thesaurus = $this->request->getPost("id_thesaurus");
     	}
 
+    	$items_list = [];
+    	$usuarios_list = [];
+
     	if (is_numeric($id_thesaurus)) {
     		$entidad = ThThesaurus::findFirstByid_thesaurus($id_thesaurus);
 
-    		if (!$entidad) {
+    		if ($entidad) {
+    			$permisos_usuario = empty($entidad->aprobar_list) ? [] : json_decode($entidad->aprobar_list);
+
+    			// Leer permisos x usuario
+    			foreach (AdUsuario::find(['is_activo = TRUE']) as $user) {
+    				$user->permiso_usuario =
+    					isset($permisos_usuario[ $user->id_usuario ]) ? $permisos_usuario[ $user->id_usuario ] : '';
+    				$usuarios_list[] = $user;
+    			}
+    		}
+    		else {
     			$this->flash->error("Thesaurus [$id_thesaurus] no encontrado");
     			return $this->dispatcher->forward([ 'controller' => "admin", 'action' => 'index' ]);
     		}
@@ -180,14 +194,12 @@ class AdminController extends \ControllerBase
 
     	if ($this->request->isPost()) {
 
-    		if ($form->guardar($entidad)) {
+    		//$entidad->aprobar_list = json_encode($json);
 
-    			// $this->logger->error("Thesaurus {$entidad->nombre} guardado exitosamente");
+    		if ($form->guardar($entidad)) {
     			return $this->dispatcher->forward( ["controller" => "admin", "action" => "index", ] );
     		}
     	}
-
-    	$items_list = [];
 
     	foreach (ThThesaurus::find() as $c) {
     		// $c->xml_iso25964 = \StringHelper::xmltoArray($c->xml_iso25964);
@@ -197,9 +209,20 @@ class AdminController extends \ControllerBase
 
     	$this->view->items_list = $items_list;
     	$this->view->form = $form;
+
     	$this->view->entidad = $entidad;
+    	$this->view->usuarios_list = $usuarios_list;
+    	$this->view->PERMISOS_TYPES = AdUsuarioForm::PERMISOS_TYPES;
     }
 
+    /**
+     * Permisos
+     * @param integer $id_thesaurus
+     */
+    public function permisosAction($id_thesaurus = NULL)
+    {
+
+    }
 
     /**
      * Edit & Save
@@ -245,7 +268,9 @@ class AdminController extends \ControllerBase
 
     	$this->view->items_list = $items_list;
     	$this->view->form = $form;
+
     	$this->view->entidad = $entidad;
+    	$this->view->ROLE_TYPES = AdUsuarioForm::ROLE_TYPES;
     }
 
     /**

@@ -64,7 +64,11 @@ class ThesaurusForm extends BaseForm
         $this->addText('iso25964_contributor', ['tooltip'=>'Personas u organizaciones quienes contribuyeron con el Thesaurus', 'label'=>'Colaborador', 'filters'=>array('striptags', 'string')]);
         $this->addSelect('iso25964_type', ['tooltip'=>'El género del vocabulario', 'label'=>'Tipo', 'options'=> self::DEFAULT_TYPES, 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
 
-        // $this->addText('format', ['label'=>'DC:Format', 'filters'=>array('striptags', 'string')]);
+        $this->addSelect('is_activo', ['tooltip'=>'Activar / Inactivar', 'label'=>'Activo', 'options'=> [0 => 'NO', 1 => 'SI'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
+        $this->addSelect('is_primario', ['tooltip'=>'Primario (Aparece como pagina inicial del sitio)', 'label'=>'Primario', 'options'=> [0 => 'NO', 1 => 'SI'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
+        $this->addSelect('is_publico', ['tooltip'=>'Publico (Si LECTOR_PERMISO = ANONIMO es explorable sin ingresar como usuario registrado) / Privado (Solo pueden ver los usuarios autorizados)', 'label'=>'Publico/Privado', 'options'=> [0 => 'PRIVADO', 1 => 'PUBLICO'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
+
+        $this->addSelect('permisos[]', ['tooltip'=>'Permisos por Usuario', 'label'=>'Tipo', 'options'=> AdUsuarioForm::PERMISOS_TYPES, 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
 
         if ($this->isEditable($options)) {
 

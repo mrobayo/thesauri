@@ -69,12 +69,27 @@ class DatabaseController extends \ControllerBase
     		//$terms_list = ThTermino::find([ 'id_thesaurus = ?1 AND estado_termino = ?2',
     		//		'bind' => [1 => $entidad->id_thesaurus, 2 => TerminoForm::APROBADO ], 'order' => 'nombre ASC']);
 
-    		// letras habilitadas del alfabeto
-    		$result = $this->db->query(
-    	  		"SELECT CHR(ALPHA.LETRA) LETRA, T.NUM FROM (SELECT GENERATE_SERIES( ASCII('A'), ASCII('Z')) LETRA) ALPHA
+    		$params = [$entidad->id_thesaurus];
+
+    		if ($this->is_logged()) {
+    			$sql_letras =
+    			"SELECT CHR(ALPHA.LETRA) LETRA, T.NUM FROM (SELECT GENERATE_SERIES( ASCII('A'), ASCII('Z')) LETRA) ALPHA
 				   LEFT JOIN (SELECT UPPER(SUBSTR(T.NOTILDE, 1, 1)) LETRA, SUM(CASE T.ESTADO_TERMINO WHEN 'APROBADO' THEN 1 WHEN 'CANDIDATO' THEN 1 ELSE 0 END) NUM
  				   FROM TH_TERMINO T WHERE T.ID_THESAURUS = ?
-    	  		  GROUP BY UPPER(SUBSTR(T.NOTILDE, 1, 1))) T ON (T.LETRA = CHR(ALPHA.LETRA))", [$entidad->id_thesaurus]);
+    	  		  GROUP BY UPPER(SUBSTR(T.NOTILDE, 1, 1))) T ON (T.LETRA = CHR(ALPHA.LETRA))";
+    		}
+    		else {
+    			$sql_letras =
+    			"SELECT CHR(ALPHA.LETRA) LETRA, T.NUM FROM (SELECT GENERATE_SERIES( ASCII('A'), ASCII('Z')) LETRA) ALPHA
+				   LEFT JOIN (SELECT UPPER(SUBSTR(T.NOTILDE, 1, 1)) LETRA, SUM(CASE T.ESTADO_TERMINO WHEN 'APROBADO' THEN 1 WHEN 'CANDIDATO' THEN 1 ELSE 0 END) NUM
+ 				   FROM TH_TERMINO T WHERE T.ID_THESAURUS = ? AND T.ESTADO_TERMINO = ?
+    	  		  GROUP BY UPPER(SUBSTR(T.NOTILDE, 1, 1))) T ON (T.LETRA = CHR(ALPHA.LETRA))";
+
+    			$params[] = TerminoForm::APROBADO;
+    		}
+
+    		// letras habilitadas del alfabeto
+    		$result = $this->db->query($sql_letras, $params);
 
     		while ($row = $result->fetch()) {
     			$letras_list[ $row['letra'] ] = $row['num'];
@@ -176,9 +191,14 @@ class DatabaseController extends \ControllerBase
     {
     	$is_admin = $this->view->auth['is_admin'];
 
-		$conditions = "id_thesaurus = ?1 AND (estado_termino = ?2 OR estado_termino = ?4) AND notilde ILIKE ?3";
-		$bind = [1 => $id_thesaurus, 2 => TerminoForm::APROBADO, 3 => $letra.'%', 4 => TerminoForm::CANDIDATO];
-
+    	if ($this->is_logged()) {
+    		$conditions = "id_thesaurus = ?1 AND (estado_termino = ?2 OR estado_termino = ?4) AND notilde ILIKE ?3";
+    		$bind = [1 => $id_thesaurus, 2 => TerminoForm::APROBADO, 3 => $letra.'%', 4 => TerminoForm::CANDIDATO];
+    	}
+    	else {
+    		$conditions = "id_thesaurus = ?1 AND (estado_termino = ?2) AND notilde ILIKE ?3";
+    		$bind = [1 => $id_thesaurus, 2 => TerminoForm::APROBADO, 3 => $letra.'%'];
+    	}
 
     	$result = ThTermino::find([
         		"columns" => "id_termino, nombre, rdf_uri, estado_termino",

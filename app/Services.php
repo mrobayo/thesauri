@@ -101,7 +101,7 @@ class Services extends \Base\Services
         	$eventsManager->attach('db', function($event, $dbClass) use ($logger) {
         		if ($event->getType() == 'beforeQuery') {
         	    	$logger->log($dbClass->getSQLStatement().' '.
-        	    	(is_array($dbClass->getSQLVariables()) ? join(', ', $dbClass->getSQLVariables()) : ''));
+        	    	(is_array($dbClass->getSQLVariables()) ? json_encode($dbClass->getSQLVariables()) : ''));
         	    }
         	});
         	$db->setEventsManager($eventsManager);

@@ -6,6 +6,7 @@ use Thesaurus\Thesauri\ThTermino;
 use Thesaurus\Forms\TerminoForm;
 use Thesaurus\Thesauri\ThThesaurus;
 use Phalcon\Version;
+use Thesaurus\Forms\AdUsuarioForm;
 
 /**
  * Index
@@ -28,14 +29,6 @@ class IndexController extends \ControllerBase
 	{
 		$this->tag->setTitle('Inicio');
 		parent::initialize();
-
-    	$thesaurus_list = [];
-    	foreach (ThThesaurus::find(['is_activo = TRUE', 'order' => 'nombre']) as $row)
-    	{
-    		$thesaurus_list[ $row->id_thesaurus ] = $row->nombre;
-    	}
-    	$this->th_options['thesaurus_list'] = $thesaurus_list;
-    	$this->th_options['language_list'] = ['es' => 'Español'];
 	}
 
 	/**
@@ -68,8 +61,7 @@ class IndexController extends \ControllerBase
 
     public function sha1Action() {
     	$this->view->disable();
-
-    	$this->logger->error(PHP_EOL.PHP_EOL.' *********** EJEMPLO DE LOG ************* '.PHP_EOL);
+    	// $this->logger->error(PHP_EOL.PHP_EOL.' *********** EJEMPLO DE LOG ************* '.PHP_EOL);
     	echo date('Ymd') . '33'; // Version::getId();
     }
 
@@ -78,7 +70,29 @@ class IndexController extends \ControllerBase
      */
     public function enviarAction()
     {
-    	$this->view->myheading = 'Nuevo Término';
+    	$language_list = $this->get_isocodes();
+    	$thesaurus_list = [];
+    	$thesaurus_lang = [];
+
+    	foreach (ThThesaurus::find(['is_activo = TRUE', 'order' => 'nombre']) as $row)
+    	{
+    		$permisos_usuario = json_decode($row->aprobar_list, TRUE);
+
+    		if ($this->is_logged() && isset($permisos_usuario[ $this->view->auth['id'] ])) {
+    			if (in_array($permisos_usuario[ $this->view->auth['id'] ] , [AdUsuarioForm::PERMISO_EDITOR, AdUsuarioForm::PERMISO_EXPERTO])) {
+    				$thesaurus_list[ $row->id_thesaurus ] = $row->nombre;
+    			}
+    		}
+
+
+    		$thesaurus_lang[ $row->id_thesaurus ] =
+	    		array_filter($language_list, function($v, $k) use ($row) {
+	    			return strpos($row->iso25964_language, $k) !== false;
+				}, ARRAY_FILTER_USE_BOTH);
+    	}
+    	$this->th_options['thesaurus_list'] = $thesaurus_list;
+    	$this->th_options['language_list'] = [];
+
    		$id_termino = $this->request->isPost() ? $this->request->getPost("id_termino") : FALSE;
 
     	if (is_numeric($id_termino)) {
@@ -98,7 +112,6 @@ class IndexController extends \ControllerBase
     		}
     	}
 
-    	$this->th_options['language_list'] = $this->get_isocodes();
     	$form = new TerminoForm($entidad, $this->th_options);
 
     	if ($this->request->isPost() && $form->guardar($entidad)) {
@@ -108,8 +121,10 @@ class IndexController extends \ControllerBase
 
     	$items_list = [];
 
+    	$this->view->thesaurus_lang = json_encode($thesaurus_lang);
     	$this->view->form = $form;
     	$this->view->entidad = $entidad;
+    	$this->view->myheading = 'Nuevo Término';
     }
 
 }

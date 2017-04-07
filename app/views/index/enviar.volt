@@ -76,7 +76,7 @@
 					        <div class="form-group row">
 					            {{ form.label('id_thesaurus', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">					            		            	
-					            	{{ form.render('id_thesaurus', ['class': 'form-control form-control-success']) }}
+					            	{{ form.render('id_thesaurus', ['class': 'form-control form-control-success required']) }}
 					            </div>            
 					        </div>
 					        
@@ -107,7 +107,20 @@
 
 <script>
 $(function() {
+	var vIdiomas = JSON.parse('{{ thesaurus_lang }}');	
+	$('#id_thesaurus').change(function(){
+		vId = $(this).val();		
+		$('#iso25964_language').empty();
+		
+		if (vId && vIdiomas && vIdiomas[vId]) {			
+			$.each(vIdiomas[vId], function(i, v){
+				$('#iso25964_language').append('<option value="'+ i +'">'+ v +'</option>');
+			});			
+		}		
+	});
 	
+	$('#id_thesaurus').change();
+		
 	$('#addSinonimoBtn').click(function(e){
 		vInput = $('<input>', {
 			'name': 'SIN',
@@ -115,8 +128,6 @@ $(function() {
 		$(this).prev('table').find('tbody').append( $('<tr>').append( $('<td>').append(vInput)))
 		
 		vInput.focus();		
-	});
-	
+	});	
 });
-
 </script>

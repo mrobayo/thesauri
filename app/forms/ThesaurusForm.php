@@ -81,6 +81,36 @@ class ThesaurusForm extends BaseForm
     }
 
     /**
+     * ThThesaurus
+     * @param ThThesaurus $entidad
+     */
+    public function guardarPermisos($entidad) {
+
+    	$entidad->is_activo = $this->getString('is_activo');
+    	$entidad->is_primario = $this->getString('is_primario');
+    	$entidad->is_publico = $this->getString('is_publico');
+    	$entidad->aprobar_list = json_encode($this->request->getPost('permisos'));
+    	$entidad->fecha_modifica = new RawValue('now()');
+
+    	$this->db->begin();
+
+    	if ($entidad->save() == false) {
+    		$this->db->rollback();
+
+    		foreach ($entidad->getMessages() as $message) {
+    			$this->flash->error((string) $message);
+    		}
+
+    		return false;
+    	}
+
+    	$this->db->commit();
+    	$this->flash->success('Permisos guardados exitosamente');
+
+    	return true;
+    }
+
+    /**
      * Guardar thesaurus
      * iconv('ISO-8859-1','ASCII//TRANSLIT',$val);
      * iconv('UTF-8','ASCII//TRANSLIT//IGNORE',$val);

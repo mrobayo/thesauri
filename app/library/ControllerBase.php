@@ -71,8 +71,10 @@ class ControllerBase extends Controller
 	 * @return ThThesaurus
 	 */
 	protected function get_thesaurus($id_thesaurus) {
-		$thesaurus = ThThesaurus::findFirstByid_thesaurus($id_thesaurus);
-		return $thesaurus;
+		if (is_numeric($id_thesaurus)) {
+			return ThThesaurus::findFirstByid_thesaurus($id_thesaurus);
+		}
+		return FALSE;
 	}
 
 	/**

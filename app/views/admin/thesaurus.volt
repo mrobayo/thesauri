@@ -244,11 +244,7 @@
 					        <div class="form-group row">
 					        <div class="small col-sm-8">
 					        	<h5 class="page-header">&nbsp;</h5>						        							        								        		
-						        	<dl>
-						        		{% for permisoKey, permisoDesc in PERMISOS_TYPES %}
-						        		<dt>{{ permisoKey }}</dt><dd>{{ permisoDesc }}</dd>
-						        		{% endfor %}
-						        	</dl>						        		
+						        <dl>{% for permisoKey, permisoDesc in PERMISOS_TYPES %} <dt>{{ permisoKey }}</dt><dd>{{ permisoDesc }}</dd> {% endfor %} </dl>						        		
 						    </div>
 						    </div>
 					        

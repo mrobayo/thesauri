@@ -172,7 +172,7 @@ class AdminController extends \ControllerBase
     		$entidad = ThThesaurus::findFirstByid_thesaurus($id_thesaurus);
 
     		if ($entidad) {
-    			$permisos_usuario = empty($entidad->aprobar_list) ? [] : json_decode($entidad->aprobar_list);
+    			$permisos_usuario = empty($entidad->aprobar_list) ? [] : json_decode($entidad->aprobar_list, TRUE);
 
     			// Leer permisos x usuario
     			foreach (AdUsuario::find(['is_activo = TRUE']) as $user) {
@@ -216,12 +216,22 @@ class AdminController extends \ControllerBase
     }
 
     /**
-     * Permisos
+     * Guardar Permisos
      * @param integer $id_thesaurus
      */
-    public function permisosAction($id_thesaurus = NULL)
+    public function permisosAction()
     {
+    	$entidad = $this->get_thesaurus( $this->request->getPost('id_thesaurus') );
 
+    	if (! $entidad) {
+    		$this->flash->error("Thesaurus [$id_thesaurus] no encontrado");
+    		return $this->dispatcher->forward([ 'controller' => "admin", 'action' => 'index' ]);
+    	}
+
+    	$form = new ThesaurusForm($entidad);
+
+    	$form->guardarPermisos($entidad);
+    	return $this->response->redirect('sistema/admin/thesaurus/'.$entidad->id_thesaurus);
     }
 
     /**

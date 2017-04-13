@@ -225,9 +225,9 @@
 						        	<tbody>
 						        		{% for ckey, cuser in usuarios_list %}
 						        		<tr>
-						        		<td class=""> <i class="fa {{ (cuser.app_role == 'ADMIN' ? 'fa-user' : 'fa-user-o') }}" title="{{ cuser.app_role }}"></i> </td>
-						        		<td class="col-7"> {{ cuser.nombre }} </td>						        		
-						        		<td class="col-5">					        							        		
+						        		<td style="width: 1px;"> <i class="fa {{ (cuser.app_role == 'ADMIN' ? 'fa-user' : 'fa-user-o') }}" title="{{ cuser.app_role }}"></i> </td>
+						        		<td style="width: 70%;"> {{ cuser.nombre }} </td>						        		
+						        		<td style="width: 30%;">					        							        		
 						        			<select name="permisos[{{ cuser.id_usuario }}]" class="form-control">
 						        				<option value="">-- </option>
 						        				{% for permisoKey, permisoDesc in PERMISOS_TYPES %} 

@@ -67,9 +67,7 @@
 					        	
 					        	 <div class="col-sm-8">            
 					            	{{ form.render('SIN[]', ['class': 'form-control form-control-success']) }}
-					            </div>
-					        	
-					        	
+					            </div>					        	
 					        </div>	
 					        
 					        <div class="form-group row">
@@ -80,8 +78,7 @@
 					            <div class="col-sm-8">            
 					            	{{ form.render('TR[]', ['class': 'form-control form-control-success']) }}
 					            </div>
-					            
-					        </div> 				        
+					        </div>		        
 					        					        
 					        <div class="form-group row">
 					        	 {{ form.label('dc_source', ['class': 'form-control-label col-sm-12']) }}

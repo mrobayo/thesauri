@@ -118,14 +118,18 @@ class DatabaseController extends \ControllerBase
     	}
     	else {
     		// Consultar Relaciones
-    		$sql = 'select r.tipo_relacion, r.id_termino_rel, t.nombre, t.rdf_uri
-					  from th_termino t join th_relacion r on (r.id_termino_rel = t.id_termino)
-					 where r.id_termino = ?';
+    		$sql = 'select r.orden_relacion, r.tipo_relacion, r.id_termino_rel, t.nombre, t.rdf_uri
+					  from th_termino t
+    				  join th_relacion r on (r.id_termino_rel = t.id_termino)
+					 where r.id_termino = ? order by r.orden_relacion, t.nombre';
 
      		$result = $this->db->query($sql, [$entidad->id_termino]);
+
     		while ($row = $result->fetch()) {
-    			$relaciones_list[] = $row;
+    			$tipo_relacion = $row['tipo_relacion'];
+    			$relaciones_list[ $tipo_relacion ][] = $row;
     		}
+
     	}
 
     	$ultima_mod = strtotime(empty($entidad->fecha_modifica) ? $entidad->fecha_ingreso : $entidad->fecha_modifica);
@@ -178,9 +182,8 @@ class DatabaseController extends \ControllerBase
      * Guardar un termino
      */
     public function guardarAction() {
-		$entidad = $this->get_termino( $this->request->getPost('id_termino') );
-		$form = new TerminoForm($entidad, $this->th_options);
-
+		//$entidad = $this->get_termino( $this->request->getPost('id_termino') );
+		//$form = new TerminoForm($entidad, $this->th_options);
     }
 
 	/**

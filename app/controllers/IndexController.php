@@ -48,12 +48,29 @@ class IndexController extends \ControllerBase
 
      	if ($this->view->pagina_principal == '1')
      	{
-     		// Mostrar thesauri x defecto (primario)
- 			$entidad = ThThesaurus::findFirst(['is_activo = TRUE AND is_publico = TRUE AND is_primario = TRUE']);
- 			if ($entidad)
-			{
-				return $this->response->redirect( $entidad->rdf_uri );
-			}
+
+     		if ($this->is_logged()) {
+				$th_list =  ThThesaurus::find(['is_activo = TRUE']);
+				foreach($th_list as $th) {
+					$permisos_usuario = json_decode($th->aprobar_list, TRUE);
+
+					if (! empty($permisos_usuario[ $this->view->auth['id'] ])) {
+						return $this->response->redirect( $th->rdf_uri );
+					}
+				}
+
+     		}
+     		else {
+     			// Mostrar thesauri x defecto (primario)
+
+     			$entidad = ThThesaurus::findFirst(['is_activo = TRUE AND is_publico = TRUE AND is_primario = TRUE']);
+     			if ($entidad)
+     			{
+     				return $this->response->redirect( $entidad->rdf_uri );
+     			}
+     		}
+
+
      	}
  		// Mostrar listado
  		return $this->dispatcher->forward([ 'controller' => "database", 'action' => 'index' ]);
@@ -94,6 +111,8 @@ class IndexController extends \ControllerBase
 
    		$id_termino = $this->request->isPost() ? $this->request->getPost("id_termino") : FALSE;
 
+   		$this->logger->error('fallo test!');
+
     	if (is_numeric($id_termino)) {
     		$entidad = $this->get_termino($id_termino);
 
@@ -113,10 +132,30 @@ class IndexController extends \ControllerBase
 
     	$form = new TerminoForm($entidad, $this->th_options);
 
-    	if ($this->request->isPost() && $form->guardar($entidad)) {
-    		$thesaurus = $this->get_thesaurus($entidad->id_thesaurus);
-    		return $this->response->redirect($this->config->rdf->baseUri . $thesaurus->iso25964_identifier);
+    	$this->logger->error('ejemplo!');
+
+    	try {
+    		if ($this->request->isPost() && $form->guardar($entidad)) {
+
+    			$this->logger->error('sample test');
+
+    			$thesaurus = $this->get_thesaurus($entidad->id_thesaurus);
+    			return $this->response->redirect($this->config->rdf->baseUri . $thesaurus->iso25964_identifier);
+    		}
+    		else {
+    			$this->logger->error('fallo guardar!');
+    		}
+
+    	} catch(Exception $e) {
+
+    		$this->logger->error(  print_r(e, true) );
+
+    	} finally {
+
+    		$this->logger->error(  'bad :)' );
+
     	}
+
 
 
     	if (empty($thesaurus_list)) {

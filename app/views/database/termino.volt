@@ -14,13 +14,28 @@
 			
 			<tr> <td>Definición</td><td>{{ entidad.descripcion }}</td> </tr>
 			
-			{% for row in relaciones_list %}
+			{% for kgrupo, grupo in relaciones_list %}
 			
-				<tr> <td> {{ RELATION_TYPES[ row['tipo_relacion'] ] }} </td><td>{{ row['nombre'] }}</td> </tr>
+				{% for krow, row in grupo %}
+					
+					<tr> 
+							
+					{% if krow == 0 %}					
+					<td rowspan="{{ grupo|length }}"> {{ kgrupo }} {{ RELATION_TYPES[ row['tipo_relacion'] ] }} </td>
+					{% endif %}
+					
+					
+					<td>{{ row['nombre'] }}</td>
+					
+					</tr> 
+				
+				{% endfor %}
+				
+				</tr>
 			
 			{% endfor %}
 			
-			<tr> <td>Comentario</td><td> </td> </tr>
+			<!-- <tr> <td>Comentario</td><td> </td> </tr> -->
 			<tr> <td>URI</td><td>{{ link_to( rdf_uri, rdf_uri ) }}</td> </tr>
 			
 			{% if auth['is_admin']  %}

@@ -43,6 +43,13 @@ class ThRelacion extends \BaseModel
     public $id_termino_rel;
 
     /**
+     *
+     * @var integer
+     * @Column(type="integer", length=32, nullable=false)
+     */
+    public $orden_relacion;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()

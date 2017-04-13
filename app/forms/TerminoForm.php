@@ -26,6 +26,12 @@ class TerminoForm extends BaseForm
 							'TR' => 'Término Relacionado',
 							'SIN' => 'Término Alternativo'];
 
+	const ORDEN_RELATION = ['TP' => 0,
+			// 'TE' => 'Término Específico',
+			'TG' => 10,
+			'TR' => 30,
+			'SIN' => 20];
+
 	const CANDIDATO = 'CANDIDATO',
 		  APROBADO  = 'APROBADO';
 
@@ -82,7 +88,7 @@ class TerminoForm extends BaseForm
 
     	if (! $entidad_rel)
     	{
-    		$this->guardarTermino($termino_rel, NULL, $entidad->iso25964_language, $entidad->id_thesaurus);
+    		$entidad_rel = $this->guardarTermino($termino_rel, NULL, $entidad->iso25964_language, $entidad->id_thesaurus);
     	}
     	else
     	{
@@ -100,6 +106,7 @@ class TerminoForm extends BaseForm
 		$rel->id_termino = $entidad->id_termino;
 		$rel->id_thesaurus = $entidad->id_thesaurus;
 		$rel->id_termino_rel = $entidad_rel->id_termino;
+		$rel->orden_relacion = self::ORDEN_RELATION[ $tipo_relacion ];
 
 		if ($rel->save() == false) {
 			return false; // Fallo al guardar
@@ -203,9 +210,7 @@ class TerminoForm extends BaseForm
 			$this->guardarRelacion($entidad, $sin, TerminoForm::SIN_REL_EQ);
 		}
 
-		$this->logger->error('SINONIMOS: ' . json_encode($sinonimos_list));
-
-		// Guardar sinonimos
+		// Guardar terminos relacionados
 		$tr_list = $this->request->getPost(TerminoForm::TR_REL_EQ);
 		foreach ($tr_list as $tr)
 		{
@@ -282,7 +287,7 @@ class TerminoForm extends BaseForm
     	}
 
     	$this->flash->success("Termino [{$entidad->nombre}] guardado exitosamente");
-    	return $entidad->id_thesaurus;
+    	return $entidad;
     }
 
 

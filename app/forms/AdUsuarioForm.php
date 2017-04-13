@@ -23,7 +23,10 @@ class AdUsuarioForm extends BaseForm
 
 	const PERMISOS_TYPES = [self::PERMISO_LECTOR=> 'Explorar y consultar', self::PERMISO_EDITOR=> 'Ingresar términos', self::PERMISO_EXPERTO => 'Ingresar y Aprobar términos'];
 
-	const ROLE_TYPES = ['USER'=> 'USUARIO', 'ADMIN'=>'ADMINISTRADOR'];
+	const ROLE_USER = 'USER';
+	const ROLE_ADMIN = 'ADMIN';
+
+	const ROLE_TYPES = [self::ROLE_USER=> 'USUARIO', self::ROLE_ADMIN=>'ADMINISTRADOR'];
 	const AVISO_TYPES = ['TERMINO'=> 'TERMINO', 'DIARIO'=>'DIARIO', 'SEMANAL'=>'SEMANAL'];
 
 	/**

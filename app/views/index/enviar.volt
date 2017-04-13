@@ -53,18 +53,35 @@
 					            </div>
 					        </div> 
 					        					        	
-					        <div class="form-group row">
-					            {{ form.label('SIN[]', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">	
+					        <div class="form-group row">					            
+					            <label class="form-control-label col-sm-8" for="SIN[]">
+					            	<button data-input-name="SIN[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>	
+					            	Sinónimos
+					            </label>
+					            <!-- <div class="col-sm-8">	
 					        	<table class="table table-condensed">					        	
 					        	<tbody>
-					        		<!-- <td> <button type="button" class="btn btn-outline-danger"> <i class="fa fa-minus"></i></button> </td> -->
 					        		<tr> <td class="col-12"> {{ form.render('SIN[]', ['class': 'form-control form-control-success']) }} </td>  </tr>					        		
 					        	</tbody>
-					        	</table>
-					        	<button id="addSinonimoBtn" type="button" class="btn btn-outline-primary"> <i class="fa fa-plus"></i></button>
-					        	</div>
-					        </div>					        
+					        	</table> </div> -->
+					        	
+					        	 <div class="col-sm-8">            
+					            	{{ form.render('SIN[]', ['class': 'form-control form-control-success']) }}
+					            </div>
+					        	
+					        	
+					        </div>	
+					        
+					        <div class="form-group row">
+					            <label class="form-control-label col-sm-8" for="TR[]">
+					            	<button data-input-name="TR[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>	
+					            	Término relacionado
+					            </label>
+					            <div class="col-sm-8">            
+					            	{{ form.render('TR[]', ['class': 'form-control form-control-success']) }}
+					            </div>
+					            
+					        </div> 				        
 					        					        
 					        <div class="form-group row">
 					        	 {{ form.label('dc_source', ['class': 'form-control-label col-sm-12']) }}
@@ -121,11 +138,19 @@ $(function() {
 	
 	$('#id_thesaurus').change();
 		
-	$('#addSinonimoBtn').click(function(e){
+	$('.add-termino-btn').click(function(e){
 		vInput = $('<input>', {
-			'name': 'SIN',
+			'name': $(this).data('inputName'),
 			'class':'form-control'});
-		$(this).prev('table').find('tbody').append( $('<tr>').append( $('<td>').append(vInput)))
+		vTab = $(this).closest('div').find('table');
+		
+		if (vTab.length == 0) {
+			vDiv = $(this).closest('div');			
+			vDiv.append( $('<div>', {'class': 'col-sm-8', 'style': 'padding-top: 8px'}).append(vInput).append(vDiv.find('small')));
+		}
+		else {
+			vTab.find('tbody').append( $('<tr>').append( $('<td>').append(vInput)));
+		}
 		
 		vInput.focus();		
 	});	

@@ -15,8 +15,9 @@ use Thesaurus\Thesauri\ThRelacion;
  */
 class TerminoForm extends BaseForm
 {
-	const TP_REL_EQ = 'TP',
-		  TG_REL_EQ = 'TG',
+	const TP_REL_EQ = 'TP', // Termino Preferente
+		  TG_REL_EQ = 'TG', // Termino General
+		  TR_REL_EQ = 'TR', // Termino Relacionados
 		  SIN_REL_EQ = 'SIN';
 
 	const RELATION_TYPES = ['TP' =>'Término Preferente',
@@ -46,7 +47,8 @@ class TerminoForm extends BaseForm
     	$this->addText('dc_source', ['tooltip'=>'Referencia, fuente o contribución del término', 'label'=>'Referencia/Fuente', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
 
     	$this->addText(self::TG_REL_EQ, ['tooltip'=>'Término más general', 'label'=>'Término General', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
-    	$this->addText(self::SIN_REL_EQ . '[]', ['label'=>'Sinónimos', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
+    	$this->addText(self::TR_REL_EQ.'[]', ['tooltip'=>'Términos relacionados (use el botón (+) para añadir otro término)', 'label'=>'Términos Relacionados', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
+    	$this->addText(self::SIN_REL_EQ.'[]', ['tooltip'=>'Sinónimos (use el botón (+) para añadir otro sinónimo)', 'label'=>'Sinónimos', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
 
         $this->addSelect('id_thesaurus', ['label'=>'Thesaurus', 'options'=> $options['thesaurus_list'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
         $this->addSelect('iso25964_language', ['label'=>'Idioma', 'options'=> $options['language_list'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);
@@ -199,6 +201,16 @@ class TerminoForm extends BaseForm
 		{
 			if (empty($sin)) continue;
 			$this->guardarRelacion($entidad, $sin, TerminoForm::SIN_REL_EQ);
+		}
+
+		$this->logger->error('SINONIMOS: ' . json_encode($sinonimos_list));
+
+		// Guardar sinonimos
+		$tr_list = $this->request->getPost(TerminoForm::TR_REL_EQ);
+		foreach ($tr_list as $tr)
+		{
+			if (empty($tr)) continue;
+			$this->guardarRelacion($entidad, $tr, TerminoForm::TR_REL_EQ);
 		}
 
     	// Actualizar thesaurus

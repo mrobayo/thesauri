@@ -2,6 +2,7 @@
 namespace Thesaurus\Controllers;
 
 use Thesaurus\Sistema\AdUsuario;
+use Thesaurus\Forms\AdUsuarioForm;
 
 /**
  * SessionController
@@ -40,8 +41,8 @@ class SessionController extends \ControllerBase
             'id' => $user->id_usuario,
             'nombre' => $user->nombre,
         	'app_role' => $user->app_role,
-        	'is_user' => ($user->app_role == 'USER'),
-        	'is_admin' => ($user->app_role == 'ADMIN')
+        	'is_user' => ($user->app_role == AdUsuarioForm::ROLE_USER),
+        	'is_admin' => ($user->app_role == AdUsuarioForm::ROLE_ADMIN)
         ));
     }
 
@@ -69,7 +70,7 @@ class SessionController extends \ControllerBase
                 $this->_registerSession($user);
                 $this->flash->success('Bienvenido ' . $user->nombre);
 
-                return $this->response->redirect('/'); 
+                return $this->response->redirect('/');
             }
 
             $this->flash->error('Email o Clave incorrecto');

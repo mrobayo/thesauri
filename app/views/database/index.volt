@@ -80,9 +80,13 @@
 			
 				<div class="col-sm-5 sidebar">
 					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;">
+						
+						{% if permiso_enviar %}
 						<a href="{{ url('index/enviar/'~entidad.id_thesaurus) }}" title="Enviar un término" class="btn btn-sm btn-primary pull-right"> 
 							<i class="fa fa-send"></i> 
 						</a>
+						{% endif %}
+						
 						Explorar
 					</h4>					
 					

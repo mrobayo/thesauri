@@ -8,6 +8,7 @@ use Thesaurus\Thesauri\ThTermino;
 use Thesaurus\Forms\TerminoForm;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Url;
+use Thesaurus\Forms\AdUsuarioForm;
 
 /**
  * Database
@@ -48,6 +49,8 @@ class DatabaseController extends \ControllerBase
     	$terms_list = [];
     	$letras_list = [];
 
+    	$permiso_enviar = false;
+
     	if ($identifier != null) {
     		$entidad = ThThesaurus::findFirst([ 'iso25964_identifier = :identifier:', 'bind'=>['identifier'=> $identifier]]);
     	}
@@ -72,6 +75,12 @@ class DatabaseController extends \ControllerBase
     		$params = [$entidad->id_thesaurus];
 
     		if ($this->is_logged()) {
+    			$permisos_usuario = json_decode($entidad->aprobar_list, TRUE);
+
+    			if (isset($permisos_usuario[ $this->view->auth['id'] ])) {
+    				$permiso_enviar = in_array($permisos_usuario[ $this->view->auth['id'] ] , [AdUsuarioForm::PERMISO_EDITOR, AdUsuarioForm::PERMISO_EXPERTO]);
+    			}
+
     			$sql_letras =
     			"SELECT CHR(ALPHA.LETRA) LETRA, T.NUM FROM (SELECT GENERATE_SERIES( ASCII('A'), ASCII('Z')) LETRA) ALPHA
 				   LEFT JOIN (SELECT UPPER(SUBSTR(T.NOTILDE, 1, 1)) LETRA, SUM(CASE T.ESTADO_TERMINO WHEN 'APROBADO' THEN 1 WHEN 'CANDIDATO' THEN 1 ELSE 0 END) NUM
@@ -100,6 +109,7 @@ class DatabaseController extends \ControllerBase
     	$this->view->entidad = $entidad;
     	$this->view->letras_list = $letras_list;
     	$this->view->terms_list = $terms_list;
+    	$this->view->permiso_enviar = $permiso_enviar;
 
     	// Listado de thesaurus
     	$this->view->items_list = $items_list;

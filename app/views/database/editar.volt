@@ -27,7 +27,7 @@
 		<div class="tab-content col-sm-9">
 		
 			<div id="xnotas" role="tabpanel" class="tab-pane">
-			{{ form( 'database/aprobacion/' ~ entidad.id_termino, 'id': 'thisForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
+			{{ form( 'database/aprobar/' ~ entidad.id_termino, 'id': 'thisForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
 				
 				<fieldset>
 				    {{ form.render('id_termino') }}
@@ -58,11 +58,13 @@
 					        	<label class="form-control-label col-sm-12">Historia del Término</label>
 					        	
 					        	{% for kcom, rcom in comentarios %}
-					        	
-					        	<p> {{ rcom.contenido }} <br>
-					        		{{ rcom.fecha_ingreso }} por {{ rcom.id_ingreso }}
-					        	 </p>
-					        						        						        					        
+					        	<div class="col-sm-8">
+						        	<blockquote class="blockquote {% if rcom.id_ingreso == auth['id'] %} callout-warning {% endif %}">             
+							        	<p class="form-control-static"> {{ rcom.contenido }}
+							        		
+							        	 </p>
+						        	 </blockquote>
+					        	 </div>					        						        						        					        
 					        	{% endfor %}
 					        
 					        </div>
@@ -103,7 +105,12 @@
 				    
 				    <div class="card">
 				    
-				    	<div class="card-header"><i class="fa {% if entidad.id_termino is empty %} fa-file-o {% else %} fa-edit text-danger {% endif %}"></i> 
+				    	<div class="card-header">
+				    		<span class="pull-right badge badge-default {% if entidad.estado_termino == 'CANDIDATO' %} badge-danger {% endif %} {% if entidad.estado_termino == 'APROBADO' %} badge-primary {% endif %} ">
+				    			{{ ESTADO_LIST[ entidad.estado_termino ] }}
+				    		</span>
+				    						    	
+				    		<i class="fa {% if entidad.id_termino is empty %} fa-file-o {% else %} fa-edit text-danger {% endif %}"></i> 
 				    		{{ entidad.nombre }} <span class="text-danger"> (Editar) </span>
 				    	</div>
 				    	

@@ -9,6 +9,7 @@ use Thesaurus\Forms\TerminoForm;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\Url;
 use Thesaurus\Forms\AdUsuarioForm;
+use Thesaurus\Thesauri\ThNota;
 
 /**
  * Database
@@ -175,6 +176,7 @@ class DatabaseController extends \ControllerBase
      */
     public function editarAction($id_termino) {
     	$entidad = $this->get_termino($id_termino);
+    	$comentarios = [];
 
     	if (! $entidad)
     	{
@@ -193,13 +195,30 @@ class DatabaseController extends \ControllerBase
    			return $this->response->redirect($thesaurus->rdf_uri);
    		}
 
+   		$nota = new ThNota();
+   		$nota->contenido = 'Ingresado <br><small> {{ rcom.fecha_ingreso }} por {{ rcom.id_ingreso }} </small>';
+   		$nota->id_ingreso = 'Jose Jaime';
+   		$nota->fecha_ingreso = '23/03/2017';
+
+   		$comentarios[] = $nota;
+
+   		$nota = new ThNota();
+   		$nota->contenido = 'Modificado <br><small> {{ rcom.fecha_ingreso }} por {{ rcom.id_ingreso }} </small>';
+   		$nota->id_ingreso = 1;
+   		$nota->ingreso_nombre = 'Jose Jaime';
+   		$nota->fecha_ingreso = '23/03/2017';
+
+   		$comentarios[] = $nota;
+
+
     	$this->view->entidad = $entidad;
     	$this->view->form = $form;
 
     	$this->view->thesaurus = $thesaurus;
     	$this->view->isocodes_list = $isocodes_list;
-    	$this->view->comentarios = [];
+    	$this->view->comentarios = $comentarios;
 
+    	$this->view->ESTADO_LIST = TerminoForm::ESTADO_LIST;
     	$this->view->myheading = 'Editar Término';
     }
 
@@ -215,8 +234,16 @@ class DatabaseController extends \ControllerBase
      * Aprobar un termino
      */
     public function aprobarAction() {
-    	//$entidad = $this->get_termino( $this->request->getPost('id_termino') );
-    	//$form = new TerminoForm($entidad, $this->th_options);
+    	$entidad = $this->get_termino( $this->request->getPost('id_termino') );
+    	$form = new TerminoForm($entidad, ['language_list'=>[]]);
+
+    	if ($this->request->isPost())
+    	{
+    		// $form->guardar_workflow($entidad);
+    		$this->flash->error("Termino [{$entidad->nombre}] TEST");
+    	}
+
+    	return $this->response->redirect('database/editar/'.$entidad->id_termino);
     }
 
     /**

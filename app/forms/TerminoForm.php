@@ -246,6 +246,14 @@ class TerminoForm extends BaseForm
     }
 
     /**
+     * Guardar workflow
+     * @param ThTermino $entidad
+     */
+    public function guardar_workflow($entidad) {
+
+    }
+
+    /**
      * Guardar termino
      */
     public function guardarTermino($nombre, $descripcion, $lang, $id_thesaurus)

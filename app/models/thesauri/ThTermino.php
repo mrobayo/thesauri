@@ -113,6 +113,13 @@ class ThTermino extends \BaseModel
     public $fecha_modifica;
 
     /**
+     *
+     * @var string
+     * @Column(type="string", nullable=true)
+     */
+    public $notas_tecnicas;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()

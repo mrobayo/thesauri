@@ -57,6 +57,16 @@
 				  top: 100px;
 				  z-index: 1;
 			}
+			blockquote.blockquote {
+				padding: 0 1rem;
+			}
+			blockquote.blockquote.callout-warning {
+			    border-left-color: #f0ad4e;
+			} 
+			blockquote.blockquote p {
+				padding-top: 0;
+				padding-bottom: 0;
+			}
 		</style>
 		
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>		

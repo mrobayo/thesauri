@@ -155,7 +155,7 @@
 						
 						<div class="btn-group pull-right" role="group" aria-label="Opciones">
 						
-						{% if permiso_thesaurus == 'EXPERTO' %}				
+						{% if auth['is_admin'] %}				
 							<a href="{{ url('sistema/admin/thesaurus/'~entidad.id_thesaurus) }}" title="Editar Thesaurus" class="btn btn-sm btn-secondary"> <i class="fa fa-edit"></i> </a>
 						{% endif %}
 											

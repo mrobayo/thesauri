@@ -85,7 +85,7 @@ class IndexController extends \ControllerBase
     /**
      * enviar termino
      */
-    public function enviarAction()
+    public function enviarAction($id_thesaurus = NULL)
     {
     	$language_list = $this->get_isocodes();
     	$thesaurus_list = [];
@@ -93,14 +93,15 @@ class IndexController extends \ControllerBase
 
     	foreach (ThThesaurus::find(['is_activo = TRUE', 'order' => 'nombre']) as $row)
     	{
+    		// Permisos de usuarios x thesaurus
     		$permisos_usuario = json_decode($row->aprobar_list, TRUE);
-
     		if ($this->is_logged() && isset($permisos_usuario[ $this->view->auth['id'] ])) {
     			if (in_array($permisos_usuario[ $this->view->auth['id'] ] , [AdUsuarioForm::PERMISO_EDITOR, AdUsuarioForm::PERMISO_EXPERTO])) {
     				$thesaurus_list[ $row->id_thesaurus ] = $row->nombre;
     			}
     		}
 
+    		// Listado de idiomas por thesaurus
     		$thesaurus_lang[ $row->id_thesaurus ] =
 	    		array_filter($language_list, function($v, $k) use ($row) {
 	    			return strpos($row->iso25964_language, $k) !== false;
@@ -109,30 +110,33 @@ class IndexController extends \ControllerBase
     	$this->th_options['thesaurus_list'] = $thesaurus_list;
     	$this->th_options['language_list'] = [];
 
-   		$id_termino = $this->request->isPost() ? $this->request->getPost("id_termino") : FALSE;
+   		//$id_termino = $this->request->isPost() ? $this->request->getPost("id_termino") : FALSE;
+   		//$this->logger->error('fallo test!');
 
-   		$this->logger->error('fallo test!');
-
-    	if (is_numeric($id_termino)) {
-    		$entidad = $this->get_termino($id_termino);
-
-    		if (!$entidad) {
-    			$this->flash->error("Termino [$id_termino] no encontrado");
-    			return $this->dispatcher->forward([ 'controller' => "index", 'action' => 'index' ]);
-    		}
-    	}
-    	else {
+    	//if (is_numeric($id_termino)) {
+    	//	$entidad = $this->get_termino($id_termino);
+    	//	if (!$entidad) {
+    	//		$this->flash->error("Termino [$id_termino] no encontrado");
+    	//		return $this->dispatcher->forward([ 'controller' => "index", 'action' => 'index' ]);
+    	//	}
+    	//}
+    	//else {
     		$entidad = new ThTermino();
 
-    		$thesaurus = ThThesaurus::findFirst(['is_primario = TRUE']);
+    		if (is_numeric($id_thesaurus)) {
+    			$thesaurus = $this->get_thesaurus($id_thesaurus);
+    		}
+    		else {
+    			$thesaurus = ThThesaurus::findFirst(['is_primario = TRUE']);
+    		}
     		if ($thesaurus) {
     			$entidad->id_thesaurus = $thesaurus->id_thesaurus;
     		}
-    	}
+    	//}
 
     	$form = new TerminoForm($entidad, $this->th_options);
 
-    	$this->logger->error('ejemplo!');
+    	//$this->logger->error('ejemplo!');
 
     	try {
     		if ($this->request->isPost() && $form->guardar($entidad)) {

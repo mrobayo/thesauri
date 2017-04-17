@@ -17,7 +17,7 @@
 		<div class="card-block">
 		
 		{% for ckey, row in items_list %}
-			<div class="card float-left " style="width: 20rem; margin: 1rem;">
+			<div class="card float-left" style="width: 20rem; margin: 1rem;">
 			  <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
 			  <div class="card-block" style="min-height: 8rem;">
 			    <h4 class="card-title">{{ link_to( row.rdf_uri, row.nombre ) }}</h4>
@@ -25,7 +25,7 @@
 			  </div>
 			  <ul class="list-group list-group-flush">
 			  	<!-- <li class="list-group-item justify-content-between">Tipo <span class="badge badge-default badge-pill">{{ row.iso25964_type }}</span></li> -->
-			    <li class="list-group-item justify-content-between">Número de Términos Aprobados <span class="badge badge-default badge-pill">{{ row.term_aprobados }}</span></li>			    
+			    <li class="list-group-item justify-content-between bg-faded">Número de Términos <span class="badge badge-default badge-pill">{{ row.term_aprobados }}</span></li>			    
 			  </ul>
 			  <div class="card-block">			    
 			    <p>
@@ -79,7 +79,12 @@
 			<div class="row">
 			
 				<div class="col-sm-5 sidebar">
-					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;">Explorar</h4>					
+					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;">
+						<a href="{{ url('index/enviar/'~entidad.id_thesaurus) }}" title="Enviar un término" class="btn btn-sm btn-primary pull-right"> 
+							<i class="fa fa-send"></i> 
+						</a>
+						Explorar
+					</h4>					
 					
 					<div class="card panel-default" style="min-height:720px;">
 					    <div class="card-header" style="padding-bottom: 0; border-bottom: 0">
@@ -136,7 +141,7 @@
 				<div id="infoDetalle" class="col-sm-7">
 					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;"> 
 											
-						<a href="{{ url('database/arbor/'~entidad.iso25964_identifier) }}" title="Visualizar" class="btn btn-sm btn-primary pull-right"> 
+						<a href="{{ url('database/arbor/'~entidad.iso25964_identifier) }}" title="Visualizar árbol de relaciones" class="btn btn-sm btn-primary pull-right"> 
 							<i class="fa fa-code-fork fa-rotate-90"></i> 
 						</a>
 						

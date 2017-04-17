@@ -144,10 +144,24 @@
 				
 				<div id="infoDetalle" class="col-sm-7">
 					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;"> 
+						
+						
+						
+						<div class="btn-group pull-right" role="group" aria-label="Opciones">
+						
+						{% if permiso_thesaurus == 'EXPERTO' %}				
+							<a href="{{ url('sistema/admin/thesaurus/'~entidad.id_thesaurus) }}" title="Editar Thesaurus" class="btn btn-sm btn-secondary"> <i class="fa fa-edit"></i> </a>
+						{% endif %}
 											
-						<a href="{{ url('database/arbor/'~entidad.iso25964_identifier) }}" title="Visualizar árbol de relaciones" class="btn btn-sm btn-primary pull-right"> 
+						<a href="{{ url('database/arbor/'~entidad.iso25964_identifier) }}" title="Visualizar árbol de relaciones" class="btn btn-sm btn-primary "> 
 							<i class="fa fa-code-fork fa-rotate-90"></i> 
 						</a>
+						
+						</div>
+						
+						
+								
+						
 						
 						{{ TYPES[ entidad.iso25964_type ] }} 
 					

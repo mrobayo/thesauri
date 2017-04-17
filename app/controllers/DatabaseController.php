@@ -50,6 +50,8 @@ class DatabaseController extends \ControllerBase
     	$letras_list = [];
 
     	$permiso_enviar = false;
+    	$permiso_thesaurus = FALSE;
+
 
     	if ($identifier != null) {
     		$entidad = ThThesaurus::findFirst([ 'iso25964_identifier = :identifier:', 'bind'=>['identifier'=> $identifier]]);
@@ -78,6 +80,7 @@ class DatabaseController extends \ControllerBase
     			$permisos_usuario = json_decode($entidad->aprobar_list, TRUE);
 
     			if (isset($permisos_usuario[ $this->view->auth['id'] ])) {
+    				$permiso_thesaurus = $permisos_usuario[ $this->view->auth['id'] ];
     				$permiso_enviar = in_array($permisos_usuario[ $this->view->auth['id'] ] , [AdUsuarioForm::PERMISO_EDITOR, AdUsuarioForm::PERMISO_EXPERTO]);
     			}
 
@@ -110,6 +113,7 @@ class DatabaseController extends \ControllerBase
     	$this->view->letras_list = $letras_list;
     	$this->view->terms_list = $terms_list;
     	$this->view->permiso_enviar = $permiso_enviar;
+    	$this->view->permiso_thesaurus = $permiso_thesaurus;
 
     	// Listado de thesaurus
     	$this->view->items_list = $items_list;
@@ -122,6 +126,8 @@ class DatabaseController extends \ControllerBase
 
     	$entidad = $this->get_termino($id_termino);
     	$relaciones_list = [];
+    	$thesaurus = FALSE;
+    	$permiso_editar = FALSE;
 
     	if (! $entidad) {
     		$entidad = new ThTermino();
@@ -140,6 +146,12 @@ class DatabaseController extends \ControllerBase
     			$relaciones_list[ $tipo_relacion ][] = $row;
     		}
 
+    		$thesaurus = $this->get_thesaurus($entidad->id_thesaurus);
+    		$permisos_usuario = json_decode($thesaurus->aprobar_list, TRUE);
+
+    		if ($this->is_logged() && isset($permisos_usuario[ $this->view->auth['id'] ])) {
+    			$permiso_editar = in_array($permisos_usuario[ $this->view->auth['id'] ] , [AdUsuarioForm::PERMISO_EXPERTO]);
+    		}
     	}
 
     	$ultima_mod = strtotime(empty($entidad->fecha_modifica) ? $entidad->fecha_ingreso : $entidad->fecha_modifica);
@@ -150,6 +162,8 @@ class DatabaseController extends \ControllerBase
     	}
 
     	$this->view->entidad = $entidad;
+    	$this->view->thesaurus = $thesaurus;
+    	$this->view->permiso_editar = $permiso_editar;
     	$this->view->rdf_uri = str_replace('%', $entidad->id_termino, $entidad->rdf_uri);
     	$this->view->relaciones_list = $relaciones_list;
     }

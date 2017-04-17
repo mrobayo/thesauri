@@ -250,7 +250,18 @@ class TerminoForm extends BaseForm
      * @param ThTermino $entidad
      */
     public function guardar_workflow($entidad) {
+    	$entidad->estado_termino = $this->getString("estado_termino");
+    	$entidad->notas_tecnicas = $this->getString("notas_tecnicas");
 
+    	if ($entidad->save() == false) {
+    		foreach ($entidad->getMessages() as $message) {
+    			$this->flash->error((string) $message);
+    		}
+    		return false;
+    	}
+
+    	$this->flash->success("Estado guardado exitosamente");
+    	return true;
     }
 
     /**

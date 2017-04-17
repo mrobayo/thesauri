@@ -196,17 +196,16 @@ class DatabaseController extends \ControllerBase
    		}
 
    		$nota = new ThNota();
-   		$nota->contenido = 'Ingresado <br><small> {{ rcom.fecha_ingreso }} por {{ rcom.id_ingreso }} </small>';
-   		$nota->id_ingreso = 'Jose Jaime';
-   		$nota->fecha_ingreso = '23/03/2017';
+   		$nota->contenido = 'Ingresado <br><small> ' . date( $this->get_ts_format(), strtotime($entidad->fecha_ingreso)) .  ' </small>';
+   		$nota->id_ingreso = $entidad->id_ingreso;
+   		$nota->fecha_ingreso = $entidad->fecha_ingreso;
 
    		$comentarios[] = $nota;
 
    		$nota = new ThNota();
-   		$nota->contenido = 'Modificado <br><small> {{ rcom.fecha_ingreso }} por {{ rcom.id_ingreso }} </small>';
-   		$nota->id_ingreso = 1;
-   		$nota->ingreso_nombre = 'Jose Jaime';
-   		$nota->fecha_ingreso = '23/03/2017';
+   		$nota->contenido = 'Modificado <br><small> ' . date( $this->get_ts_format(), strtotime($entidad->fecha_ingreso)) .  ' </small>';
+   		$nota->id_ingreso = $entidad->id_ingreso;
+   		$nota->fecha_ingreso = $entidad->fecha_ingreso;
 
    		$comentarios[] = $nota;
 
@@ -239,8 +238,8 @@ class DatabaseController extends \ControllerBase
 
     	if ($this->request->isPost())
     	{
-    		// $form->guardar_workflow($entidad);
-    		$this->flash->error("Termino [{$entidad->nombre}] TEST");
+    		$form->guardar_workflow($entidad);
+    		//$this->flash->error("Termino [{$entidad->nombre}] TEST");
     	}
 
     	return $this->response->redirect('database/editar/'.$entidad->id_termino);

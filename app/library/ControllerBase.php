@@ -17,6 +17,12 @@ class ControllerBase extends Controller
 {
 
 	/**
+	 * @var array
+	 */
+	private $_config_values = [];
+
+
+	/**
 	 * Indica si es JSON response
 	 * @var boolean
 	 */
@@ -110,9 +116,14 @@ class ControllerBase extends Controller
 	 * @return unknown|boolean
 	 */
 	protected function get_config_value($id_config, $default = false) {
+		if (isset($this->_config_values[$id_config])) {
+			return $this->_config_values[$id_config];
+		}
+
 		$config = $this->get_config($id_config);
 
 		if ($config) {
+			$this->_config_values[$id_config] = $config->descripcion;
 			return $config->descripcion;
 		}
 

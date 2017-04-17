@@ -1,8 +1,19 @@
 
 
-<h4 class="page-header">{{ myheading }} </h4>
+<h4 class="page-header">
+
+	<nav class="breadcrumb">
+		{% if ! (thesaurus is empty) %}	
+		<a class="breadcrumb-item" href="{{ url( thesaurus.rdf_uri ) }}"> {{ thesaurus.nombre }}</a>
+		{% endif %}
+		<a class="breadcrumb-item active">{{ myheading }} </a>
+	</nav>
+
+</h4>
 
 <div class="row">
+
+		
 	
 		<div class="col-sm-2">
 			<ul class="nav nav-pills flex-column" role="tablist">

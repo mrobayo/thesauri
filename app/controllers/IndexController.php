@@ -122,6 +122,7 @@ class IndexController extends \ControllerBase
     	//}
     	//else {
     		$entidad = new ThTermino();
+    		$thesaurus = NULL;
 
     		if (is_numeric($id_thesaurus)) {
     			$thesaurus = $this->get_thesaurus($id_thesaurus);
@@ -172,6 +173,8 @@ class IndexController extends \ControllerBase
     	$this->view->thesaurus_lang = json_encode($thesaurus_lang);
     	$this->view->form = $form;
     	$this->view->entidad = $entidad;
+
+    	$this->view->thesaurus = $thesaurus;
     	$this->view->myheading = 'Nuevo Término';
     }
 

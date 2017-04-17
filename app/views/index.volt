@@ -40,7 +40,13 @@
 			}
 			.page-header {
 				border-bottom: 1px solid #eee;   
-    			padding-bottom: 9px;
+    			margin-bottom: 1rem;
+    			padding-bottom: 0.5rem;
+			}
+			.page-header > .breadcrumb {
+				background-color: transparent; 
+				margin-bottom: 0; 
+				padding: 0.75rem 0 0 0
 			}
 			.sidebar {
     			  position: -webkit-sticky;

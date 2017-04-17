@@ -34,6 +34,7 @@
 				
 				<fieldset>
 				    {{  form.render('id_termino') }}
+				    {{  form.render('id_thesaurus') }}
 				    
 				    <div class="card">
 				    
@@ -97,13 +98,15 @@
 					            	{{ form.render('dc_source', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
-					        					        
+
+							{# 					        					        
 					        <div class="form-group row">
 					            {{ form.label('id_thesaurus', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">					            		            	
 					            	{{ form.render('id_thesaurus', ['class': 'form-control form-control-success required']) }}
 					            </div>            
-					        </div>
+					        </div> #} 
+					        
 					        
 					        <div class="form-group row">
 					            {{ form.label('iso25964_language', ['class': 'form-control-label col-sm-12']) }}

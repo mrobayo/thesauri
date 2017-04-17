@@ -9,9 +9,13 @@
 		{{ th_logo }}
 		<span class="hidden-sm-down">{{ config.application.appTitle }}</span> 
 	</a>
+	
+	
   
   	{{ elements.getMenu() }}
+  	
   
+  	  
 </nav>
 
 

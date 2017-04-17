@@ -16,8 +16,28 @@
 		
 		<div class="card-block">
 		
-
+		{% for ckey, row in items_list %}
+			<div class="card float-left " style="width: 20rem; margin: 1rem;">
+			  <!-- <img class="card-img-top" src="..." alt="Card image cap"> -->
+			  <div class="card-block" style="min-height: 8rem;">
+			    <h4 class="card-title">{{ link_to( row.rdf_uri, row.nombre ) }}</h4>
+			    <p class="card-text">{{ row.iso25964_description }}</p>
+			  </div>
+			  <ul class="list-group list-group-flush">
+			  	<!-- <li class="list-group-item justify-content-between">Tipo <span class="badge badge-default badge-pill">{{ row.iso25964_type }}</span></li> -->
+			    <li class="list-group-item justify-content-between">Número de Términos Aprobados <span class="badge badge-default badge-pill">{{ row.term_aprobados }}</span></li>			    
+			  </ul>
+			  <div class="card-block">			    
+			    <p>
+			    	<a href="{{ url( row.rdf_uri ) }}" class="btn btn-primary">Explorar</a>
+			    	<br><br>
+			    	<small class="pull-right"> Ultima actualización: 23/02/2017</small>
+			    </p>
+			  </div>
+			</div>
+		{% endfor %} 
 		
+		<!-- 
 		<table class="table table-hover table-bordered">
 			<thead>
 				<tr>
@@ -38,6 +58,7 @@
 				{% endfor %} 
 			</tbody>					
 		</table>
+		 -->
 		
 		</div>
 	

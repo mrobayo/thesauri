@@ -81,7 +81,15 @@ class UiElements extends Component
 
         $controllerName = $this->view->getControllerName();
         echo '<div class="collapse navbar-collapse" id="navbarMain">';
+
         foreach ($this->_headerMenu as $position => $menu) {
+
+        	if ($position!='navbar-left') {
+        		echo '<a class="navbar-brand hidden-md-down" class="" href="http://www.uees.edu.ec">';
+        		echo '<img src="/img/uees.png" style="width: 28px; margin-top: -6px;">';
+        		echo '</a>';
+        	}
+
             echo '<ul class="navbar-nav ',($position=='navbar-left' ? 'mr-auto':''),'">';
 
             foreach ($menu as $controller => $option) {

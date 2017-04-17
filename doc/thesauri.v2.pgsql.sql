@@ -113,6 +113,8 @@ ALTER TABLE th_termino OWNER TO thesauri;
 ALTER TABLE th_termino_id_termino_seq OWNER TO thesauri;
 
 
+
+
 // TE - Termino Equivalente, TR Relacionado, TG General
 -- drop table th_relacion;
 create table th_relacion (

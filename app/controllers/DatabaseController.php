@@ -32,6 +32,7 @@ class DatabaseController extends \ControllerBase
 		$this->view->t = $this->getTranslation();
 
 		$this->view->TYPES = ThesaurusForm::DEFAULT_TYPES;
+		$this->view->RIGHTS = ThesaurusForm::DEFAULT_RIGHTS;
 		$this->view->RELATION_TYPES = TerminoForm::RELATION_TYPES;
 	}
 

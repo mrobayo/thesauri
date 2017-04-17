@@ -174,11 +174,13 @@
 					<table class="table table-striped table-bordered">
 						<tbody>
 							<!-- <tr> <td class="col-2">Tipo</td><td>{{ TYPES[ entidad.iso25964_type ] }} </td> </tr> -->
-							<tr> <td class="col-2">Identificador</td><td>{{ entidad.iso25964_identifier }}</td> </tr>					
+							<tr><td style="width:20%" class="col-2">Identificador</td>
+								<td style="width:80%" class="col-10">{{ entidad.iso25964_identifier }}</td> 
+							</tr>					
 							<tr> <td>URI</td><td>{{ link_to( entidad.rdf_uri, entidad.rdf_uri ) }}</td> </tr>
 							<tr> <td>Editor</td><td>{{ entidad.iso25964_publisher }}</td> </tr>
 							<tr> <td>Derechos/Copyright</td><td>{{ entidad.iso25964_rights }}</td> </tr>							
-							<tr> <td>Licencia</td><td>{{ entidad.iso25964_license }}</td> </tr>
+							<tr> <td>Licencia</td><td>{{ RIGHTS[ entidad.iso25964_license ] }}</td> </tr>
 							<tr> <td>Cobertura/Alcance</td><td>{{ entidad.iso25964_coverage }}</td> </tr>
 							<tr> <td>Fecha creación</td><td>{{ entidad.iso25964_created }}</td> </tr>							
 							<tr> <td>Temática/Contenido</td><td>{{ entidad.iso25964_subject }}</td> </tr>
@@ -186,7 +188,7 @@
 							<tr> <td>Fuentes</td><td>{{ entidad.iso25964_source }}</td> </tr>											
 							<tr> <td>Creador</td><td>{{ entidad.iso25964_creator }}</td> </tr>
 							<tr> <td>Colaboradores</td><td>{{ entidad.iso25964_contributor }}</td> </tr>
-							<tr> <td>Género del Vocabulario</td><td>{{ entidad.iso25964_type }}</td> </tr>					
+							<tr> <td>Género del Vocabulario</td><td>{{ TYPES[ entidad.iso25964_type ] }}</td> </tr>					
 						</tbody>
 					</table>				
 				</div>

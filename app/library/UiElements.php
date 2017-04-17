@@ -1,6 +1,7 @@
 <?php
 
 use Phalcon\Mvc\User\Component;
+use Thesaurus\Thesauri\ThThesaurus;
 
 /**
  * Elementos de UI
@@ -72,6 +73,26 @@ class UiElements extends Component
         	if (!isset($auth['is_admin']) || !$auth['is_admin']) {
         		unset($this->_headerMenu['navbar-left']['sistema']);
         	}
+
+        	$thesaurus_list = [];
+
+        	if ($this->session->get('auth') != FALSE) {
+        		$auth = $this->session->get('auth');
+
+        		// Permisos de usuarios x thesaurus
+        		foreach (ThThesaurus::find(['is_activo = TRUE', 'order' => 'nombre']) as $row)
+        		{
+        			$permisos_usuario = json_decode($row->aprobar_list, TRUE);
+        			if (isset($permisos_usuario[ $auth['id'] ])) {
+        				$thesaurus_list['index/enviar/'.$row->id_thesaurus] = array('caption'=> $row->nombre, 'action'=>'index/enviar/'.$row->id_thesaurus);
+        			}
+        		}
+        	}
+
+        	// Listar todos los thesaurus si hubiera varios!
+        	if (count($thesaurus_list) >= 1) {
+				$this->_headerMenu['navbar-left']['index']['items'] = $thesaurus_list;
+			}
         }
 
         // session

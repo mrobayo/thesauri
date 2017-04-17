@@ -98,7 +98,7 @@ class UiElements extends Component
         // session
 		if ($auth) {
         	$this->_headerMenu['navbar-right']['session'] = ['caption' => '<i class="fa '. ($auth['is_admin'] ? 'fa-user': 'fa-user-o') .'"></i> '.$auth['nombre'], 'action' => 'end'];
-        	$this->_headerMenu['navbar-right']['session']['items'][] = ['caption'=> '<i class="fa fa-sign-out"></i> Salir', 'action'=>'end'];
+        	$this->_headerMenu['navbar-right']['session']['items']['session'] = ['caption'=> '<i class="fa fa-sign-out"></i> Salir', 'action'=>'end'];
 
         }
 

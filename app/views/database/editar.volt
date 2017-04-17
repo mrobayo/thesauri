@@ -10,19 +10,89 @@
 
 <div class="row">
 	
-		<div class="col-sm-2">
+		<div class="col-sm-3">
 			<ul class="nav nav-pills flex-column" role="tablist">
 		    	
 				<li role="presentation" class="nav-item">
-		    		<a href="#xnuevo" class="nav-link active" aria-controls="xnuevo" role="tab" data-toggle="tab"> 
-		    			<i class="fa fa-edit"></i> Editar 
-		    		</a>
+		    		<a href="#xnuevo" class="nav-link active" aria-controls="xnuevo" role="tab" data-toggle="tab">  <i class="fa fa-edit"></i> Editar </a>
+		    	</li>
+		    	
+		    	<li role="presentation" class="nav-item">
+		    		<a href="#xnotas" title="Aprobación &amp; Notas" class="nav-link" aria-controls="xnotas" role="tab" data-toggle="tab">  <i class="fa fa-thumbs-o-up"></i> Aprobación &amp; Notas </a>
 		    	</li>
 		    	
 			</ul>
 		
 		</div>
-		<div class="tab-content col-sm-10">
+		<div class="tab-content col-sm-9">
+		
+			<div id="xnotas" role="tabpanel" class="tab-pane">
+			{{ form( 'database/aprobacion/' ~ entidad.id_termino, 'id': 'thisForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
+				
+				<fieldset>
+				    {{ form.render('id_termino') }}
+				     <div class="card">
+				    
+				    	<div class="card-header"><i class="fa fa-thumbs-o-up"></i> 
+				    		{{ entidad.nombre }} <span class="text-primary"> (Aprobación &amp; Notas Técnicas) </span>
+				    	</div>
+				    	
+					    <div class="card-block">
+					    
+					    	<div class="form-group row">
+					            {{ form.label('estado_termino', ['class': 'form-control-label col-sm-12']) }}
+					            <div class="col-sm-8">					            		            	
+					            	{{ form.render('estado_termino', ['class': 'form-control form-control-success']) }}
+					            </div>            
+					        </div>
+					        
+					        
+					        <div class="form-group row">					        	
+					        	{{ form.label('notas_tecnicas', ['class': 'form-control-label col-sm-12']) }}				      				        
+					        	<div class="col-sm-8">            
+					            	{{ form.render('notas_tecnicas', ['class': 'form-control form-control-success']) }}
+					            </div>
+					        </div>
+					        					        
+					        <div class="form-group row">
+					        	<label class="form-control-label col-sm-12">Historia del Término</label>
+					        	
+					        	{% for kcom, rcom in comentarios %}
+					        	
+					        	<p> {{ rcom.contenido }} <br>
+					        		{{ rcom.fecha_ingreso }} por {{ rcom.id_ingreso }}
+					        	 </p>
+					        						        						        					        
+					        	{% endfor %}
+					        
+					        </div>
+					        
+					        <div class="form-group row">
+					        	<label class="form-control-label col-sm-12">Nuevo Comentario</label>					        				        
+					        	<div class="col-sm-8">
+						        	<div class="input-group">	
+							        	<input class="form-control">					        	
+							        	<span class="input-group-btn">					        	
+							        		<button id="add-comentario-btn" type="button" class="btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>
+							        	</span>					        	
+						        	</div>
+					        	</div>					        	      
+					        </div>
+					    
+					    
+					    </div>
+					    
+					    <div class="card-footer">
+							<div class="form-actions">
+					            {{ submit_button('Guardar', 'class': 'btn btn-primary') }} 
+					        </div>
+						</div>
+				     </div>
+				    
+				</fieldset>
+				
+			{{ end_form() }}
+			</div>
 		
 			<div id="xnuevo" role="tabpanel" class="tab-pane active">
 			{{ form( 'database/editar/' ~ entidad.id_termino, 'id': 'thisForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
@@ -34,7 +104,7 @@
 				    <div class="card">
 				    
 				    	<div class="card-header"><i class="fa {% if entidad.id_termino is empty %} fa-file-o {% else %} fa-edit text-danger {% endif %}"></i> 
-				    		Editar {{ entidad.nombre }}
+				    		{{ entidad.nombre }} <span class="text-danger"> (Editar) </span>
 				    	</div>
 				    	
 					    <div class="card-block">
@@ -121,13 +191,8 @@
 					            	{{ form.render('iso25964_language', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
-					        					        
-					        <div class="form-group row">
-					            {{ form.label('estado_termino', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">					            		            	
-					            	{{ form.render('estado_termino', ['class': 'form-control form-control-success']) }}
-					            </div>            
-					        </div>
+					        		        
+					        
 				
 						</div>
 						

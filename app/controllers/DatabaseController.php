@@ -198,6 +198,7 @@ class DatabaseController extends \ControllerBase
 
     	$this->view->thesaurus = $thesaurus;
     	$this->view->isocodes_list = $isocodes_list;
+    	$this->view->comentarios = [];
 
     	$this->view->myheading = 'Editar Término';
     }
@@ -208,6 +209,22 @@ class DatabaseController extends \ControllerBase
     public function guardarAction() {
 		//$entidad = $this->get_termino( $this->request->getPost('id_termino') );
 		//$form = new TerminoForm($entidad, $this->th_options);
+    }
+
+    /**
+     * Aprobar un termino
+     */
+    public function aprobarAction() {
+    	//$entidad = $this->get_termino( $this->request->getPost('id_termino') );
+    	//$form = new TerminoForm($entidad, $this->th_options);
+    }
+
+    /**
+     * Comentario un termino
+     */
+    public function comentarAction() {
+    	//$entidad = $this->get_termino( $this->request->getPost('id_termino') );
+    	//$form = new TerminoForm($entidad, $this->th_options);
     }
 
 	/**

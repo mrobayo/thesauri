@@ -1,5 +1,12 @@
 
-<h4 class="page-header">{{ myheading }} </h4>
+<h4 class="page-header">
+	<nav class="breadcrumb">
+		{% if ! (thesaurus is empty) %}	
+		<a class="breadcrumb-item" href="{{ url( thesaurus.rdf_uri ) }}"> {{ thesaurus.nombre }}</a>
+		{% endif %}
+		<a class="breadcrumb-item active">{{ myheading }} </a>
+	</nav>
+</h4>
 
 <div class="row">
 	
@@ -22,10 +29,11 @@
 				
 				<fieldset>
 				    {{ form.render('id_termino') }}
+				    {{  form.render('id_thesaurus') }}
 				    
 				    <div class="card">
 				    
-				    	<div class="card-header"><i class="fa {% if entidad.id_termino is empty %} fa-file-o {% else %} fa-edit {% endif %}"></i> 
+				    	<div class="card-header"><i class="fa {% if entidad.id_termino is empty %} fa-file-o {% else %} fa-edit text-danger {% endif %}"></i> 
 				    		Editar {{ entidad.nombre }}
 				    	</div>
 				    	
@@ -97,13 +105,15 @@
 					        	</div>
 					        
 					        </div>
-					        					        					        
+					        					        	
+					        {#
 					        <div class="form-group row">
 					            {{ form.label('id_thesaurus', ['class': 'form-control-label col-sm-12']) }}
 					            <div class="col-sm-8">					            		            	
 					            	<input class="form-control" disabled value="{{ thesaurus.nombre }}">
 					            </div>            
 					        </div>
+					        #}
 					        
 					        <div class="form-group row">
 					            {{ form.label('iso25964_language', ['class': 'form-control-label col-sm-12']) }}

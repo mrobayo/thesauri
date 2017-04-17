@@ -1,10 +1,15 @@
-<div class="page-header">
+<h4 class="page-header">
 	{% if entidad is empty %}		
-		<h2>Exploración de Vocabularios</h2>
+		<h2><!-- Exploración --></h2>
 	{% else %}
-    	<h2> {{ TYPES[ entidad.iso25964_type ] }} </h2>
+    	<!-- <h2> {{ TYPES[ entidad.iso25964_type ] }} </h2> -->    	
+    	<nav class="breadcrumb">
+			{% if ! (entidad is empty) %}	
+				<a class="breadcrumb-item active" href="{{ url( entidad.rdf_uri ) }}"> {{ entidad.nombre }}</a>
+			{% endif %}		
+		</nav>    	    	
 	{% endif %}    
-</div>
+</h4>
 	
 	{% if entidad is empty %}
 	
@@ -68,13 +73,14 @@
 	{% else %}
 	
 	
-	<div class="card">
+	<div class="card1">
 		
-		<div class="card-header">
+		<!-- <div class="card-header">
 			<i class="fa fa-bank"></i> {{ entidad.nombre }}
-		</div>
-		<div class="card-block">
-			<p>{{ entidad.iso25964_description }}</p>
+		</div> -->
+		
+		<div class="card-block1">
+			<!-- <p>{{ entidad.iso25964_description }}</p> -->
 			
 			<div class="row">
 			
@@ -159,16 +165,15 @@
 						
 						</div>
 						
+												
 						
-								
+						{{ entidad.nombre }}
 						
-						
-						{{ TYPES[ entidad.iso25964_type ] }} 
 					
 					</h4>					
 					<table class="table table-striped table-bordered">
 						<tbody>
-							<tr> <td class="col-2">Titulo</td><td>{{ entidad.nombre }}</td> </tr>
+							<!-- <tr> <td class="col-2">Tipo</td><td>{{ TYPES[ entidad.iso25964_type ] }} </td> </tr> -->
 							<tr> <td class="col-2">Identificador</td><td>{{ entidad.iso25964_identifier }}</td> </tr>					
 							<tr> <td>URI</td><td>{{ link_to( entidad.rdf_uri, entidad.rdf_uri ) }}</td> </tr>
 							<tr> <td>Editor</td><td>{{ entidad.iso25964_publisher }}</td> </tr>

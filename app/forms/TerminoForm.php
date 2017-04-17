@@ -56,7 +56,7 @@ class TerminoForm extends BaseForm
     	$this->addText(self::TR_REL_EQ.'[]', ['tooltip'=>'Términos relacionados (use el botón (+) para añadir otro término)', 'label'=>'Términos Relacionados', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
     	$this->addText(self::SIN_REL_EQ.'[]', ['tooltip'=>'Sinónimos (use el botón (+) para añadir otro sinónimo)', 'label'=>'Sinónimos', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
 
-    	$this->addTextArea('notas_tecnicas', ['label'=>'Notas Técnicas', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
+    	$this->addTextArea('notas_tecnicas', ['tooltip'=>'Información adicional (Ej. Motivo de aprobación, reemplazo o eliminación)', 'label'=>'Notas Técnicas', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
 
     	$this->add(new Hidden('id_thesaurus'));
         //$this->addSelect('id_thesaurus', ['label'=>'Thesaurus', 'options'=> $options['thesaurus_list'], 'attrs'=> ['useEmpty' => true, 'emptyText' => '--']]);

@@ -101,7 +101,7 @@
 				
 				<fieldset>
 				    {{ form.render('id_termino') }}
-				    {{  form.render('id_thesaurus') }}
+				    {{ form.render('id_thesaurus') }}
 				    
 				    <div class="card">
 				    

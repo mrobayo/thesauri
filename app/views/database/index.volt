@@ -173,6 +173,7 @@
 					</h4>					
 					<table class="table table-striped table-bordered">
 						<tbody>
+							<tr><td colspan="2"> {{ entidad.iso25964_description }} </td></tr>
 							<!-- <tr> <td class="col-2">Tipo</td><td>{{ TYPES[ entidad.iso25964_type ] }} </td> </tr> -->
 							<tr><td style="width:20%" class="col-2">Identificador</td>
 								<td style="width:80%" class="col-10">{{ entidad.iso25964_identifier }}</td> 

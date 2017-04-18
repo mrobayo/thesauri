@@ -1,3 +1,6 @@
+# PGCon 2011 / The PostgreSQL Conference
+ - https://www.pgcon.org/2011/schedule/events/357.en.html
+ - https://www.slideshare.net/quipo/rdbms-in-the-social-networks-age/37-Nodes_and_Edges_Undirected_Graphs
 
 # Tagsinput
  - [Examples](http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/examples/)

@@ -146,7 +146,9 @@ class TerminoForm extends BaseForm
     	}
     	else {
     		$entidad->fecha_modifica = new RawValue('now()');
-    		$entidad->estado_termino = $this->getString('estado_termino');
+    		if (! empty($this->getString('estado_termino'))) {
+    			$entidad->estado_termino = $this->getString('estado_termino');
+    		}
     	}
 
     	return $es_nuevo;

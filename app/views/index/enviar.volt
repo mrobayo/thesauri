@@ -60,7 +60,7 @@
 					        					       
 					        <div class="form-group row">
 					            {{ form.label('TG', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            <div id="tahTG" class="col-sm-8">            
 					            	{{ form.render('TG', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div> 
@@ -135,6 +135,7 @@
 
 <script>
 $(function() {
+	
 	var vIdiomas = JSON.parse('{{ thesaurus_lang }}');	
 	$('#id_thesaurus').change(function(){
 		vId = $(this).val();		
@@ -164,6 +165,10 @@ $(function() {
 		}
 		
 		vInput.focus();		
-	});	
+	});
+	
+	
+	//$('#')
+	
 });
 </script>

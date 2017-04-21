@@ -128,6 +128,7 @@ class AdUsuario extends \BaseModel
     public function initialize()
     {
         $this->setSchema("public");
+        $this->useDynamicUpdate(true);
     }
 
     /**

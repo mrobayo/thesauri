@@ -116,8 +116,52 @@ class RegisterController extends \ControllerBase
      * @param string $email_hash
      * @param string $id_usuario
      */
-    public function resetAction($email_hash, $id_usuario) {
+    public function resetAction($email_hash, $fecha_id) {
+    	list($fecha, $id_usuario) = explode('.', $fecha_id);
+    	$usuario = AdUsuario::findFirst(['id_usuario=?1', 'bind'=>[1=> $id_usuario] ]);
 
+    	$email_valid = false;
+    	if ($usuario) {
+    		$email_valid = $email_hash == sha1($usuario->email);
+
+    		if (! $email_valid) {
+    			$this->flash->error("Codigo URL no es validación!");
+    		}
+
+    		$email_valid = ! empty($usuario->nuevaclave_info); // No se encontro reinicio de clave
+    	}
+
+    	if ($usuario && $email_valid) {
+
+    		$form = new RegistroForm;
+
+    		$this->view->form = $form;
+    		$this->view->entidad = $usuario;
+
+    		if ($this->request->isPost()) {
+
+
+    			$password = $this->request->getPost('clave');
+    			$repeatPassword = $this->request->getPost('repeatPassword');
+
+    			if ($password != $repeatPassword) {
+    				$this->flash->error('Clave y confirmación son diferentes');
+    				return;
+    			}
+
+    			$this->logger->error('aqui');
+
+    			$form->reiniciarClave($usuario, $password);
+
+    			$this->logger->error('tet 1');
+
+    			return $this->response->redirect('session/index');
+    		}
+    	}
+    	else {
+    		$this->flash->error("URL de Reinicio de clave no es valido o ha expirado");
+    		return $this->response->redirect('/');
+    	}
     }
 
     /**

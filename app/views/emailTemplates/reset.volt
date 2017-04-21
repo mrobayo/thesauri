@@ -15,8 +15,8 @@
 
 				<br>
 				<br>
-				 Enjoy!
-				<br>
+				
+				<p class="text-muted" style="padding-top: 1rem">&copy; {{ appPartner }} {{ date('Y') }}.</p>
 			</p>
 		</td>
 	</tr>

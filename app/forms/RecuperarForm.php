@@ -43,12 +43,14 @@ class RecuperarForm extends BaseForm
     	$this->flash->notice('Su email ha sido encontrado, las instrucciones han sido enviadas a su correo.');
     	$emailHash = sha1($usuario->email);
 
+    	$usuario->nuevaclave_info = date('Ymd'); // Guardo la fecha del email para validar en 24 horas
+
     	$this->mail->send(
     			[$usuario->email => $usuario->nombre],
     			'Recuperacion de clave / '. $this->config->application->appTitle,
-    			'confirmation', [
-    					'confirmUrl' => '/confirmar-password/' . $emailHash . '/' . date('Ymd') . '.' . $usuario->id_usuario,
-    					'appPartner' => $this->config->application->appPartner
+    			'reset', [
+    			'resetUrl' => '/reset-password/' . $emailHash . '/' . date('Ymd') . '.' . $usuario->id_usuario,
+    			'appPartner' => $this->config->application->appPartner
     	]);
     }
 

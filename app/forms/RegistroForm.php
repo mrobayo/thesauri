@@ -6,6 +6,7 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Email;
+use Thesaurus\Sistema\AdUsuario;
 
 /**
  * Formulario de Registro
@@ -51,6 +52,33 @@ class RegistroForm extends Form
             new PresenceOf(array( 'message' => 'Confirmación de clave es requerida' ))
         ));
         $this->add($repeatPassword);
+    }
+
+
+    /**
+     * Reiniciar clave
+     */
+    public function reiniciarClave(AdUsuario $entidad, $clave) {
+
+    	$entidad->clave = $clave;
+    	$entidad->nuevaclave_info = null;
+
+    	$this->db->begin();
+
+    	if ($entidad->update(null, ['clave', 'nuevaclave_info']) == false)
+    	{
+    		$this->db->rollback();
+
+    		foreach ($entidad->getMessages() as $message) {
+    			$this->flash->error((string) $message);
+    		}
+    		return false;
+    	}
+
+    	$this->db->commit();
+    	$this->flash->success('Clave ha sido reiniciada exitosamente.');
+
+    	return true;
     }
 
 }

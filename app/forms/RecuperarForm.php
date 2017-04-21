@@ -45,6 +45,20 @@ class RecuperarForm extends BaseForm
 
     	$usuario->nuevaclave_info = date('Ymd'); // Guardo la fecha del email para validar en 24 horas
 
+    	$this->db->begin();
+
+    	if ($usuario->update(null, ['nuevaclave_info']) == false)
+    	{
+    		$this->db->rollback();
+
+    		foreach ($entidad->getMessages() as $message) {
+    			$this->flash->error((string) $message);
+    		}
+    		return false;
+    	}
+
+    	$this->db->commit();
+
     	$this->mail->send(
     			[$usuario->email => $usuario->nombre],
     			'Recuperacion de clave / '. $this->config->application->appTitle,

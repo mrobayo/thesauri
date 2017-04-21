@@ -149,12 +149,7 @@ class RegisterController extends \ControllerBase
     				return;
     			}
 
-    			$this->logger->error('aqui');
-
-    			$form->reiniciarClave($usuario, $password);
-
-    			$this->logger->error('tet 1');
-
+    			$form->reiniciarClave($usuario, sha1($password));
     			return $this->response->redirect('session/index');
     		}
     	}

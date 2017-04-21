@@ -81,16 +81,7 @@ class IndexController extends \ControllerBase
     	// $this->logger->error(PHP_EOL.PHP_EOL.' *********** EJEMPLO DE LOG ************* '.PHP_EOL);
     	// echo date('Ymd') . '33'; // Version::getId();
 
-    	$string = 'The quick brown fox jumps over the lazy dog.';
-    	$patterns = array();
-    	$patterns[0] = '/quick/';
-    	$patterns[1] = '/brown/';
-    	$patterns[2] = '/fox/';
-    	$replacements = array();
-    	$replacements[2] = 'bear';
-    	$replacements[1] = 'black';
-    	$replacements[0] = 'slow';
-    	echo preg_replace($patterns, $replacements, $string);
+    	echo sha1('1');
 
     }
 

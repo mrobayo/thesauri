@@ -64,7 +64,7 @@ class SecurityPlugin extends Plugin
 				'database'   => array('index', 'termino', 'json', 'editar', 'guardar', 'arbor', 'aprobar', 'comentar'),
 				'register'   => array('index', 'confirmar', 'reset'),
 				'errors'     => array('show401', 'show404', 'show500'),
-				'session'    => array('index', 'register', 'start', 'end'),
+				'session'    => array('index', 'register', 'start', 'end', 'recuperar', 'captcha'),
 				'contact'    => array('index', 'send')
 			);
 			foreach ($publicResources as $resource => $actions) {

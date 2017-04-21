@@ -24,6 +24,11 @@
                 <div class="form-group">
                     {{ submit_button('Ingresar', 'class': 'btn btn-primary btn-large') }}
                 </div>
+                
+                <div class="form-group">
+                	<a href="{{ url('session/recuperar') }}" class="">Olvidaste tu clave?</a>
+                </div>
+                
             </fieldset>
         {{ end_form() }}
     </div>
@@ -37,10 +42,10 @@
         <p>Crear una cuenta requiere de los siguientes pasos:</p>
         <ol>
             <li>Registrar formulario de datos</li>            
-            <li>Validar direccion de correo</li>
-            <li>Autorizacion de role y acceso</li>            
+            <li>Validar dirección de correo</li>                        
         </ol>
-
+        <p>Luego de validar su dirección de correo, su cuenta es activada.</p>
+        
         <div class="clearfix center">
             {{ link_to('register', 'Registrarse', 'class': 'btn btn-primary btn-large btn-success') }}
         </div>

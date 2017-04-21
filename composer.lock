@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0d839bfcea3f553d5ee4400ab3c95973",
+    "content-hash": "260ddee66fa3125693213804cf08ff19",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -45,6 +45,49 @@
                 "transliterator"
             ],
             "time": "2015-09-28T16:26:35+00:00"
+        },
+        {
+            "name": "magkopian/php-math-captcha",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/magkopian/php-math-captcha.git",
+                "reference": "e1823aa63a002e6ec13b3f5e69d391da3c90482b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/magkopian/php-math-captcha/zipball/e1823aa63a002e6ec13b3f5e69d391da3c90482b",
+                "reference": "e1823aa63a002e6ec13b3f5e69d391da3c90482b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": ">=5.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "MathCaptcha": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Manolis Agkopian",
+                    "email": "m.agkopian@gmail.com"
+                }
+            ],
+            "description": "A simple class for generating and validating math captcha images",
+            "keywords": [
+                "antispam",
+                "captcha",
+                "captcha class",
+                "math captcha"
+            ],
+            "time": "2014-10-04T14:13:41+00:00"
         },
         {
             "name": "servo/fluidxml",

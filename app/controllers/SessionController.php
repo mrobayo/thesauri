@@ -1,8 +1,11 @@
 <?php
 namespace Thesaurus\Controllers;
 
-use Thesaurus\Sistema\AdUsuario;
+use MathCaptcha\MathCaptcha;
 use Thesaurus\Forms\AdUsuarioForm;
+use Thesaurus\Sistema\AdUsuario;
+use Thesaurus\Forms\RecuperarForm;
+use Phalcon\Forms\Element\Email;
 
 /**
  * SessionController
@@ -29,14 +32,53 @@ class SessionController extends \ControllerBase
     }
 
     /**
+     * Recuperar clave
+     */
+    public function recuperarAction()
+    {
+    	$form = new RecuperarForm();
+
+    	if ($this->request->isPost()) {
+
+    		$email = $this->request->getPost('email', ['string', 'striptags']);
+    		$captcha_answer = $this->request->getPost('captcha', ['string', 'striptags']);
+
+    		$mathCaptcha = new MathCaptcha();
+
+    		if ( $mathCaptcha->check($captcha_answer) !== true ) {
+    			// Incorrect answer
+    			$this->tag->setDefault('email', $email);
+    			$this->flash->error('Respuesta del captcha es incorrecto');
+    		}
+    		else {
+    			$form->recuperarClave($email);
+    			$this->response->redirect('session/index');
+    		}
+    	}
+
+    	$this->view->form = $form;
+    }
+
+    /**
+     * Captcha
+     */
+    public function captchaAction()
+    {
+    	$this->view->disable();
+    	$mathCaptcha = new MathCaptcha();
+
+    	$mathCaptcha->generate();
+    	$mathCaptcha->output();
+    }
+
+
+    /**
      * Register an authenticated user into session data
      *
      * @param AdUsuario $user
      */
     private function _registerSession(AdUsuario $user)
     {
-    	// $this->logger->error("Login - Usuario {$user->nombre} is {$user->app_role}");
-
         $this->session->set('auth', array(
             'id' => $user->id_usuario,
             'nombre' => $user->nombre,

@@ -94,8 +94,18 @@
 		}
 		
 		try {						
-			if ($(vForm).length > 0 && $(vForm).validate(valOptions).form()) {
+			oValidator = $(vForm).validate(valOptions);
+			if ($(vForm).length > 0 && oValidator.form()) {
 				return true; //formulario validado exitosamente
+			}
+			else {
+				oValidator.focusInvalid();
+				try {
+					$('html, body').animate({ scrollTop: $('.has-danger').first().offset().top-60 }, 700);	
+				} catch(e) {
+					//ignore
+				}				
+											
 			}
 		} catch(vErr) {			
 			console.log(vErr);			

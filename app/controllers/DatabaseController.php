@@ -258,7 +258,7 @@ class DatabaseController extends \ControllerBase
 	 * Consulta terminos alfabeticamente
 	 * @param integer $id_thesaurus
 	 */
-    public function jsonAction($id_thesaurus, $letra)
+    public function jsonAction($id_thesaurus, $letra = NULL)
     {
     	$is_admin = $this->view->auth['is_admin'];
 

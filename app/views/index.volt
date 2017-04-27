@@ -79,18 +79,25 @@
     	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
     	
     	<!-- tagsinput -->    	    	
-    	{{ javascript_include('js/vendor/bootstrap-tagsinput.min.js') }} <!-- vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js -->
-    	{{ javascript_include('js/vendor/typeahead.bundle.min.js') }} <!-- vendor/typeahead.js/dist/typeahead.bundle.js -->
+    	<!-- vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js -->
+    	{{ javascript_include('js/vendor/bootstrap-tagsinput.min.js') }}
+    	
+    	<!-- vendor/typeahead.js/dist/typeahead.bundle.js -->
+    	{{ javascript_include('js/vendor/typeahead.bundle.min.js') }} 
+    	
+    	{{ javascript_include('js/vendor/bootstrap3-typeahead.min.js') }} 
     	
     	<!-- datepicker -->
-    	{{ javascript_include('js/vendor/bootstrap-datepicker.min.js') }} <!-- vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js -->
+    	<!-- vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js -->
+    	{{ javascript_include('js/vendor/bootstrap-datepicker.min.js') }} 
     	    	
     	<!-- jqueryvalidation -->
-    	{{ javascript_include('js/vendor/jquery.validate.min.js') }} <!-- vendor/jquery-validation/dist/jquery.validate.min.js --> 
+    	<!-- vendor/jquery-validation/dist/jquery.validate.min.js -->
+    	{{ javascript_include('js/vendor/jquery.validate.min.js') }}  
     	{{ javascript_include('js/form-validate.js') }}
     	
     	
-    	<!-- arbor: http://arborjs.org/ -->
-    	{{ javascript_include('js/vendor/arbor.js') }}     
+    	<!-- arbor: http://arborjs.org/
+    	{{ javascript_include('js/vendor/arbor.js') }} -->     
     </body>
 </html>

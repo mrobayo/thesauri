@@ -12,8 +12,6 @@
 </h4>
 
 <div class="row">
-
-		
 	
 		<div class="col-sm-2">
 			<ul class="nav nav-pills flex-column" role="tablist">
@@ -70,13 +68,7 @@
 					            	<button data-input-name="SIN[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>	
 					            	Sinónimos
 					            </label>
-					            <!-- <div class="col-sm-8">	
-					        	<table class="table table-condensed">					        	
-					        	<tbody>
-					        		<tr> <td class="col-12"> {{ form.render('SIN[]', ['class': 'form-control form-control-success']) }} </td>  </tr>					        		
-					        	</tbody>
-					        	</table> </div> -->
-					        	
+					            					        	
 					        	 <div class="col-sm-8">            
 					            	{{ form.render('SIN[]', ['class': 'form-control form-control-success']) }}
 					            </div>					        	
@@ -166,9 +158,42 @@ $(function() {
 		
 		vInput.focus();		
 	});
+		
 	
+	// instantiate bloodhound suggestion engine
+	var terminosBh = new Bloodhound({
+	  datumTokenizer: function(item) { return Bloodhound.tokenizers.whitespace(item.name); }, //Bloodhound.tokenizers.whitespace,
+	  queryTokenizer: Bloodhound.tokenizers.whitespace,
+	  identify: function(item) { return item.id; },
+	  prefetch: {
+	        url: '{{ url("database/json/"~entidad.id_thesaurus ) }}',
+	        filter: function(response) {	
+	        	return $.map( response.result, function( aData, nId ) { return {'id': nId, 'name': aData[0]}; });
+	        }
+	    }
+	});
 	
-	//$('#')
+	// initialize bloodhound suggestion engine
+	terminosBh.clearPrefetchCache();
+	terminosBh.initialize();
 	
+	iTg = $("#TG");
+	
+	iTg.typeahead({
+	  items: 'all',
+	  minLength: 0,
+	  highlight: true,
+	  source: terminosBh.ttAdapter(),
+	  display: 'name'
+	});	
+	iTg.change(function() {
+		var current = iTg.typeahead("getActive");
+		if (current && current.name == iTg.val()) {			
+			iTg.attr('data-id', current.id);
+			return;						
+		}
+		iTg.attr('data-id', '').val('');
+	});	
+		
 });
 </script>

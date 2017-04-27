@@ -84,7 +84,7 @@ class UiElements extends Component
         		{
         			$permisos_usuario = json_decode($row->aprobar_list, TRUE);
         			if (isset($permisos_usuario[ $auth['id'] ])) {
-        				$thesaurus_list['index/enviar/'.$row->id_thesaurus] = array('caption'=> $row->nombre, 'action'=>'index/enviar/'.$row->id_thesaurus);
+        				$thesaurus_list['index/enviar/'.$row->id_thesaurus] = array('caption'=> $row->nombre, 'action'=> '');
         			}
         		}
         	}

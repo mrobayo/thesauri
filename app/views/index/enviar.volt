@@ -57,7 +57,17 @@
 
 						<div class="form-group row">
 							{{ form.label('TG', ['class': 'form-control-label col-sm-12']) }}
-							<div id="tahTG" class="col-sm-8">{{ form.render('TG', ['class': 'termino_typeahead form-control form-control-success']) }}</div>
+							<div id="tahTG" class="col-sm-8">
+								<div class="input-group">
+								<!-- {{ form.render('TG', ['class': 'termino_typeahead form-control form-control-success']) }} -->								
+								<input id="TG" class="termino_typeahead form-control form-control-success" type="text" aria-describedby="TGHelp" name="TG">								
+								<span class="input-group-addon" style="background-color: transparent;"> 
+									<i class="fa fa-check text-success" style="display:none;"></i> 
+									<i class="fa fa-exclamation text-warning" style="display:none;"></i> 
+								</span>
+								</div>								
+							</div>
+							<em class="text-warning form-control-feedback col-sm-4" style="display: none"> Termino es nuevo, deberá ser aprobado. </em>
 						</div>
 
 						<div class="form-group row">
@@ -147,11 +157,19 @@ $(function() {
 		inputField.change(function() {
 			vThis = $(this);
 			var current = vThis.typeahead("getActive");
+			
+			bIsOk = current && current.name == vThis.val();
+			
 			if (current && current.name == vThis.val()) {			
-				inputField.attr('data-id', current.id);
-				return;						
+				inputField.attr('data-id', current.id);								
 			}
-			vThis.attr('data-id', '').val('');
+			else {
+				vThis.attr('data-id', ''); // val('');
+			}
+			
+			vThis.closest('div.form-group').find('i.fa-check').toggle( bIsOk );
+			vThis.closest('div.form-group').find('i.fa-exclamation').toggle( !bIsOk );
+			vThis.closest('div.form-group').find('em.text-warning').toggle( !bIsOk );
 		});	
 	}	
 	

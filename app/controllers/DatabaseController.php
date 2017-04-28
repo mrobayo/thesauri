@@ -331,7 +331,7 @@ class DatabaseController extends \ControllerBase
     	}
 
     	$this->json_response();
-    	echo json_encode( $result !== FALSE ? "El termino <b>{$entidad->nombre}</b> ya existe" : 'true' );
+    	echo json_encode( $result !== FALSE ? "El termino <b>{$entidad->nombre}</b> ya existe." : 'true' );
     }
 
     /**

@@ -7,7 +7,8 @@
     "swiftmailer/swiftmailer": "^5.4",
     "servo/fluidxml": "^1.21",
     "behat/transliterator": "^1.1",
-    "magkopian/php-math-captcha": "1.0.*"
+    "magkopian/php-math-captcha": "1.0.*",
+    "davidgomezgam/pluralizador": "^1.0"
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"

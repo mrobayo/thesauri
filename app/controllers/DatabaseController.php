@@ -10,6 +10,9 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\Url;
 use Thesaurus\Forms\AdUsuarioForm;
 use Thesaurus\Thesauri\ThNota;
+use ICanBoogie\Inflector;
+use Pluralizador;
+use Pluralizador\Infector;
 
 /**
  * Database
@@ -299,20 +302,36 @@ class DatabaseController extends \ControllerBase
     public function terminoYaExisteAction($id_thesaurus) {
     	$entidad = new ThTermino();
 
-    	$entidad->id_termino = $this->request->getPost('id_termino', ['string', 'striptags']);
-    	$entidad->nombre = $this->request->getPost('nombre', ['string', 'striptags']);
+    	$entidad->id_termino = $this->request->get('id_termino', ['string', 'striptags']);
+    	$entidad->nombre = $this->request->get('nombre', ['string', 'striptags']);
     	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
     	$entidad->id_thesaurus = $id_thesaurus;
 
     	if (empty($entidad->id_thesaurus) || empty($entidad->nombre)) {
-    		$result = 'error: falta parametros';
+    		$result = false;
     	}
     	else {
-    		$result = (new TerminoForm())->valida_existe($entidad) !== FALSE;
+    		$singularPlural = $entidad->nombre;
+
+    		if (\StringHelper::esPlural($entidad->nombre)) {
+    			$singularPlural = Infector::singular($entidad->nombre);
+    		}
+    		else {
+    			$singularPlural = Infector::plural($entidad->nombre);
+    		}
+
+    		$result = (new TerminoForm())->valida_existe($entidad);
+
+    		// Validar
+    		if ($result == FALSE && $singularPlural != $entidad->nombre) {
+    			$entidad->nombre = $singularPlural;
+    			$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
+    			$result = (new TerminoForm())->valida_existe($entidad);
+    		}
     	}
 
     	$this->json_response();
-    	echo json_encode(['result' => $result ]);
+    	echo json_encode( $result !== FALSE ? "El termino <b>{$entidad->nombre}</b> ya existe" : 'true' );
     }
 
     /**
@@ -321,7 +340,6 @@ class DatabaseController extends \ControllerBase
      */
     public function arborAction($identifier = NULL)
     {
-
 
     }
 

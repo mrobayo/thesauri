@@ -1,6 +1,7 @@
 <?php
 
 use Behat\Transliterator\Transliterator;
+use Pluralizador\Infector;
 
 /**
  * StringHelper
@@ -10,7 +11,22 @@ use Behat\Transliterator\Transliterator;
  */
 class StringHelper extends Transliterator
 {
+	/**
+	 * Valida si una palabra es plural
+	 * @param string $word
+	 */
+	public static function esPlural($word) {
+		$word = trim(mb_strtolower($word));
+		return  Infector::plural( Infector::singular($word) ) == $word;
+	}
 
+	/**
+	 * Valida si una palabra es singular
+	 * @param string $word
+	 */
+	public static function esSingular($word) {
+		return !self::esPlural($word);
+	}
 
 	/**
 	 * Xml text to array

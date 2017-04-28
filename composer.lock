@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "260ddee66fa3125693213804cf08ff19",
+    "content-hash": "5ee315889f1caadfe5213fd32266cc05",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -45,6 +45,115 @@
                 "transliterator"
             ],
             "time": "2015-09-28T16:26:35+00:00"
+        },
+        {
+            "name": "danielstjules/stringy",
+            "version": "1.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danielstjules/Stringy.git",
+                "reference": "4749c205db47ee5b32e8d1adf6d9aff8db6caf3b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danielstjules/Stringy/zipball/4749c205db47ee5b32e8d1adf6d9aff8db6caf3b",
+                "reference": "4749c205db47ee5b32e8d1adf6d9aff8db6caf3b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Stringy\\": "src/"
+                },
+                "files": [
+                    "src/Create.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel St. Jules",
+                    "email": "danielst.jules@gmail.com",
+                    "homepage": "http://www.danielstjules.com"
+                }
+            ],
+            "description": "A string manipulation library with multibyte support",
+            "homepage": "https://github.com/danielstjules/Stringy",
+            "keywords": [
+                "UTF",
+                "helpers",
+                "manipulation",
+                "methods",
+                "multibyte",
+                "string",
+                "utf-8",
+                "utility",
+                "utils"
+            ],
+            "time": "2015-07-23T00:54:12+00:00"
+        },
+        {
+            "name": "davidgomezgam/pluralizador",
+            "version": "v1.0.1-stable",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/davidgomezgam/pluralizador.git",
+                "reference": "de761475ee45b39c452ac74014f7a5546b03f0a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/davidgomezgam/pluralizador/zipball/de761475ee45b39c452ac74014f7a5546b03f0a9",
+                "reference": "de761475ee45b39c452ac74014f7a5546b03f0a9",
+                "shasum": ""
+            },
+            "require": {
+                "danielstjules/stringy": "~1.8",
+                "php": ">=5.5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pluralizador\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "David Gómez",
+                    "email": "hola@davidgomezgam.com",
+                    "homepage": "http://davidgomezgam.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Singularize and Pluralize Spanish words.",
+            "homepage": "https://github.com/davidgomezgam/pluralizador",
+            "keywords": [
+                "Espanol",
+                "plural",
+                "pluralize",
+                "singular",
+                "singularize",
+                "spanish"
+            ],
+            "time": "2015-10-25T20:38:50+00:00"
         },
         {
             "name": "magkopian/php-math-captcha",

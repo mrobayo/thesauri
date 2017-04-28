@@ -57,17 +57,9 @@
 
 						<div class="form-group row">
 							{{ form.label('TG', ['class': 'form-control-label col-sm-12']) }}
-							<div id="tahTG" class="col-sm-8">
-								<div class="input-group">
-								<!-- {{ form.render('TG', ['class': 'termino_typeahead form-control form-control-success']) }} -->								
-								<input id="TG" class="termino_typeahead form-control form-control-success" type="text" aria-describedby="TGHelp" name="TG">								
-								<span class="input-group-addon" style="background-color: transparent;"> 
-									<i class="fa fa-check text-success" style="display:none;"></i> 
-									<i class="fa fa-exclamation text-warning" style="display:none;"></i> 
-								</span>
-								</div>								
+							<div class="col-sm-8">
+								{{ form.render('TG', ['class': 'termino_typeahead form-control form-control-success']) }}																
 							</div>
-							<em class="text-warning form-control-feedback col-sm-4" style="display: none"> Termino es nuevo, deberá ser aprobado. </em>
 						</div>
 
 						<div class="form-group row">
@@ -127,104 +119,10 @@
 <script>
 
 $(function() {
+	// Valida termino ya existe
+	$('#nombre').change(fnValidaTerminoYaExiste);
 	
-	// instantiate bloodhound suggestion engine
-	var terminosBh = new Bloodhound({
-	  datumTokenizer: function(item) { return Bloodhound.tokenizers.whitespace(item.name); }, //Bloodhound.tokenizers.whitespace,
-	  queryTokenizer: Bloodhound.tokenizers.whitespace,
-	  identify: function(item) { return item.id; },
-	  prefetch: {
-	        url: '{{ url("database/json/"~entidad.id_thesaurus) }}',
-	        filter: function(response) {	
-	        	return $.map( response.result, function( aData, nId ) { return {'id': nId, 'name': aData[0]}; });
-	        }
-	    }
-	});
-	
-	// initialize bloodhound suggestion engine
-	terminosBh.clearPrefetchCache();
-	terminosBh.initialize();
-	
-	// Typeahead
-	function fnBindTypeAhead(inputField) {
-		inputField.typeahead({
-			  items: 'all',
-			  minLength: 0,
-			  highlight: true,
-			  source: terminosBh.ttAdapter(),
-			  display: 'name'
-			});	
-		inputField.change(function() {
-			vThis = $(this);
-			var current = vThis.typeahead("getActive");
-			
-			bIsOk = current && current.name == vThis.val();
-			
-			if (current && current.name == vThis.val()) {			
-				inputField.attr('data-id', current.id);								
-			}
-			else {
-				vThis.attr('data-id', ''); // val('');
-			}
-			
-			vThis.closest('div.form-group').find('i.fa-check').toggle( bIsOk );
-			vThis.closest('div.form-group').find('i.fa-exclamation').toggle( !bIsOk );
-			vThis.closest('div.form-group').find('em.text-warning').toggle( !bIsOk );
-		});	
-	}	
-	
-	// Valida que el nombre se unico
-	 
-	$('#nombre').change(function(){		
-		vNombre = $('#nombre'); 		
-		$.post('{{ url("database/terminoYaExiste/"~entidad.id_thesaurus) }}', {'nombre': $(this).val()}, function(result) {
-		
-			if (result != 'true') {				
-				vError = $('<em>', {'id': "nombre-error", 'class': 'error form-control-feedback col-sm-4', 'html': result})				
-				if ($('em:visible', vNombre.closest('div.form-group')).length == 0) vError.addClass('form-control-feedback col-sm-4').appendTo( vNombre.closest('div.form-group') );	
-			}
-			else {
-				vNombre.closest('div.form-group').find('em').remove();
-			}
-			
-		}, 'json');		
-	});
-	
-	var vIdiomas = JSON.parse('{{ thesaurus_lang }}');	
-	$('#id_thesaurus').change(function(){
-		vId = $(this).val();		
-		$('#iso25964_language').empty();
-		
-		if (vId && vIdiomas && vIdiomas[vId]) {			
-			$.each(vIdiomas[vId], function(i, v){
-				$('#iso25964_language').append('<option value="'+ i +'">'+ v +'</option>');
-			});			
-		}		
-	});
-	
-	$('#id_thesaurus').change();
-		
-	$('.add-termino-btn').click(function(e){
-		vInput = $('<input>', {
-			'name': $(this).data('inputName'),
-			'class':'form-control'});
-		vTab = $(this).closest('div').find('table');
-		
-		if (vTab.length == 0) {
-			vDiv = $(this).closest('div');			
-			vDiv.append( $('<div>', {'class': 'col-sm-8', 'style': 'padding-top: 8px'}).append(vInput).append(vDiv.find('small')));
-		}
-		else {
-			vTab.find('tbody').append( $('<tr>').append( $('<td>').append(vInput)));
-		}
-		
-		fnBindTypeAhead(vInput);
-		vInput.focus();		
-	});
-		
-	
-	// Bind Typeahead	
-	fnBindTypeAhead( $(".termino_typeahead") );
-		
+	// Bind Typeahead
+	fnBindTypeAhead( $(".termino_typeahead"), {{entidad.id_thesaurus}} ); 
 });
 </script>

@@ -109,9 +109,10 @@ class IndexController extends \ControllerBase
 	    		array_filter($language_list, function($v, $k) use ($row) {
 	    			return strpos($row->iso25964_language, $k) !== false;
 				}, ARRAY_FILTER_USE_BOTH);
+
     	}
     	$this->th_options['thesaurus_list'] = $thesaurus_list;
-    	$this->th_options['language_list'] = [];
+    	$this->th_options['language_list'] = $thesaurus_lang[ $id_thesaurus ];
 
    		//$id_termino = $this->request->isPost() ? $this->request->getPost("id_termino") : FALSE;
    		//$this->logger->error('fallo test!');
@@ -173,7 +174,7 @@ class IndexController extends \ControllerBase
 
     	$items_list = [];
 
-    	$this->view->thesaurus_lang = json_encode($thesaurus_lang);
+    	// $this->view->thesaurus_lang = json_encode($thesaurus_lang);
     	$this->view->form = $form;
     	$this->view->entidad = $entidad;
 

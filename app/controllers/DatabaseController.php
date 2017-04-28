@@ -291,6 +291,31 @@ class DatabaseController extends \ControllerBase
     }
 
     /**
+     * Valida si un termino ya existe
+     * @param integer $id_thesaurus
+     *
+     * @return true si el termino ya existe
+     */
+    public function terminoYaExisteAction($id_thesaurus) {
+    	$entidad = new ThTermino();
+
+    	$entidad->id_termino = $this->request->getPost('id_termino', ['string', 'striptags']);
+    	$entidad->nombre = $this->request->getPost('nombre', ['string', 'striptags']);
+    	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
+    	$entidad->id_thesaurus = $id_thesaurus;
+
+    	if (empty($entidad->id_thesaurus) || empty($entidad->nombre)) {
+    		$result = 'error: falta parametros';
+    	}
+    	else {
+    		$result = (new TerminoForm())->valida_existe($entidad) !== FALSE;
+    	}
+
+    	$this->json_response();
+    	echo json_encode(['result' => $result ]);
+    }
+
+    /**
      * Arbor
      * @param unknown $identifier
      */

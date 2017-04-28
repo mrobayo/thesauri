@@ -158,8 +158,8 @@ class TerminoForm extends BaseForm
      * Valida si ya existe
      * @param ThTermino $entidad
      */
-    private function valida_existe($entidad) {
-    	$es_nuevo = $entidad->isNew();
+    public function valida_existe($entidad) {
+    	$es_nuevo = empty($entidad->id_termino);
 
     	$bind = [1 => $entidad->notilde, 2=> $entidad->id_thesaurus];
     	if (!$es_nuevo) $bind[3] = $entidad->id_termino;

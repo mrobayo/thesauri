@@ -61,7 +61,7 @@ class SecurityPlugin extends Plugin
 			$publicResources = array(
 				'index'      => array('index', 'info', 'enviar', 'sha1'),
 				'about'      => array('index'),
-				'database'   => array('index', 'termino', 'json', 'editar', 'guardar', 'arbor', 'aprobar', 'comentar'),
+				'database'   => array('index', 'termino', 'json', 'editar', 'guardar', 'arbor', 'aprobar', 'comentar', 'terminoYaExiste'),
 				'register'   => array('index', 'confirmar', 'reset'),
 				'errors'     => array('show401', 'show404', 'show500'),
 				'session'    => array('index', 'register', 'start', 'end', 'recuperar', 'captcha'),

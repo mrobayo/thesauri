@@ -24,7 +24,7 @@
 		<div class="tab-content col-sm-9">
 		
 			<div id="xnotas" role="tabpanel" class="tab-pane">
-			{{ form( 'database/aprobar/' ~ entidad.id_termino, 'id': 'thisForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
+			{{ form( 'database/aprobar/' ~ entidad.id_termino, 'id': 'aprobarForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
 				
 				<fieldset>
 				    {{ form.render('id_termino') }}
@@ -37,7 +37,7 @@
 					    <div class="card-block">
 					    
 					    	<div class="form-group row">
-					            {{ form.label('estado_termino', ['class': 'form-control-label col-sm-2']) }}
+					            {{ form.label('estado_termino', ['class': 'form-control-label col-sm-3']) }}
 					            <div class="col-sm-7">					            		            	
 					            	{{ form.render('estado_termino', ['class': 'form-control form-control-success']) }}
 					            </div>            
@@ -45,14 +45,14 @@
 					        
 					        
 					        <div class="form-group row">					        	
-					        	{{ form.label('notas_tecnicas', ['class': 'form-control-label col-sm-2']) }}				      				        
+					        	{{ form.label('notas_tecnicas', ['class': 'form-control-label col-sm-3']) }}				      				        
 					        	<div class="col-sm-7">            
 					            	{{ form.render('notas_tecnicas', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
 					        					        
 					        <div class="form-group row">
-					        	<label class="form-control-label col-sm-2">Historia del Término</label>
+					        	<label class="form-control-label col-sm-3">Historia del Término</label>
 					        	
 					        	{% for kcom, rcom in comentarios %}
 					        	<div class="col-sm-7">
@@ -67,7 +67,7 @@
 					        </div>
 					        
 					        <div class="form-group row">
-					        	<label class="form-control-label col-sm-2">Nuevo Comentario</label>					        				        
+					        	<label class="form-control-label col-sm-3">Nuevo Comentario</label>					        				        
 					        	<div class="col-sm-7">
 						        	<div class="input-group">	
 							        	<input class="form-control">					        	
@@ -94,7 +94,7 @@
 			</div>
 		
 			<div id="xnuevo" role="tabpanel" class="tab-pane active">
-			{{ form( 'database/editar/' ~ entidad.id_termino, 'id': 'thisForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
+			{{ form( 'database/editar/' ~ entidad.id_termino, 'id': 'editarForm', 'onsubmit': 'return fnValidateForm(this);', 'autocomplete': 'off', 'novalidate': 'novalidate') }}
 				
 				<fieldset>
 				    {{ form.render('id_termino') }}
@@ -114,49 +114,44 @@
 					    <div class="card-block">
 					
 					        <div class="form-group row">
-					            {{ form.label('nombre', ['class': 'form-control-label col-sm-2']) }}            
+					            {{ form.label('nombre', ['class': 'form-control-label col-sm-3']) }}            
 					            <div class="col-sm-7">
 					            	{{ form.render('nombre', ['class': 'form-control form-control-success required']) }}					            	
 					            </div>
 					        </div>
 					
 							<div class="form-group row">
-					            {{ form.label('descripcion', ['class': 'form-control-label col-sm-2']) }}
+					            {{ form.label('descripcion', ['class': 'form-control-label col-sm-3']) }}
 					            <div class="col-sm-7">            
 					            	{{ form.render('descripcion', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
 					        					       
 					        <div class="form-group row">
-					            {{ form.label('TG', ['class': 'form-control-label col-sm-2']) }}
+					            {{ form.label('TG', ['class': 'form-control-label col-sm-3']) }}
 					            <div class="col-sm-7">            
 					            	{{ form.render('TG', ['class': 'termino_typeahead form-control form-control-success']) }}
 					            </div>
 					        </div> 
 					        					        	
 					        <div class="form-group row">					            
-					            <label class="form-control-label col-sm-2" for="SIN[]">
-					            	<button data-input-name="SIN[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>	
-					            	Sinónimos
-					            </label>
+					            <label class="form-control-label col-sm-3" for="SIN[]"> Sinónimos </label>
 					            <div class="col-sm-7">					        	      
-					            	{{ form.render('SIN[]', ['class': 'termino_typeahead form-control form-control-success']) }}					            
+					            	<button data-input-name="SIN[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>
+					            	<small class="form-text text-muted pull-right"> (use el botón (+) para añadir un término) &nbsp; </small>				            
 					            </div>					        	
 					        </div>
 					        
 					        <div class="form-group row">
-					            <label class="form-control-label col-sm-2" for="TR[]">					            		
-					            	Término relacionado
-					            </label>
+					            <label class="form-control-label col-sm-3" for="TR[]"> Término relacionado </label>
 					            <div class="col-sm-7">            
-					            	{{ form.render('TR[]', ['class': 'termino_typeahead form-control form-control-success']) }}
+					            	<button data-input-name="TR[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>
+					            	<small class="form-text text-muted pull-right"> (use el botón (+) para añadir un término) &nbsp; </small>
 					            </div>
-					            
-					            <button data-input-name="TR[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>
 					        </div>
 					        
 					        <div class="form-group row">
-					        	 {{ form.label('dc_source', ['class': 'form-control-label col-sm-2']) }}
+					        	 {{ form.label('dc_source', ['class': 'form-control-label col-sm-3']) }}
 					            <div class="col-sm-7">            
 					            	{{ form.render('dc_source', ['class': 'form-control form-control-success']) }}
 					            </div>
@@ -164,7 +159,7 @@
 					        
 					        <!-- 
 					        <div class="form-group row">
-					        	<label class="form-control-label col-sm-2"> Nota </label>
+					        	<label class="form-control-label col-sm-3"> Nota </label>
 					        	<div class="col-sm-7">
 					        	
 					        	<table class="table table-condensed">					        	
@@ -183,7 +178,7 @@
 					        					        	
 					        {#
 					        <div class="form-group row">
-					            {{ form.label('id_thesaurus', ['class': 'form-control-label col-sm-2']) }}
+					            {{ form.label('id_thesaurus', ['class': 'form-control-label col-sm-3']) }}
 					            <div class="col-sm-7">					            		            	
 					            	<input class="form-control" disabled value="{{ thesaurus.nombre }}">
 					            </div>            
@@ -191,7 +186,7 @@
 					        #}
 					        
 					        <div class="form-group row">
-					            {{ form.label('iso25964_language', ['class': 'form-control-label col-sm-2']) }}
+					            {{ form.label('iso25964_language', ['class': 'form-control-label col-sm-3']) }}
 					            <div class="col-sm-7">					            		            	
 					            	{{ form.render('iso25964_language', ['class': 'form-control form-control-success']) }}
 					            </div>            
@@ -224,7 +219,12 @@ $(function() {
 	$('#nombre').change(fnValidaTerminoYaExiste);
 	
 	// Bind Typeahead
-	fnBindTypeAhead( $(".termino_typeahead"), {{entidad.id_thesaurus}} ); 	
+	fnBindTypeAhead( $(".termino_typeahead"), {{entidad.id_thesaurus}} );
+	
+	$('#editarForm,#aprobarForm')
+	.enterAsTab({ 'allowSubmit': true})
+	.find(":input:text:visible:not(disabled):not([readonly])").first().focus();
+	
 });
 
 </script>

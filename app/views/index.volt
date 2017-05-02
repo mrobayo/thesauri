@@ -75,7 +75,7 @@
     	<script>
     		var gvTerminosBh = {}; // variable global de terminos
     		
-    		function fnValidaTerminoYaExiste(){ // Valida que el nombre se unico
+    		function fnValidaTerminoYaExiste(){ // Valida que el nombre sea unico
     			vThis = $(this);
     			iThesaurus = vThis.closest('form').find('#id_thesaurus').val();    			 		
     			$.post('{{ url("database/terminoYaExiste/") }}'+iThesaurus, {'nombre': vThis.val()}, function(result) {
@@ -139,7 +139,7 @@
         				bIsOk = current && current.name == vThis.val();
         				
         				if (current && current.name == vThis.val()) {			
-        					inputField.attr('data-id', current.id);								
+        					inputField.attr('data-id', current.id);	
         				}
         				else {
         					vThis.attr('data-id', ''); // val('');
@@ -154,18 +154,7 @@
         		});
         	}
     		
-        	function fnAddTermino2(e) {    			 			
-    			iThesaurus = $(this).closest('form').find('#id_thesaurus').val();        			
-    			
-        		vInput = $('<input>', {
-        			'name': $(this).data('inputName'),
-        			'class':'form-control'});       		
-        		vDiv = $(this).closest('div');			
-        		vDiv.append( $('<div>', {'class': 'col-sm-8', 'style': 'padding-top: 8px'}).append(vInput).append(vDiv.find('small')));
         		
-        		fnBindTypeAhead(vInput, iThesaurus);            		
-        		vInput.focus();		            	
-			}	
     		
     		function fnAddTermino(e) {    			 			
     			iThesaurus = $(this).closest('form').find('#id_thesaurus').val();        			
@@ -173,7 +162,6 @@
         		vInput = $('<input>', {
         			'name': $(this).data('inputName'),
         			'class':'form-control'});       		
-        		//vDiv = $(this).closest('div.form-group');
         		
         		vDiv = $('<div>', {'class': 'form-group row'})
         			.append('<label class="form-control-label col-sm-3"> </label>')
@@ -226,7 +214,7 @@
 			<i class="fa fa-check text-success" style="display:none;"></i>
 			<i class="fa fa-exclamation text-warning" style="display:none;"></i>
 		</span>
-		<em class="text-warning form-control-feedback col-sm-3" style="display: none">Termino es nuevo, deberá ser aprobado.</em>
+		<em class="text-warning form-control-feedback col-sm-2" style="display: none">Termino es nuevo, deberá ser aprobado.</em>
 		</div>	
 		</script>
 		     

@@ -80,11 +80,11 @@
     			iThesaurus = vThis.closest('form').find('#id_thesaurus').val();    			 		
     			$.post('{{ url("database/terminoYaExiste/") }}'+iThesaurus, {'nombre': vThis.val()}, function(result) {
     				if (result != 'true') {				
-    					vError = $('<em>', {'id': "nombre-error", 'class': 'error form-control-feedback col-sm-4', 'html': result})				
+    					vError = $('<em>', {'id': "nombre-error", 'class': 'error', 'html': result})				
     					$('em:visible', vThis.closest('div.form-group')).hide(300, function() {
-    						$(this).remove();
+    						$(this).remove(); 
     					}); 
-    					vError.addClass('form-control-feedback col-sm-4').appendTo( vThis.closest('div.form-group') );    					
+    					vError.addClass('form-control-feedback col-sm-2').appendTo( vThis.closest('div.form-group') );    					
     				}
     				else {
     					vThis.closest('div.form-group').find('em').remove();
@@ -154,19 +154,41 @@
         		});
         	}
     		
+        	function fnAddTermino2(e) {    			 			
+    			iThesaurus = $(this).closest('form').find('#id_thesaurus').val();        			
+    			
+        		vInput = $('<input>', {
+        			'name': $(this).data('inputName'),
+        			'class':'form-control'});       		
+        		vDiv = $(this).closest('div');			
+        		vDiv.append( $('<div>', {'class': 'col-sm-8', 'style': 'padding-top: 8px'}).append(vInput).append(vDiv.find('small')));
+        		
+        		fnBindTypeAhead(vInput, iThesaurus);            		
+        		vInput.focus();		            	
+			}	
+    		
+    		function fnAddTermino(e) {    			 			
+    			iThesaurus = $(this).closest('form').find('#id_thesaurus').val();        			
+    			
+        		vInput = $('<input>', {
+        			'name': $(this).data('inputName'),
+        			'class':'form-control'});       		
+        		//vDiv = $(this).closest('div.form-group');
+        		
+        		vDiv = $('<div>', {'class': 'form-group row'})
+        			.append('<label class="form-control-label col-sm-3"> </label>')
+        			.append( $('<div>', {'class': 'col-sm-7', 'style': 'padding-top: 8px'}).append(vInput)); //.append(vDiv.find('small'))
+        		
+        		$(this).closest('div.form-group').after(vDiv);
+        		
+        		fnBindTypeAhead(vInput, iThesaurus);            		
+        		vInput.focus(); //.enterAsTab({ 'allowSubmit': true})
+        		
+        		$(this).closest('form').off('keypress').enterAsTab({ 'allowSubmit': true});        		
+			}	
+    		
         	$(function() {        		
-        		$('.add-termino-btn').click(function(e){        			
-        			iThesaurus = $(this).closest('form').find('#id_thesaurus').val();        			
-        			
-            		vInput = $('<input>', {
-            			'name': $(this).data('inputName'),
-            			'class':'form-control'});       		
-            		vDiv = $(this).closest('div');			
-            		vDiv.append( $('<div>', {'class': 'col-sm-8', 'style': 'padding-top: 8px'}).append(vInput).append(vDiv.find('small')));
-            		
-            		fnBindTypeAhead(vInput, iThesaurus);            		
-            		vInput.focus();		
-            	});        		
+        		$('.add-termino-btn').click(fnAddTermino);        		
         	});
         	
     	</script>
@@ -204,7 +226,7 @@
 			<i class="fa fa-check text-success" style="display:none;"></i>
 			<i class="fa fa-exclamation text-warning" style="display:none;"></i>
 		</span>
-		<em class="text-warning form-control-feedback col-sm-4" style="display: none">Termino es nuevo, deberá ser aprobado.</em>
+		<em class="text-warning form-control-feedback col-sm-3" style="display: none">Termino es nuevo, deberá ser aprobado.</em>
 		</div>	
 		</script>
 		     

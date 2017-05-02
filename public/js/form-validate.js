@@ -77,7 +77,7 @@
 			errorElement: "em",
 			errorPlacement: function(error, element) {
 				//valida que el msg de error aparezca solo una vez
-				if ($('em:visible', element.closest('div.form-group')).length == 0) error.addClass('form-control-feedback col-sm-4').appendTo( element.closest('div.form-group') );			  
+				if ($('em:visible', element.closest('div.form-group')).length == 0) error.addClass('form-control-feedback col-sm-2').appendTo( element.closest('div.form-group') );			  
 			},
 			highlight: function(element) {				
 				$(element).closest('div.form-group').addClass('has-danger');

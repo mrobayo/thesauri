@@ -11,16 +11,13 @@
 <div class="row">
 	
 		<div class="col-sm-3">
-			<ul class="nav nav-pills flex-column" role="tablist">
-		    	
+			<ul class="nav nav-pills flex-column" role="tablist">		    	
 				<li role="presentation" class="nav-item">
 		    		<a href="#xnuevo" class="nav-link active" aria-controls="xnuevo" role="tab" data-toggle="tab">  <i class="fa fa-edit"></i> Editar </a>
-		    	</li>
-		    	
+		    	</li>		    	
 		    	<li role="presentation" class="nav-item">
 		    		<a href="#xnotas" title="Aprobación &amp; Notas" class="nav-link" aria-controls="xnotas" role="tab" data-toggle="tab">  <i class="fa fa-thumbs-o-up"></i> Aprobación &amp; Notas </a>
-		    	</li>
-		    	
+		    	</li>		    	
 			</ul>
 		
 		</div>
@@ -40,25 +37,25 @@
 					    <div class="card-block">
 					    
 					    	<div class="form-group row">
-					            {{ form.label('estado_termino', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">					            		            	
+					            {{ form.label('estado_termino', ['class': 'form-control-label col-sm-2']) }}
+					            <div class="col-sm-7">					            		            	
 					            	{{ form.render('estado_termino', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        
 					        <div class="form-group row">					        	
-					        	{{ form.label('notas_tecnicas', ['class': 'form-control-label col-sm-12']) }}				      				        
-					        	<div class="col-sm-8">            
+					        	{{ form.label('notas_tecnicas', ['class': 'form-control-label col-sm-2']) }}				      				        
+					        	<div class="col-sm-7">            
 					            	{{ form.render('notas_tecnicas', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
 					        					        
 					        <div class="form-group row">
-					        	<label class="form-control-label col-sm-12">Historia del Término</label>
+					        	<label class="form-control-label col-sm-2">Historia del Término</label>
 					        	
 					        	{% for kcom, rcom in comentarios %}
-					        	<div class="col-sm-8">
+					        	<div class="col-sm-7">
 						        	<blockquote class="blockquote {% if rcom.id_ingreso == auth['id'] %} callout-warning {% endif %}">             
 							        	<p class="form-control-static"> {{ rcom.contenido }}
 							        		
@@ -70,8 +67,8 @@
 					        </div>
 					        
 					        <div class="form-group row">
-					        	<label class="form-control-label col-sm-12">Nuevo Comentario</label>					        				        
-					        	<div class="col-sm-8">
+					        	<label class="form-control-label col-sm-2">Nuevo Comentario</label>					        				        
+					        	<div class="col-sm-7">
 						        	<div class="input-group">	
 							        	<input class="form-control">					        	
 							        	<span class="input-group-btn">					        	
@@ -117,57 +114,58 @@
 					    <div class="card-block">
 					
 					        <div class="form-group row">
-					            {{ form.label('nombre', ['class': 'form-control-label col-sm-12']) }}            
-					            <div class="col-sm-8">
+					            {{ form.label('nombre', ['class': 'form-control-label col-sm-2']) }}            
+					            <div class="col-sm-7">
 					            	{{ form.render('nombre', ['class': 'form-control form-control-success required']) }}					            	
 					            </div>
 					        </div>
 					
 							<div class="form-group row">
-					            {{ form.label('descripcion', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            {{ form.label('descripcion', ['class': 'form-control-label col-sm-2']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('descripcion', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
 					        					       
 					        <div class="form-group row">
-					            {{ form.label('TG', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
-					            	{{ form.render('TG', ['class': 'form-control form-control-success']) }}
+					            {{ form.label('TG', ['class': 'form-control-label col-sm-2']) }}
+					            <div class="col-sm-7">            
+					            	{{ form.render('TG', ['class': 'termino_typeahead form-control form-control-success']) }}
 					            </div>
 					        </div> 
 					        					        	
 					        <div class="form-group row">					            
-					            <label class="form-control-label col-sm-8" for="SIN[]">
+					            <label class="form-control-label col-sm-2" for="SIN[]">
 					            	<button data-input-name="SIN[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>	
 					            	Sinónimos
 					            </label>
-					        	 <div class="col-sm-8">            
-					            	{{ form.render('SIN[]', ['class': 'form-control form-control-success']) }}
+					            <div class="col-sm-7">					        	      
+					            	{{ form.render('SIN[]', ['class': 'termino_typeahead form-control form-control-success']) }}					            
 					            </div>					        	
-					        </div>	
-					        
-					        <div class="form-group row">
-					            <label class="form-control-label col-sm-8" for="TR[]">
-					            	<button data-input-name="TR[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>	
-					            	Término relacionado
-					            </label>
-					            <div class="col-sm-8">            
-					            	{{ form.render('TR[]', ['class': 'form-control form-control-success']) }}
-					            </div>
 					        </div>
 					        
 					        <div class="form-group row">
-					        	 {{ form.label('dc_source', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            <label class="form-control-label col-sm-2" for="TR[]">					            		
+					            	Término relacionado
+					            </label>
+					            <div class="col-sm-7">            
+					            	{{ form.render('TR[]', ['class': 'termino_typeahead form-control form-control-success']) }}
+					            </div>
+					            
+					            <button data-input-name="TR[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>
+					        </div>
+					        
+					        <div class="form-group row">
+					        	 {{ form.label('dc_source', ['class': 'form-control-label col-sm-2']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('dc_source', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
 					        
 					        <!-- 
 					        <div class="form-group row">
-					        	<label class="form-control-label col-sm-12"> Nota </label>
-					        	<div class="col-sm-8">
+					        	<label class="form-control-label col-sm-2"> Nota </label>
+					        	<div class="col-sm-7">
 					        	
 					        	<table class="table table-condensed">					        	
 					        	<tbody>
@@ -185,16 +183,16 @@
 					        					        	
 					        {#
 					        <div class="form-group row">
-					            {{ form.label('id_thesaurus', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">					            		            	
+					            {{ form.label('id_thesaurus', ['class': 'form-control-label col-sm-2']) }}
+					            <div class="col-sm-7">					            		            	
 					            	<input class="form-control" disabled value="{{ thesaurus.nombre }}">
 					            </div>            
 					        </div>
 					        #}
 					        
 					        <div class="form-group row">
-					            {{ form.label('iso25964_language', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">					            		            	
+					            {{ form.label('iso25964_language', ['class': 'form-control-label col-sm-2']) }}
+					            <div class="col-sm-7">					            		            	
 					            	{{ form.render('iso25964_language', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
@@ -221,25 +219,12 @@
 </div>		
 
 <script>
-$(function() {
+$(function() {	
+	// Valida termino ya existe
+	$('#nombre').change(fnValidaTerminoYaExiste);
 	
-	$('.add-termino-btn').click(function(e){
-		vInput = $('<input>', {
-			'name': $(this).data('inputName'),
-			'class':'form-control'});
-		vTab = $(this).closest('div').find('table');
-		
-		if (vTab.length == 0) {
-			vDiv = $(this).closest('div');			
-			vDiv.append( $('<div>', {'class': 'col-sm-8', 'style': 'padding-top: 8px'}).append(vInput).append(vDiv.find('small')));
-		}
-		else {
-			vTab.find('tbody').append( $('<tr>').append( $('<td>').append(vInput)));
-		}
-		
-		vInput.focus();		
-	});	
-	
+	// Bind Typeahead
+	fnBindTypeAhead( $(".termino_typeahead"), {{entidad.id_thesaurus}} ); 	
 });
 
 </script>

@@ -223,7 +223,7 @@
 		<span class="input-group-btn" style="display: none;">
 			<button class="btn btn-secondary" type="button" title="Eliminar este término"> <i class="fa fa-remove text-danger"></i> </button>			
 		</span>
-		<em class="text-warning form-control-feedback col-sm-2" style="display: none">Termino nuevo, deberá ser aprobado.</em>
+		<em class="text-warning form-control-feedback col-sm-2 small" style="display: none">Termino nuevo, deberá ser aprobado.</em>
 		</div>	
 		</script>
 		     

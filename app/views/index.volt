@@ -123,6 +123,7 @@
         			oTmpl = $( $('#tmpl-valida-termino').html() ).prependTo( inputField.parent() );		
         			inputField.prependTo(oTmpl);
         			oTmpl.find('em').appendTo( oTmpl.parent().parent() );
+        			oTmpl.find('i').show();
         			
         			inputField.typeahead({
         				  items: 'all',
@@ -134,45 +135,54 @@
         			
         			inputField.change(function() {
         				vThis = $(this);
+        				vParent = vThis.closest('div.input-group')
         				var current = vThis.typeahead("getActive");
         				
         				bIsOk = current && current.name == vThis.val();
         				
         				if (current && current.name == vThis.val()) {			
-        					inputField.attr('data-id', current.id);	
+        					vThis.attr('data-id', current.id);
         				}
         				else {
-        					vThis.attr('data-id', ''); // val('');
+        					vThis.attr('data-id', ''); 
         				}
         				
-        				vParent = vThis.closest('div.input-group').parent();
+        				vThis.toggleClass('form-control-success', bIsOk);
+        				vParent.toggleClass('has-success', bIsOk);
         				
-        				vParent.find('i.fa-check').toggle( bIsOk );
-        				vParent.find('i.fa-exclamation').toggle( !bIsOk );
-        				vParent.next('em.text-warning').toggle( !bIsOk );
+        				vParent.parent().next('em.text-warning').toggle( !bIsOk && (vThis.val()) );
         			});			
         		});
+        		
+        		return vInputFelds;
         	}
     		
-        		
+    		function fnRemoveTermino(e) {
+    			$(this).closest('div.form-group').remove();
+    			console.log('eliminado');
+    		}
+    		        		
     		
-    		function fnAddTermino(e) {    			 			
-    			iThesaurus = $(this).closest('form').find('#id_thesaurus').val();        			
+    		function fnAddTermino(e) {  
+    			vBtn = $(this); 
+    			iThesaurus = vBtn.closest('form').find('#id_thesaurus').val();        			
     			
         		vInput = $('<input>', {
-        			'name': $(this).data('inputName'),
+        			'name': vBtn.data('inputName'),
         			'class':'form-control'});       		
         		
         		vDiv = $('<div>', {'class': 'form-group row'})
         			.append('<label class="form-control-label col-sm-3"> </label>')
-        			.append( $('<div>', {'class': 'col-sm-7', 'style': 'padding-top: 8px'}).append(vInput)); //.append(vDiv.find('small'))
+        			.append( $('<div>', {'class': 'col-sm-7', 'style': 'padding-top: 8px'}).append(vInput));
         		
-        		$(this).closest('div.form-group').after(vDiv);
+        		vBtn.closest('div.form-group').after(vDiv);
         		
-        		fnBindTypeAhead(vInput, iThesaurus);            		
-        		vInput.focus(); //.enterAsTab({ 'allowSubmit': true})
+        		fnBindTypeAhead(vInput, iThesaurus);
         		
-        		$(this).closest('form').off('keypress').enterAsTab({ 'allowSubmit': true});        		
+        		vInput.next().show().find('button').click(fnRemoveTermino);        		
+        		vInput.focus();
+        		
+        		vBtn.closest('form').off('keypress').enterAsTab({ 'allowSubmit': true});        		
 			}	
     		
         	$(function() {        		
@@ -210,11 +220,10 @@
     	    	
     	<script id="tmpl-valida-termino" type="text/template">
 		<div class="input-group">
-		<span class="input-group-addon" style="background-color: transparent;">
-			<i class="fa fa-check text-success" style="display:none;"></i>
-			<i class="fa fa-exclamation text-warning" style="display:none;"></i>
+		<span class="input-group-btn" style="display: none;">
+			<button class="btn btn-secondary" type="button" title="Eliminar este término"> <i class="fa fa-remove text-danger"></i> </button>			
 		</span>
-		<em class="text-warning form-control-feedback col-sm-2" style="display: none">Termino es nuevo, deberá ser aprobado.</em>
+		<em class="text-warning form-control-feedback col-sm-2" style="display: none">Termino nuevo, deberá ser aprobado.</em>
 		</div>	
 		</script>
 		     

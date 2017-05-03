@@ -267,7 +267,8 @@ class DatabaseController extends \ControllerBase
     		//$this->flash->error("Termino [{$entidad->nombre}] TEST");
     	}
 
-    	return $this->response->redirect('database/editar/'.$entidad->id_termino);
+    	$entidad->rdf_uri = (new Url())->get( str_replace('%', $entidad->id_termino, $entidad->rdf_uri) );
+    	return $this->response->redirect($entidad->rdf_uri);
     }
 
     /**

@@ -2,7 +2,7 @@
 	<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;"> 
 	
 		{% if permiso_editar %}
-			<a href="{{ url('database/editar/'~entidad.id_termino) }}" title="Editar término" class="btn btn-sm btn-primary pull-right"> <i class="fa fa-edit"></i> </a>		
+			<a href="{{ url('database/editar/'~entidad.id_termino~'/inline') }}" title="Editar término" class="editarTermino btn btn-sm btn-primary pull-right"> <i class="fa fa-edit"></i> </a>		
 		{% endif %}
 		
 		{{ entidad.nombre }} 
@@ -50,5 +50,4 @@
 			</td>
 			</tr>			
 		</tfoot>
-	</table>
-	
+	</table>	

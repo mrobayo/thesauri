@@ -247,32 +247,32 @@
 
 
 	<script>
+	function fnVerTermino(e){
+		e.preventDefault();			
+		$('#infoDetalle').empty();
+		
+		$.post($(this).attr('href'), function(data){
+			$('#infoDetalle').html(data);
+			try {
+				$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-60 }, 700);	
+			} catch(e) { /*ignore*/ }
+		});
+	}
+	
+	function fnEditTermino(e) {
+		e.preventDefault();
+		$('#infoDetalle').empty();
+		
+		$.get($(this).attr('href'), function(data){
+			$('#infoDetalle').html(data);
+			try {
+				$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-60 }, 700);	
+			} catch(e) { /*ignore*/ }
+		});
+	}
+	
 	$(function() {
-		
-		function fnVerTermino(e){
-			e.preventDefault();			
-			$('#infoDetalle').empty();
-			
-			$.post($(this).attr('href'), function(data){
-				$('#infoDetalle').html(data);
-				try {
-					$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-60 }, 700);	
-				} catch(e) { /*ignore*/ }
-			});
-		}
-		
-		function fnEditTermino(e) {
-			e.preventDefault();
-			$('#infoDetalle').empty();
-			
-			$.get($(this).attr('href'), function(data){
-				$('#infoDetalle').html(data);
-				try {
-					$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-60 }, 700);	
-				} catch(e) { /*ignore*/ }
-			});
-		}
-
+	
 		$('.verTerminoLink').click(fnVerTermino);
 		
 		$('.alfabetoByJson').click(function(e) {
@@ -303,6 +303,7 @@
 			$(this).addClass('bg-faded').siblings().removeClass('bg-faded');
 		});
 		
+		$('#infoDetalle').on( "click", ".editarTermino", fnEditTermino);		
 	})
 	
 	</script>

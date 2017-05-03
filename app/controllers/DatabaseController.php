@@ -176,7 +176,15 @@ class DatabaseController extends \ControllerBase
      *
      * @param integer $id_termino
      */
-    public function editarAction($id_termino) {
+    public function editarAction($id_termino, $modo_vista = NULL) {
+    	if ($modo_vista == 'inline') {
+    		$this->view->setRenderLevel( View::LEVEL_ACTION_VIEW );
+    	}
+    	else {
+    		$modo_vista = 'editar';
+    	}
+    	$this->view->pick('database/'.$modo_vista);
+
     	$entidad = $this->get_termino($id_termino);
     	$comentarios = [];
 
@@ -192,9 +200,16 @@ class DatabaseController extends \ControllerBase
 
     	$form = new TerminoForm($entidad, ['language_list'=>$isocodes_list]);
 
+
    		if ($this->request->isPost() && $form->guardar($entidad))
    		{
-   			return $this->response->redirect($thesaurus->rdf_uri);
+   			if ($modo_vista == 'inline') {
+   				$rdf_uri = (new Url())->get( str_replace('%', $entidad->id_termino, $entidad->rdf_uri) );
+   				return $this->response->redirect($rdf_uri);
+   			}
+   			else {
+   				return $this->response->redirect($thesaurus->rdf_uri);
+   			}
    		}
 
    		$nota = new ThNota();
@@ -229,7 +244,6 @@ class DatabaseController extends \ControllerBase
 		}
 
 		$this->view->relaciones = $relaciones;
-
     }
 
     /**
@@ -290,10 +304,10 @@ class DatabaseController extends \ControllerBase
     	$url = new Url();
 
         foreach ($result as $c) {
-        	$rdf_uri = $url->get( str_replace('%', $c->id_termino, $c->rdf_uri) );
-        	$rdf_uri = ($is_admin || $c->estado_termino == TerminoForm::APROBADO) ? $rdf_uri : '';
+        	$c->rdf_uri = $url->get( str_replace('%', $c->id_termino, $c->rdf_uri) );
+        	$c->rdf_uri = ($is_admin || $c->estado_termino == TerminoForm::APROBADO) ? $c->rdf_uri : '';
 
-        	$terminos[ $c->id_termino ] = [ $c->nombre, $rdf_uri, $c->estado_termino ];
+        	$terminos[ $c->id_termino ] = [ 'id_termino'=> $c->id_termino, 'nombre'=> $c->nombre, 'rdf_uri'=> $c->rdf_uri, 'estado_termino'=> $c->estado_termino ];
         }
 
     	$this->json_response();

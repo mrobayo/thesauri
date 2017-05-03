@@ -155,13 +155,13 @@ class IndexController extends \ControllerBase
     	try {
     		if ($this->request->isPost() && $form->guardar($entidad)) {
 
-    			$this->logger->error('sample test');
+    			//$this->logger->error('sample test');
 
     			$thesaurus = $this->get_thesaurus($entidad->id_thesaurus);
     			return $this->response->redirect($this->config->rdf->baseUri . $thesaurus->iso25964_identifier);
     		}
     		else {
-    			$this->logger->error('fallo guardar!');
+    			//$this->logger->error('fallo guardar!');
     		}
 
     	} catch(Exception $e) {
@@ -170,7 +170,7 @@ class IndexController extends \ControllerBase
 
     	} finally {
 
-    		$this->logger->error(  'bad :)' );
+    		//$this->logger->error(  'bad :)' );
 
     	}
 

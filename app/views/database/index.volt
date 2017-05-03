@@ -86,12 +86,17 @@
 			
 				<div class="col-sm-5 sidebar">
 					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;">
-						
-						{% if permiso_enviar %}
-						<a href="{{ url('index/enviar/'~entidad.id_thesaurus) }}" title="Enviar un término" class="btn btn-sm btn-primary pull-right"> 
-							<i class="fa fa-send"></i> 
-						</a>
-						{% endif %}
+												
+						<div class="btn-group pull-right" role="group">						
+							<a href="{{ url(entidad.rdf_uri) }}" title="Refrescar listado" class="btn btn-sm btn-secondary"> 
+								<i class="fa fa-refresh"></i> 
+							</a>							
+							{% if permiso_enviar %}
+							<a href="{{ url('index/enviar/'~entidad.id_thesaurus) }}" title="Enviar un término" class="btn btn-sm btn-primary"> 
+								<i class="fa fa-send"></i> 
+							</a>
+							{% endif %}						
+						</div>
 						
 						Explorar
 					</h4>					
@@ -244,17 +249,31 @@
 	<script>
 	$(function() {
 		
-		function fnVerInfoDetalle(e){
+		function fnVerTermino(e){
 			e.preventDefault();			
 			$('#infoDetalle').empty();
 			
-			$.post($(this).attr('href'), function(data){				
-				// console.log(data);
+			$.post($(this).attr('href'), function(data){
 				$('#infoDetalle').html(data);
+				try {
+					$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-60 }, 700);	
+				} catch(e) { /*ignore*/ }
+			});
+		}
+		
+		function fnEditTermino(e) {
+			e.preventDefault();
+			$('#infoDetalle').empty();
+			
+			$.get($(this).attr('href'), function(data){
+				$('#infoDetalle').html(data);
+				try {
+					$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-60 }, 700);	
+				} catch(e) { /*ignore*/ }
 			});
 		}
 
-		$('.verTerminoLink').click(fnVerInfoDetalle);
+		$('.verTerminoLink').click(fnVerTermino);
 		
 		$('.alfabetoByJson').click(function(e) {
 			e.preventDefault();			
@@ -263,15 +282,18 @@
 				tBody = $('#terminosTable tbody').empty();
 				
 				$.each(data.result, function(key, value){
-					vObs = (value[2] == 'CANDIDATO') ? ' <span class="text-muted text-italic">(pendiente aprobación)</span>' : '';
+					//vObs = (value.estado_termino == 'CANDIDATO') ? ' <span class="text-muted text-italic">(pendiente aprobación)</span>' : '';					
+					vObs = '<span class="badge badge-primary badge-pill pull-right"><i class="fa fa-edit"></i></span>';					
+					vObs = $('<a>', {'href': '{{ url("database/editar/") }}' + value.id_termino + "/inline" }).append(vObs);
+					vObs.click(fnEditTermino);
 					
-					if (value[1]) 
+					if (value.rdf_uri) 
 					{
-						vLink = $('<a href="'+value[1]+'">'+ value[0]+'</a>').click( fnVerInfoDetalle );
+						vLink = $('<a>', {'href': value.rdf_uri, 'text': value.nombre}).click( fnVerTermino );
 					}
 					else 
-					{												
-						vLink = '<span>'+ value[0] +' </span> ';	
+					{
+						vLink = '<span>'+ value.nombre +' </span> ';
 					}
 					tBody.append( $('<tr>').append( $('<td>').append(vLink).append(vObs) ));					
 				});

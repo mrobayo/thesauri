@@ -67,6 +67,14 @@
 				padding-top: 0;
 				padding-bottom: 0;
 			}
+			
+			#terminosTable td .badge {
+				display: none;
+			}
+			#terminosTable td:hover .badge {
+				display: inline-block;
+			}
+			
 		</style>
 		
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>		

@@ -100,6 +100,9 @@ class TerminoForm extends BaseForm
     	// $this->logger->error('Guardar Relacion: '. $entidad->id_termino . ' ' . $termino_rel . ' - ' . $tipo_relacion);
 
     	$rel_notilde = \StringHelper::notilde($termino_rel);
+
+    	$this->logger->error($tipo_relacion . ' = ' . $rel_notilde . ' - ' . print_r($termino_rel, true));
+
     	$entidad_rel = ThTermino::findFirst([
     			'notilde=?1 AND id_thesaurus=?2', 'bind'=> [1=>$rel_notilde, 2=>$entidad->id_thesaurus] ]);
 
@@ -122,7 +125,7 @@ class TerminoForm extends BaseForm
 		$rel->tipo_relacion = $tipo_relacion;
 		$rel->id_termino = $entidad->id_termino;
 		$rel->id_thesaurus = $entidad->id_thesaurus;
-		$rel->id_termino_rel = $entidad_rel->id_termino;
+ 		$rel->id_termino_rel = $entidad_rel->id_termino;
 		$rel->orden_relacion = self::ORDEN_RELATION[ $tipo_relacion ];
 
 		if ($rel->save() == false) {
@@ -139,12 +142,16 @@ class TerminoForm extends BaseForm
      * @return boolean
      */
     private function bind_post($entidad) {
-    	$entidad->nombre = $this->getString('nombre');
-    	$entidad->notilde = \StringHelper::notilde( $entidad->nombre );
+    	$lang = $this->getString('iso25964_language');
 
+    	$entidad->nombre = $this->getString('nombre');
+    	$entidad->notilde = \StringHelper::notilde($entidad->nombre);
     	$entidad->dc_source = $this->getString('dc_source');
-    	$entidad->iso25964_language = $this->getString('iso25964_language');
     	$entidad->descripcion = $this->getString('descripcion');
+
+    	if (! empty($lang)) {
+    		$entidad->iso25964_language = $lang;
+    	}
 
     	$es_nuevo = FALSE;
 
@@ -217,12 +224,22 @@ class TerminoForm extends BaseForm
 
    		// Guardar Termino General
    		$te_general = $this->request->getPost(TerminoForm::TG_REL_EQ);
-   		if (! empty($te_general)) {
-   			$this->guardarRelacion($entidad, $te_general, TerminoForm::TG_REL_EQ);
+   		if (!is_array($te_general)) {
+   			$te_general = [$te_general];
+   		}
+   		foreach ($te_general as $tg)
+   		{
+   			if (! empty($tg)) {
+   				$this->guardarRelacion($entidad, $tg, TerminoForm::TG_REL_EQ);
+   			}
    		}
 
    		// Guardar sinonimos
    		$sinonimos_list = $this->request->getPost(TerminoForm::SIN_REL_EQ);
+   		if (!is_array($sinonimos_list)) {
+   			$sinonimos_list = [$sinonimos_list];
+   		}
+
 		foreach ($sinonimos_list as $sin)
 		{
 			if (empty($sin)) continue;
@@ -231,9 +248,17 @@ class TerminoForm extends BaseForm
 
 		// Guardar terminos relacionados
 		$tr_list = $this->request->getPost(TerminoForm::TR_REL_EQ);
+		$this->logger->error('TR_REL_EQ = ' . print_r($tr_list, true));
+
+		if (!is_array($tr_list)) {
+			$tr_list = [$tr_list];
+		}
+
 		foreach ($tr_list as $tr)
 		{
 			if (empty($tr)) continue;
+			$this->logger->error('TR = ' . print_r($tr, true));
+
 			$this->guardarRelacion($entidad, $tr, TerminoForm::TR_REL_EQ);
 		}
 
@@ -319,7 +344,7 @@ class TerminoForm extends BaseForm
     	if ($entidad->save() == false) {
 
     		foreach ($entidad->getMessages() as $message) {
-    			$this->flash->error((string) $message);
+    			$this->flash->error($nombre . ' - ' . (string) $message);
     		}
     		return false;
     	}

@@ -254,7 +254,7 @@
 		$.post($(this).attr('href'), function(data){
 			$('#infoDetalle').html(data);
 			try {
-				$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-60 }, 700);	
+				$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-80 }, 700);	
 			} catch(e) { /*ignore*/ }
 		});
 	}
@@ -266,7 +266,7 @@
 		$.get($(this).attr('href'), function(data){
 			$('#infoDetalle').html(data);
 			try {
-				$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-60 }, 700);	
+				$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-80 }, 700);	
 			} catch(e) { /*ignore*/ }
 		});
 	}

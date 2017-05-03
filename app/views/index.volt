@@ -194,7 +194,8 @@
 			}	
     		
         	$(function() {        		
-        		$('.add-termino-btn').click(fnAddTermino);        		
+        		//$('.add-termino-btn').click(fnAddTermino);
+        		$('body').on( "click", ".add-termino-btn", fnAddTermino);
         	});
         	
     	</script>

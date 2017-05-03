@@ -1,5 +1,5 @@
 <?php
-namespace Thesaurus\Sistema;
+//namespace Thesaurus\Sistema;
 
 class AdConfig extends \BaseModel
 {

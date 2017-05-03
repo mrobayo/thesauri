@@ -3,7 +3,7 @@ namespace Thesaurus\Controllers;
 
 use Phalcon\Db\RawValue;
 use Thesaurus\Forms\RegistroForm;
-use Thesaurus\Sistema\AdUsuario;
+use \AdUsuario;
 
 /**
  * Registro

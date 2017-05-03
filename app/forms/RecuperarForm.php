@@ -2,7 +2,7 @@
 namespace Thesaurus\Forms;
 
 use Phalcon\Validation\Validator\PresenceOf;
-use Thesaurus\Sistema\AdUsuario;
+use \AdUsuario;
 
 /**
  * Formulario de Termino

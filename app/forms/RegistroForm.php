@@ -6,7 +6,7 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Email;
-use Thesaurus\Sistema\AdUsuario;
+use \AdUsuario;
 
 /**
  * Formulario de Registro

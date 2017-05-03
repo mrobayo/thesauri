@@ -1,5 +1,5 @@
 <?php
-namespace Thesaurus\Thesauri;
+//namespace Thesaurus\Thesauri;
 
 class ThThesaurus extends \BaseModel
 {

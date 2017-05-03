@@ -126,29 +126,6 @@
 					            	{{ form.render('descripcion', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
-					        					       
-					        <div class="form-group row">
-					            {{ form.label('TG', ['class': 'form-control-label col-sm-3']) }}
-					            <div class="col-sm-7">            
-					            	{{ form.render('TG', ['class': 'termino_typeahead form-control form-control-success']) }}
-					            </div>
-					        </div> 
-					        					        	
-					        <div class="form-group row">					            
-					            <label class="form-control-label col-sm-3" for="SIN[]"> Sinónimos </label>
-					            <div class="col-sm-7">					        	      
-					            	<button data-input-name="SIN[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>
-					            	<small class="form-text text-muted pull-right"> (use el botón (+) para añadir un término) &nbsp; </small>				            
-					            </div>					        	
-					        </div>
-					        
-					        <div class="form-group row">
-					            <label class="form-control-label col-sm-3" for="TR[]"> Término relacionado </label>
-					            <div class="col-sm-7">            
-					            	<button data-input-name="TR[]" type="button" class="add-termino-btn btn btn-outline-primary pull-right btn-sm"> <i class="fa fa-plus"></i></button>
-					            	<small class="form-text text-muted pull-right"> (use el botón (+) para añadir un término) &nbsp; </small>
-					            </div>
-					        </div>
 					        
 					        <div class="form-group row">
 					        	 {{ form.label('dc_source', ['class': 'form-control-label col-sm-3']) }}
@@ -156,26 +133,31 @@
 					            	{{ form.render('dc_source', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
-					        
-					        <!-- 
-					        <div class="form-group row">
-					        	<label class="form-control-label col-sm-3"> Nota </label>
-					        	<div class="col-sm-7">
-					        	
-					        	<table class="table table-condensed">					        	
-					        	<tbody>
-					        		<tr><td class="col-12">					        		
-					        			<textarea rows="" cols="" class="form-control"></textarea> 
-					        		</td></tr>					        		
-					        	</tbody>
-					        	</table>
-
-					        	<small id="SINHelp" class="form-text text-muted">Añadir nota</small>
-					        	<button id="addSinonimoBtn" type="button" class="btn btn-outline-primary"> <i class="fa fa-plus"></i></button>					        	
-					        	
-					        	</div>					        
-					        </div> -->
 					        					        	
+					        <div class="form-group row">					            
+					            <label class="page-header col-sm-10"> 
+					            <div class="pull-right btn-group btn-group-sm" role="group">
+								    <button id="btnGroupDrop1" type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								      <i class="fa fa-plus"></i>
+								    </button>
+								    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+								      {% for tkey, tval in RELATION_TYPES %} 	
+								      <a data-input-name="{{ tkey }}[]" data-input-label="{{ tval }}" class="add-termino-btn dropdown-item" href="#"> {{ tval }}</a>								      
+								      {% endfor %}
+								    </div>
+								</div>								
+					            Relaciones entre términos </label>					            					            					        	
+					        </div>
+					        
+					        {% for rel in relaciones %}
+					        <div class="form-group row">					            
+					            <label class="form-control-label col-sm-3" for="SIN[ {{loop.index}} ]"> {{ RELATION_TYPES[rel.tipo_relacion] }} </label>
+					            <div class="col-sm-7">					        	      
+					            	<input name="{{ rel.tipo_relacion }}[]" value="{{ rel.nombre }}" class="form-control form-control-success termino_typeahead">				            
+					            </div>					            					        	
+					        </div>
+					        {% endfor %}
+					        					        					        	
 					        {#
 					        <div class="form-group row">
 					            {{ form.label('id_thesaurus', ['class': 'form-control-label col-sm-3']) }}
@@ -185,20 +167,20 @@
 					        </div>
 					        #}
 					        
+					        {#
 					        <div class="form-group row">
 					            {{ form.label('iso25964_language', ['class': 'form-control-label col-sm-3']) }}
 					            <div class="col-sm-7">					            		            	
 					            	{{ form.render('iso25964_language', ['class': 'form-control form-control-success']) }}
 					            </div>            
-					        </div>
-					        		        
-					        
+					        </div> #}
 				
 						</div>
 						
 						<div class="card-footer">
 							<div class="form-actions">
-					            {{ submit_button('Guardar', 'class': 'btn btn-primary') }} 
+					        	<button class="btn btn-primary" type="submit" value="guardar">Guardar</button>					            					            
+					        	<button class="btn btn-secondary" type="submit" value="guardar_nuevo">Guardar &amp; Nuevo</button>
 					        </div>
 						</div>
 							
@@ -219,7 +201,8 @@ $(function() {
 	$('#nombre').change(fnValidaTerminoYaExiste);
 	
 	// Bind Typeahead
-	fnBindTypeAhead( $(".termino_typeahead"), {{entidad.id_thesaurus}} );
+	vInputs = fnBindTypeAhead( $(".termino_typeahead"), {{entidad.id_thesaurus}} );
+	vInputs.next().show().find('button').click(fnRemoveTermino);     
 	
 	$('#editarForm,#aprobarForm')
 	.enterAsTab({ 'allowSubmit': true})

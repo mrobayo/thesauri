@@ -172,7 +172,7 @@
         			'class':'form-control'});       		
         		
         		vDiv = $('<div>', {'class': 'form-group row'})
-        			.append('<label class="form-control-label col-sm-3"> </label>')
+        			.append( $('<label>', {'text': vBtn.data('inputLabel'), 'class': 'form-control-label col-sm-3'}) )
         			.append( $('<div>', {'class': 'col-sm-7', 'style': 'padding-top: 8px'}).append(vInput));
         		
         		vBtn.closest('div.form-group').after(vDiv);

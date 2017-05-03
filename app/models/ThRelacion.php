@@ -1,6 +1,6 @@
 <?php
 
-namespace Thesaurus\Thesauri;
+//namespace Thesaurus\Thesauri;
 
 class ThRelacion extends \BaseModel
 {
@@ -55,9 +55,9 @@ class ThRelacion extends \BaseModel
     public function initialize()
     {
         $this->setSchema("public");
-        $this->belongsTo('id_termino', 'Thesaurus\Thesauri\\ThTermino', 'id_termino', ['alias' => 'ThTermino']);
-        $this->belongsTo('id_termino_rel', 'Thesaurus\Thesauri\\ThTermino', 'id_termino', ['alias' => 'ThTermino']);
-        $this->belongsTo('id_thesaurus', 'Thesaurus\Thesauri\\ThThesaurus', 'id_thesaurus', ['alias' => 'ThThesaurus']);
+        $this->belongsTo('id_termino', '\ThTermino', 'id_termino', ['alias' => 'ThTermino']);
+        $this->belongsTo('id_termino_rel', '\ThTermino', 'id_termino', ['alias' => 'ThTerminoRel']);
+        $this->belongsTo('id_thesaurus', '\ThThesaurus', 'id_thesaurus', ['alias' => 'ThThesaurus']);
     }
 
     /**

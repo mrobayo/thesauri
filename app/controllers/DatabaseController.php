@@ -2,17 +2,15 @@
 
 namespace Thesaurus\Controllers;
 
-use Thesaurus\Thesauri\ThThesaurus;
-use Thesaurus\Forms\ThesaurusForm;
-use Thesaurus\Thesauri\ThTermino;
-use Thesaurus\Forms\TerminoForm;
-use Phalcon\Mvc\View;
 use Phalcon\Mvc\Url;
-use Thesaurus\Forms\AdUsuarioForm;
-use Thesaurus\Thesauri\ThNota;
-use ICanBoogie\Inflector;
-use Pluralizador;
+use Phalcon\Mvc\View;
 use Pluralizador\Infector;
+use Thesaurus\Forms\AdUsuarioForm;
+use Thesaurus\Forms\TerminoForm;
+use Thesaurus\Forms\ThesaurusForm;
+use \ThNota;
+use \ThTermino;
+use \ThThesaurus;
 
 /**
  * Database
@@ -213,7 +211,6 @@ class DatabaseController extends \ControllerBase
 
    		$comentarios[] = $nota;
 
-
     	$this->view->entidad = $entidad;
     	$this->view->form = $form;
 
@@ -223,6 +220,16 @@ class DatabaseController extends \ControllerBase
 
     	$this->view->ESTADO_LIST = TerminoForm::ESTADO_LIST;
     	$this->view->myheading = 'Editar Término';
+
+    	// Consultar relaciones
+		$relaciones = [];
+
+		foreach (TerminoForm::relaciones($entidad->id_termino) as $rel) {
+			$relaciones[] = $rel;
+		}
+
+		$this->view->relaciones = $relaciones;
+
     }
 
     /**

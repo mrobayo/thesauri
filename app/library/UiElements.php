@@ -1,7 +1,6 @@
 <?php
 
 use Phalcon\Mvc\User\Component;
-use Thesaurus\Thesauri\ThThesaurus;
 
 /**
  * Elementos de UI

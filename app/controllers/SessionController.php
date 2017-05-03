@@ -3,9 +3,9 @@ namespace Thesaurus\Controllers;
 
 use MathCaptcha\MathCaptcha;
 use Thesaurus\Forms\AdUsuarioForm;
-use Thesaurus\Sistema\AdUsuario;
 use Thesaurus\Forms\RecuperarForm;
 use Phalcon\Forms\Element\Email;
+use \AdUsuario;
 
 /**
  * SessionController

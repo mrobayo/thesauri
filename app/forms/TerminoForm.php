@@ -4,9 +4,8 @@ namespace Thesaurus\Forms;
 use Phalcon\Db\RawValue;
 use Phalcon\Forms\Element\Hidden;
 use Phalcon\Validation\Validator\PresenceOf;
-use Thesaurus\Thesauri\ThTermino;
-use Thesaurus\Thesauri\ThThesaurus;
-use Thesaurus\Thesauri\ThRelacion;
+use \ThTermino;
+use \ThRelacion;
 
 /**
  * Formulario de Termino
@@ -47,7 +46,7 @@ class TerminoForm extends BaseForm
 
     	$this->add(new Hidden('id_termino'));
 
-    	$this->addText('nombre', ['tooltip'=>'Término preferido', 'label'=>'Término', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
+    	$this->addText('nombre', ['tooltip'=>'', 'label'=>'Término', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
     	$this->addTextArea('descripcion', ['label'=>'Definición', 'filters'=>array('striptags', 'string'), 'validators'=>[new PresenceOf(['message' => 'es requerido'])] ]);
 
     	$this->addText('dc_source', ['tooltip'=>'Referencia, fuente o contribución del término', 'label'=>'Referencia/Fuente', 'filters'=>array('striptags', 'string'), 'validators'=>[] ]);
@@ -72,6 +71,21 @@ class TerminoForm extends BaseForm
         		$e->setAttribute("readonly", "readonly");
         	}
         }
+    }
+
+    /**
+     * Consultar relaciones
+     */
+    public static function relaciones($id_termino) {
+		$relaciones = ThTermino::query()
+    		->columns("ThRelacion.tipo_relacion, ThRelacion.id_termino_rel, ThTerminoRel.nombre, ThTerminoRel.estado_termino")
+    		->where("ThTermino.id_termino = :id_termino:")
+    		->bind(["id_termino" => $id_termino])
+    		->join('ThRelacion', "ThTermino.id_termino = ThRelacion.id_termino", "ThRelacion")
+    		->join('ThTermino', "ThRelacion.id_termino_rel = ThTerminoRel.id_termino", "ThTerminoRel")
+    		->orderBy("ThRelacion.orden_relacion, ThTerminoRel.nombre")
+    		->execute();
+		return $relaciones;
     }
 
 	/**

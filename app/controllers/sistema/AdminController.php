@@ -6,9 +6,9 @@ use Phalcon\Session;
 use Phalcon\Tag;
 use Thesaurus\Forms\ThesaurusForm;
 use Thesaurus\Forms\AdUsuarioForm;
-use Thesaurus\Thesauri\ThThesaurus;
-use Thesaurus\Sistema\AdUsuario;
-use Thesaurus\Sistema\AdConfig;
+use \ThThesaurus;
+use \AdUsuario;
+use \AdConfig;
 
 /**
  * Administracion

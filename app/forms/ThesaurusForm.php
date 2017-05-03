@@ -6,7 +6,7 @@ use \FluidXml\FluidXml;
 use Phalcon\Forms\Element\Hidden;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Validation\Validator\PresenceOf;
-use Thesaurus\Thesauri\ThThesaurus;
+use \ThThesaurus;
 
 /**
  * Formulario de Thesaurus

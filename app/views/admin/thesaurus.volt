@@ -86,64 +86,64 @@
 					    <div class="card-block">
 					
 					        <div class="form-group row">
-					            {{ form.label('nombre', ['class': 'form-control-label col-sm-12']) }}            
-					            <div class="col-sm-8">
+					            {{ form.label('nombre', ['class': 'form-control-label col-sm-3']) }}            
+					            <div class="col-sm-7">
 					            	{{ form.render('nombre', ['class': 'form-control form-control-success required']) }}					            	
 					            </div>
 					        </div>
 					
 							<div class="form-group row">
-					            {{ form.label('iso25964_description', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            {{ form.label('iso25964_description', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('iso25964_description', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('iso25964_creator', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            {{ form.label('iso25964_creator', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('iso25964_creator', ['class': 'form-control form-control-success']) }}					            	
 					            </div>            
 					        </div>
 					             
 					        <div class="form-group row">
-					            {{ form.label('iso25964_contributor', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            {{ form.label('iso25964_contributor', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('iso25964_contributor', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					
 					        <div class="form-group row">
-					            {{ form.label('iso25964_publisher', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            {{ form.label('iso25964_publisher', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('iso25964_publisher', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('iso25964_coverage', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            {{ form.label('iso25964_coverage', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('iso25964_coverage', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('iso25964_rights', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            {{ form.label('iso25964_rights', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('iso25964_rights', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('iso25964_license', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            {{ form.label('iso25964_license', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('iso25964_license', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>					        
 					        
 					        <div class="form-group row">
-					            {{ form.label('iso25964_created', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">    
+					            {{ form.label('iso25964_created', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">    
 					            	<div class="input-group date">
 					            	<span class="input-group-addon"><i class="fa fa-calendar"></i></span>        
 					            	{{ form.render('iso25964_created', ['class': 'form-control form-control-success required']) }}
@@ -152,29 +152,29 @@
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('iso25964_subject', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            {{ form.label('iso25964_subject', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('iso25964_subject', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('iso25964_language', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">					            		            	
+					            {{ form.label('iso25964_language', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">					            		            	
 					            	{{ form.render('iso25964_language', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('iso25964_source', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            {{ form.label('iso25964_source', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('iso25964_source', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>					        
 					                
 					        <div class="form-group row">
-					            {{ form.label('iso25964_type', ['class': 'form-control-label col-sm-12']) }}
-					            <div class="col-sm-8">            
+					            {{ form.label('iso25964_type', ['class': 'form-control-label col-sm-3']) }}
+					            <div class="col-sm-7">            
 					            	{{ form.render('iso25964_type', ['class': 'form-control form-control-success']) }}
 					            </div>            
 					        </div>
@@ -198,29 +198,29 @@
 					<div class="card-block">
 					
 							<div class="form-group row">
-					            {{ form.label('is_activo', ['class': 'form-control-label col-sm-12']) }}            
-					            <div class="col-sm-8">
+					            {{ form.label('is_activo', ['class': 'form-control-label col-sm-3']) }}            
+					            <div class="col-sm-7">
 					            	{{ form.render('is_activo', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('is_publico', ['class': 'form-control-label col-sm-12']) }}            
-					            <div class="col-sm-8">
+					            {{ form.label('is_publico', ['class': 'form-control-label col-sm-3']) }}            
+					            <div class="col-sm-7">
 					            	{{ form.render('is_publico', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
 					        
 					        <div class="form-group row">
-					            {{ form.label('is_primario', ['class': 'form-control-label col-sm-12']) }}            
-					            <div class="col-sm-8">
+					            {{ form.label('is_primario', ['class': 'form-control-label col-sm-3']) }}            
+					            <div class="col-sm-7">
 					            	{{ form.render('is_primario', ['class': 'form-control form-control-success']) }}
 					            </div>
 					        </div>
 					
 					    	<div class="form-group row">
-					    		<label class="form-control-label col-sm-12"> Permisos </label>
-					        	<div class="col-sm-8">					        	
+					    		<label class="form-control-label col-sm-3"> Permisos </label>
+					        	<div class="col-sm-7">					        	
 						        	<table class="table table-condensed">					        	
 						        	<tbody>
 						        		{% for ckey, cuser in usuarios_list %}
@@ -242,7 +242,7 @@
 					        </div>
 					        
 					        <div class="form-group row">
-					        <div class="small col-sm-8">
+					        <div class="small col-sm-7">
 					        	<h5 class="page-header">&nbsp;</h5>						        							        								        		
 						        <dl>{% for permisoKey, permisoDesc in PERMISOS_TYPES %} <dt>{{ permisoKey }}</dt><dd>{{ permisoDesc }}</dd> {% endfor %} </dl>						        		
 						    </div>

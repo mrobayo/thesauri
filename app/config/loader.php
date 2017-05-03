@@ -20,8 +20,8 @@ require_once BASE_PATH . '/vendor/autoload.php';
 
 $loader->registerNamespaces([
 		'Thesaurus\Forms'			    => $config->application->formsDir,
-		'Thesaurus\Thesauri' 		    => $config->application->modelsDir . '/thesauri',
-		'Thesaurus\Sistema'      		=> $config->application->modelsDir . '/sistema',
+		//'Thesaurus\Thesauri' 		    => $config->application->modelsDir . '/thesauri',
+		//'Thesaurus\Sistema'      		=> $config->application->modelsDir . '/sistema',
 		'Thesaurus\Controllers'			=> $config->application->controllersDir,
 		'Thesaurus\Controllers\Sistema'	=> $config->application->controllersDir . '/sistema',
 ]);

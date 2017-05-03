@@ -1,6 +1,6 @@
 <?php
 
-namespace Thesaurus\Thesauri;
+//namespace Thesaurus\Thesauri;
 
 class ThNota extends \BaseModel
 {

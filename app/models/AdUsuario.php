@@ -1,5 +1,5 @@
 <?php
-namespace Thesaurus\Sistema;
+//namespace Thesaurus\Sistema;
 
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Email as EmailValidator;

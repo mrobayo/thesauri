@@ -4,9 +4,6 @@
 
 use Phalcon\Mvc\Controller;
 use Phalcon\Translate\Adapter\NativeArray;
-use Thesaurus\Sistema\AdConfig;
-use Thesaurus\Thesauri\ThThesaurus;
-use Thesaurus\Thesauri\ThTermino;
 
 /**
  * Base

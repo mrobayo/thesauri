@@ -2,9 +2,9 @@
 
 namespace Thesaurus\Controllers;
 
-use Thesaurus\Thesauri\ThTermino;
+use \ThTermino;
+use \ThThesaurus;
 use Thesaurus\Forms\TerminoForm;
-use Thesaurus\Thesauri\ThThesaurus;
 use Phalcon\Version;
 use Thesaurus\Forms\AdUsuarioForm;
 
@@ -78,11 +78,20 @@ class IndexController extends \ControllerBase
 
     public function sha1Action() {
     	$this->view->disable();
-    	// $this->logger->error(PHP_EOL.PHP_EOL.' *********** EJEMPLO DE LOG ************* '.PHP_EOL);
-    	// echo date('Ymd') . '33'; // Version::getId();
 
-    	echo sha1('1');
+    	echo '<p>aqui';
+    	$id_termino = 92;
 
+    	$a = TerminoForm::relaciones($id_termino);
+
+    	echo "<pre>";
+		$x = null;
+    	foreach ($a as $k => /* @var \ThTermino*/ $v) {
+    		echo '<hr>';
+    		echo print_r($v, true);
+    		echo $x;
+    	}
+    	echo "</pre>";
     }
 
     /**

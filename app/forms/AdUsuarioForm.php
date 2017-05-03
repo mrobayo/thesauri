@@ -4,7 +4,7 @@ namespace Thesaurus\Forms;
 use Phalcon\Db\RawValue;
 use Phalcon\Forms\Element\Hidden;
 use Phalcon\Validation\Validator\PresenceOf;
-use Thesaurus\Sistema\AdUsuario;
+use \AdUsuario;
 
 /**
  * Formulario de Thesaurus

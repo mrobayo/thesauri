@@ -88,7 +88,7 @@
 					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;">
 												
 						<div class="btn-group pull-right" role="group">						
-							<a href="{{ url(entidad.rdf_uri) }}" title="Refrescar listado" class="btn btn-sm btn-secondary"> 
+							<a id="refrescarAlfabetoBtn" href="{{ url(entidad.rdf_uri) }}" title="Refrescar listado" class="btn btn-sm btn-secondary"> 
 								<i class="fa fa-refresh"></i> 
 							</a>							
 							{% if permiso_enviar %}
@@ -249,10 +249,10 @@
 	<script>
 	function fnVerTermino(e){
 		e.preventDefault();			
-		$('#infoDetalle').empty();
+		$('#infoDetalle').empty().append(fnSpinnerIcon());
 		
-		$.post($(this).attr('href'), function(data){
-			$('#infoDetalle').html(data);
+		$.post($(this).attr('href'), function(data){			
+			$('#infoDetalle').empty().html(data);
 			try {
 				$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-80 }, 700);	
 			} catch(e) { /*ignore*/ }
@@ -261,10 +261,10 @@
 	
 	function fnEditTermino(e) {
 		e.preventDefault();
-		$('#infoDetalle').empty();
+		$('#infoDetalle').empty().append(fnSpinnerIcon());
 		
 		$.get($(this).attr('href'), function(data){
-			$('#infoDetalle').html(data);
+			$('#infoDetalle').empty().html(data);
 			try {
 				$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-80 }, 700);	
 			} catch(e) { /*ignore*/ }
@@ -275,11 +275,18 @@
 	
 		$('.verTerminoLink').click(fnVerTermino);
 		
+		$('#refrescarAlfabetoBtn').click(function(e){
+			e.preventDefault();
+			$('.alfabetoByJson.bg-faded:first').click();	
+		});
+		
 		$('.alfabetoByJson').click(function(e) {
 			e.preventDefault();			
-						
-			$.get($(this).attr('href'), function(data){				
-				tBody = $('#terminosTable tbody').empty();
+			
+			tBody = $('#terminosTable tbody').empty().append(fnSpinnerIcon());
+			
+			$.get($(this).attr('href'), function(data){			
+				tBody.empty();
 				
 				$.each(data.result, function(key, value){
 					//vObs = (value.estado_termino == 'CANDIDATO') ? ' <span class="text-muted text-italic">(pendiente aprobación)</span>' : '';					

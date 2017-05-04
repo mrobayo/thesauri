@@ -177,18 +177,19 @@ $(function() {
 				
 		fnCmmdValid = function(vResult, vBtnHandler) {
 			thisBtn.attr("html-anterior", thisBtn.html());
-			thisBtn.attr('disabled','disabled').text("Por favor, espere...");
+			thisBtn.attr('disabled', true).addClass('disabled').text("Por favor, espere...");
 			
-			$('#infoDetalle').empty();
-			$.post($(this).attr('href'), function(data){
-				$('#infoDetalle').html(data);
+			$('#infoDetalle').empty().append(fnSpinnerIcon());
+			$.post(thisBtn.attr('href'), function(data){
+				$('#infoDetalle').empty().html(data);
 				try {
 					$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-80 }, 700);	
-				} catch(e) { /*ignore*/ }
-				thisBtn.removeAttr('disabled').html(thisBtn.attr("html-anterior"));
+				} catch(e) { /*ignore*/ }				
+				$('.alfabetoByJson.bg-faded:first').click();
+				thisBtn.removeAttr('disabled').removeClass('disabled').html(thisBtn.attr("html-anterior"));
 				
 			}).fail(function(jqXHR, textStatus) {
-				thisBtn.removeAttr('disabled').html(thisBtn.attr("html-anterior"));
+				thisBtn.removeAttr('disabled').removeClass('disabled').html(thisBtn.attr("html-anterior"));
 				fnShowInfoMsg(vTarget, "Error", "Problema al procesar Accion: " + thisBtn.text() + " - " + jqXHR.responseText);
 			});
 		}

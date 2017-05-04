@@ -74,7 +74,10 @@
 			#terminosTable td:hover .badge {
 				display: inline-block;
 			}
-			
+			a.alfabetoByJson {
+				padding-left: 2px;
+				padding-right: 2px;
+			}			
 		</style>
 		
 		<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>		

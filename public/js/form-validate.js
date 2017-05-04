@@ -65,7 +65,15 @@
 	   return this;
 	 };
 	 })( jQuery );
-
+	 
+	 
+	 /**
+	  * Return spinner
+	  * @returns {String}
+	  */
+	 function fnSpinnerIcon() {
+		 return '<i class="fa fa-spinner fa-spin" aria-hidden="true"></i>';
+	 }
 	 
 	 /**
 	  * Nano Templates (Tomasz Mazur, Jacek Becela)
@@ -165,10 +173,7 @@
 	    		if ($.isFunction(fnCallBack)) {
 	    			try {
 	    				var vResult = false;
-	    				if (vInput) vResult = {
-	    					name: vInput.attr('name'),
-	    					value: vInput.val()
-	    				};
+	    				if (vInput) vResult = { name: vInput.attr('name'), value: vInput.val() };	    				
 	    				fnCallBack(vResult, $(this).attr('data-handler'));
 	    			}
 	    			catch(err) {

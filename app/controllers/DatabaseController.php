@@ -176,19 +176,22 @@ class DatabaseController extends \ControllerBase
      * Eliminar con cascada
      */
     public function eliminarAction($id_termino) {
+    	$this->view->disable();
     	$entidad = $this->get_termino($id_termino);
 
     	if (! $entidad)
     	{
-    		$this->flash->error("Termino [$id_termino] no encontrado");
-    		return $this->dispatcher->forward([ 'controller' => 'index', 'action' => 'index' ]);
-    	}
+    		echo "Termino [$id_termino] no encontrado";
 
-    	if ($entidad->delete() === false) {
-    		echo "Sorry, we can't delete the robot right now: \n";
+    		//$this->flash->error("Termino [$id_termino] no encontrado");
+    		// return $this->dispatcher->forward([ 'controller' => 'index', 'action' => 'index' ]);
     	}
-
-    	return $this->response->redirect($rdf_uri);
+    	elseif ($entidad->delete() === false) {
+    		echo "No se pudo eliminar el termino indicado: \n";
+    	}
+    	else {
+    		echo "Termino eliminado exitosamente";
+    	}
     }
 
     /**

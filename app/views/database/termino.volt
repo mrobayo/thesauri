@@ -21,7 +21,7 @@
 					<tr> 
 							
 					{% if krow == 0 %}					
-					<td rowspan="{{ grupo|length }}"> {{ kgrupo }} {{ RELATION_TYPES[ row['tipo_relacion'] ] }} </td>
+					<td rowspan="{{ grupo|length }}"> {{ RELATION_TYPES[ row['tipo_relacion'] ] }} </td>
 					{% endif %}
 					
 					

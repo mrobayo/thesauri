@@ -66,6 +66,24 @@
 	 };
 	 })( jQuery );
 
+	 
+	 /**
+	  * Nano Templates (Tomasz Mazur, Jacek Becela)
+	  * Ej.
+	  *      tmpl = '<tmpl>Hello {user.firstName} {user.lastName}</tmpl>'
+	  *      text = nano(tmpl, {user: {firstName: 'Mario', lastName: 'Robayo'}})
+	  *
+	  * @param template
+	  * @param data
+	  * @returns texto: template+data
+	  */
+	 function fnNano(template, data) {
+	   return template.replace(/\{([\w\.]*)\}/g, function(str, key) {
+	     var keys = key.split("."), v = data[keys.shift()];
+	     for (var i = 0, l = keys.length; i < l; i++) v = v[keys[i]];
+	     return (typeof v !== "undefined" && v !== null) ? v : "";
+	   });
+	 }
 
 	/**
 	 * Valida un formulario (jqueryvalidation)
@@ -111,4 +129,53 @@
 			console.log(vErr);			
 		}		
 		return false;
+	}
+	
+	/**
+	 * Confirm callback
+	 * @param aConfig options Array
+	 * @returns oDialogModal
+	 */
+	function fnConfirmBox(aConfig) {
+		aConfig = $.extend({titulo: 'Confirmar', mensaje: 'Confirmar?'}, aConfig);
+		var vInput = false;
+		if (aConfig['data-input'] && aConfig['data-input'].indexOf('#') === 0) {
+			vInput = $(aConfig['data-input']);
+			if (vInput.length > 0) {
+				vInput = vInput.first().clone().attr('type', 'text').attr('id','');
+				aConfig['mensaje'] = aConfig['mensaje'] + "<div id='confirmBox'></div>";
+			}
+			else {
+				vInput = false;
+			}
+		}
+	    var dlgHtml = $(fnNano($("#dlgConfirmMsg").html(), aConfig)).modal({ show:false, backdrop:false, keyboard: false });
+	    if (vInput) {
+	    	dlgHtml.find('#confirmBox').append(vInput);
+	    }
+	    dlgHtml.find('button[data-handler]').click(function() {
+	    	if (vInput && vInput.val().length == 0) {
+	    		vInput.parent().addClass('has-error').focus();
+	    		return;
+	    	}
+	    	else {
+	    		dlgHtml.modal('hide');
+	    		if (vInput) $(aConfig['data-input']).val(vInput.val());
+	    		var fnCallBack = aConfig['data-callback'];
+	    		if ($.isFunction(fnCallBack)) {
+	    			try {
+	    				var vResult = false;
+	    				if (vInput) vResult = {
+	    					name: vInput.attr('name'),
+	    					value: vInput.val()
+	    				};
+	    				fnCallBack(vResult, $(this).attr('data-handler'));
+	    			}
+	    			catch(err) {
+	    				//console.log("fnConfirm fallo llamada: --> " + err);
+	    			}
+	    		}
+	    	}
+	    });
+		return dlgHtml.modal('show').on('shown.bs.modal', function(e){ if (vInput) vInput.focus(); })
 	}

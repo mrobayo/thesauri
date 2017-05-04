@@ -171,6 +171,26 @@ class DatabaseController extends \ControllerBase
     	$this->view->relaciones_list = $relaciones_list;
     }
 
+
+    /**
+     * Eliminar con cascada
+     */
+    public function eliminarAction($id_termino) {
+    	$entidad = $this->get_termino($id_termino);
+
+    	if (! $entidad)
+    	{
+    		$this->flash->error("Termino [$id_termino] no encontrado");
+    		return $this->dispatcher->forward([ 'controller' => 'index', 'action' => 'index' ]);
+    	}
+
+    	if ($entidad->delete() === false) {
+    		echo "Sorry, we can't delete the robot right now: \n";
+    	}
+
+    	return $this->response->redirect($rdf_uri);
+    }
+
     /**
      * Editar termino
      *
@@ -199,7 +219,6 @@ class DatabaseController extends \ControllerBase
     	$isocodes_list = $this->get_isocodes( $thesaurus->iso25964_language );
 
     	$form = new TerminoForm($entidad, ['language_list'=>$isocodes_list]);
-
 
    		if ($this->request->isPost() && $form->guardar($entidad))
    		{

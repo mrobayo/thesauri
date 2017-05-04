@@ -137,14 +137,14 @@
 					</div>						
 					<div class="card-footer">
 							<div class="form-actions">
-								<button class="btn btn-outline-danger pull-right" type="submit" value="eliminar">Eliminar</button>
+								<a id="eliminarTerminoBtn" href="{{ url('database/eliminar/'~entidad.id_termino) }}" class="btn btn-outline-danger pull-right">Eliminar</a>
 					        	<button class="btn btn-primary" type="submit" value="guardar">Guardar</button>
 					        	<button class="btn btn-secondary" type="submit" value="guardar_nuevo">Guardar &amp; Nuevo</button>
 					        </div>
 					</div>					
 				</fieldset>
 				    
-			{{ end_form() }}				
+			{{ end_form() }}
 			</div>
 			
 		
@@ -170,6 +170,36 @@ $(function() {
 	})
 	.enterAsTab({ 'allowSubmit': true})
 	.find(":input:text:visible:not(disabled):not([readonly])").first().focus();
+	
+	$('#eliminarTerminoBtn').click(function(e) {
+		e.preventDefault();			
+		var thisBtn = $(this);
+				
+		fnCmmdValid = function(vResult, vBtnHandler) {
+			thisBtn.attr("html-anterior", thisBtn.html());
+			thisBtn.attr('disabled','disabled').text("Por favor, espere...");
+			
+			$('#infoDetalle').empty();
+			$.post($(this).attr('href'), function(data){
+				$('#infoDetalle').html(data);
+				try {
+					$('html, body').animate({ scrollTop: $('#infoDetalle').first().offset().top-80 }, 700);	
+				} catch(e) { /*ignore*/ }
+				thisBtn.removeAttr('disabled').html(thisBtn.attr("html-anterior"));
+				
+			}).fail(function(jqXHR, textStatus) {
+				thisBtn.removeAttr('disabled').html(thisBtn.attr("html-anterior"));
+				fnShowInfoMsg(vTarget, "Error", "Problema al procesar Accion: " + thisBtn.text() + " - " + jqXHR.responseText);
+			});
+		}
+		
+		fnConfirmBox({
+			titulo: "Confirma: " + thisBtn.text() + '?',
+			mensaje: 'Confirma eliminar el termino: <b>{{ entidad.nombre }}</b>. También se eliminar las relaciones a este término.',
+			'data-input': thisBtn.attr('data-input'),
+			'data-callback': fnCmmdValid
+		});		
+	});
 	
 });
 

@@ -235,6 +235,26 @@
 		<em class="text-warning form-control-feedback col-sm-2 small" style="display: none">Termino nuevo, deberá ser aprobado.</em>
 		</div>	
 		</script>
+		
+		<script id="dlgConfirmMsg" type="text/template">
+		<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modalConfirmBox" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modalConfirmBox">{titulo}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          				<span aria-hidden="true">&times;</span>
+        			</button>
+				</div>
+				<div class="modal-body">{mensaje}</div>
+				<div class="modal-footer">
+					<button class="execCerrar btn btn-default" data-dismiss="modal" aria-hidden="true">Cancelar</button>
+					<button class="btn btn-primary pull-left" data-handler="1">OK</button>
+				</div>
+			</div>
+		</div>
+		</div>
+		</script>
 		     
     </body>
 </html>

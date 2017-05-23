@@ -26,10 +26,10 @@ class TerminoForm extends BaseForm
 							'SIN' => 'Término Alternativo'];
 
 	const ORDEN_RELATION = ['TP' => 0,
-			// 'TE' => 'Término Específico',
 			'TG' => 10,
-			'TR' => 30,
-			'SIN' => 20];
+			'TE' => 20,
+			'SIN'=> 30,
+			'TR' => 40 ];
 
 	const CANDIDATO = 'CANDIDATO',
 		  APROBADO  = 'APROBADO';

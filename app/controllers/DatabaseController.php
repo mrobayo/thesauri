@@ -319,7 +319,7 @@ class DatabaseController extends \ControllerBase
     	}
 
     	$result = ThTermino::find([
-        		"columns" => "id_termino, nombre, rdf_uri, estado_termino",
+        		"columns" => "id_termino, nombre, rdf_uri, estado_termino, desambiguedad",
         		"conditions" => $conditions, "bind" => $bind
         ]);
 
@@ -330,7 +330,7 @@ class DatabaseController extends \ControllerBase
         	$c->rdf_uri = $url->get( str_replace('%', $c->id_termino, $c->rdf_uri) );
         	$c->rdf_uri = ($is_admin || $c->estado_termino == TerminoForm::APROBADO) ? $c->rdf_uri : '';
 
-        	$terminos[ $c->id_termino ] = [ 'id_termino'=> $c->id_termino, 'nombre'=> $c->nombre, 'rdf_uri'=> $c->rdf_uri, 'estado_termino'=> $c->estado_termino ];
+        	$terminos[ $c->id_termino ] = [ 'id_termino'=> $c->id_termino, 'nombre'=> $c->nombre . ' ' . $c->desambiguedad, 'rdf_uri'=> $c->rdf_uri, 'estado_termino'=> $c->estado_termino ];
         }
 
     	$this->json_response();

@@ -1,8 +1,7 @@
 <h4 class="page-header">
 	{% if entidad is empty %}		
 		<h2><!-- Exploración --></h2>
-	{% else %}
-    	<!-- <h2> {{ TYPES[ entidad.iso25964_type ] }} </h2> -->    	
+	{% else %}    	   	
     	<nav class="breadcrumb">
 			{% if ! (entidad is empty) %}	
 				<a class="breadcrumb-item active" href="{{ url( entidad.rdf_uri ) }}"> {{ entidad.nombre }}</a>
@@ -42,31 +41,7 @@
 			</div>
 		{% endfor %} 
 		
-		<!-- 
-		<table class="table table-hover table-bordered">
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Título</th>						
-					<th>Descripción</th>
-					<th>Ultima<br> Actividad</th>					
-				</tr>
-			</thead>
-			<tbody>
-				{% for ckey, row in items_list %}
-				<tr>
-					<td style="width: 1px">{{ loop.index }}</td>
-					<td style="width: 30%">{{ link_to( row.rdf_uri, row.nombre ) }}</td>							
-					<td style="width: 55%">{{ row.iso25964_description }}</td>					
-					<td style="width: 15%" class="text-center">{{ row.ultima_actividad }}</td>										
-				</tr>
-				{% endfor %} 
-			</tbody>					
-		</table>
-		 -->
-		
 		</div>
-	
 	
 	</div>
 	
@@ -74,11 +49,7 @@
 	
 	
 	<div class="card1">
-		
-		<!-- <div class="card-header">
-			<i class="fa fa-bank"></i> {{ entidad.nombre }}
-		</div> -->
-		
+				
 		<div class="card-block1">
 			<!-- <p>{{ entidad.iso25964_description }}</p> -->
 			
@@ -92,8 +63,8 @@
 								<i class="fa fa-refresh"></i> 
 							</a>							
 							{% if permiso_enviar %}
-							<a href="{{ url('index/enviar/'~entidad.id_thesaurus) }}" title="Enviar un término" class="btn btn-sm btn-primary"> 
-								<i class="fa fa-send"></i> 
+							<a href="{{ url('index/enviar/'~entidad.id_thesaurus) }}" title="Nuevo Término" class="btn btn-sm btn-primary"> 
+								<i class="fa fa-plus"></i> 
 							</a>
 							{% endif %}						
 						</div>
@@ -127,16 +98,10 @@
 						    	</div>					    		
 						    		
 						    		<!-- Terminos Aprobados -->
-									<table id="terminosTable" class="table table-hover table-sm">
-										<!-- <thead>
-											<tr><th>#</th>
-												<th class="col-3">Término</th>																															
-											</tr>
-										</thead> -->
+									<table id="terminosTable" class="table table-hover table-sm">										
 										<tbody>
 											{% for ckey, row in terms_list %}
-											<tr>
-												<!-- <td class="">{{ loop.index }}</td> -->
+											<tr>												
 												<td>
 													<a href={{ url( row.rdf_uri ) }} class="verTerminoLink">{{ row.nombre }}</a>
 												</td>												
@@ -156,8 +121,6 @@
 				<div id="infoDetalle" class="col-sm-7">
 					<h4 class="card-title" style="border-bottom: 1px solid rgba(0, 0, 0, 0.125); padding-bottom: 4px;"> 
 						
-						
-						
 						<div class="btn-group pull-right" role="group" aria-label="Opciones">
 						
 						{% if auth['is_admin'] %}				
@@ -168,9 +131,7 @@
 							<i class="fa fa-code-fork fa-rotate-90"></i> 
 						</a>
 						
-						</div>
-						
-												
+						</div>						
 						
 						{{ entidad.nombre }}
 						
@@ -178,8 +139,7 @@
 					</h4>					
 					<table class="table table-striped table-bordered">
 						<tbody>
-							<tr><td colspan="2"> {{ entidad.iso25964_description }} </td></tr>
-							<!-- <tr> <td class="col-2">Tipo</td><td>{{ TYPES[ entidad.iso25964_type ] }} </td> </tr> -->
+							<tr><td colspan="2"> {{ entidad.iso25964_description }} </td></tr>		
 							<tr><td style="width:20%" class="col-2">Identificador</td>
 								<td style="width:80%" class="col-10">{{ entidad.iso25964_identifier }}</td> 
 							</tr>					
@@ -233,9 +193,7 @@
 				<img class="img-thumbnail rounded float-left" src="{{ url('img/xml-doc.64.png') }}" alt="XML - ISO.25964-1"/>				
 			</a>
 			
-			<div class="clearfix"></div>
-			
-			
+			<div class="clearfix"></div>					
 					
 		</div>
 		

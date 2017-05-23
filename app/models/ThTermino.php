@@ -1,15 +1,12 @@
 <?php
 
-//namespace Thesaurus\Thesauri;
-
-class ThTermino extends \BaseModel
+class ThTermino extends \Phalcon\Mvc\Model
 {
 
     /**
      *
      * @var integer
      * @Primary
-     * @Identity
      * @Column(type="integer", length=32, nullable=false)
      */
     public $id_termino;
@@ -17,7 +14,7 @@ class ThTermino extends \BaseModel
     /**
      *
      * @var string
-     * @Column(type="string", length=100, nullable=false)
+     * @Column(type="string", length=600, nullable=false)
      */
     public $nombre;
 
@@ -31,7 +28,7 @@ class ThTermino extends \BaseModel
     /**
      *
      * @var string
-     * @Column(type="string", length=100, nullable=false)
+     * @Column(type="string", length=600, nullable=false)
      */
     public $rdf_uri;
 
@@ -52,7 +49,7 @@ class ThTermino extends \BaseModel
     /**
      *
      * @var string
-     * @Column(type="string", length=100, nullable=false)
+     * @Column(type="string", length=600, nullable=false)
      */
     public $notilde;
 
@@ -66,7 +63,7 @@ class ThTermino extends \BaseModel
     /**
      *
      * @var string
-     * @Column(type="string", length=120, nullable=true)
+     * @Column(type="string", length=4000, nullable=true)
      */
     public $dc_source;
 
@@ -120,16 +117,37 @@ class ThTermino extends \BaseModel
     public $notas_tecnicas;
 
     /**
+     *
+     * @var string
+     * @Column(type="string", length=600, nullable=true)
+     */
+    public $desambiguedad;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=20, nullable=false)
+     */
+    public $tipo_termino;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=32, nullable=true)
+     */
+    public $coip_art;
+
+    /**
      * Initialize method for model.
      */
     public function initialize()
     {
         $this->setSchema("public");
-        $this->hasMany('id_termino', '\ThNota', 'id_termino', ['alias' => 'ThNota']);
-        $this->hasMany('id_termino', '\ThRelacion', 'id_termino', ['alias' => 'ThRelacion']);
-        $this->hasMany('id_termino', '\ThRelacion', 'id_termino_rel', ['alias' => 'ThRelacionTerm']);
-        $this->belongsTo('id_thesaurus', '\ThThesaurus', 'id_thesaurus', ['alias' => 'ThThesaurus']);
+        $this->hasMany('id_termino', 'ThNota', 'id_termino', ['alias' => 'ThNota']);
+        $this->hasMany('id_termino', 'ThRelacion', 'id_termino', ['alias' => 'ThRelacion']);
+        $this->hasMany('id_termino', 'ThRelacion', 'id_termino_rel', ['alias' => 'ThRelacion']);
         $this->belongsTo('id_aprobador', '\AdUsuario', 'id_usuario', ['alias' => 'AdUsuario']);
+        $this->belongsTo('id_thesaurus', '\ThThesaurus', 'id_thesaurus', ['alias' => 'ThThesaurus']);
         $this->belongsTo('id_ingreso', '\AdUsuario', 'id_usuario', ['alias' => 'AdUsuario']);
     }
 

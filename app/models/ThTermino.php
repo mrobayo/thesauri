@@ -1,6 +1,6 @@
 <?php
 
-class ThTermino extends \Phalcon\Mvc\Model
+class ThTermino extends \BaseModel
 {
 
     /**

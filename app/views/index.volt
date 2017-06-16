@@ -174,7 +174,7 @@
     		}
     		        		
     		
-    		function fnAddTermino(e) {  
+    		function fnAddTermino(e) {
     			vBtn = $(this); 
     			iThesaurus = vBtn.closest('form').find('#id_thesaurus').val();        			
     			
@@ -197,8 +197,13 @@
 			}	
     		
         	$(function() {        		
-        		//$('.add-termino-btn').click(fnAddTermino);
-        		$('body').on( "click", ".add-termino-btn", fnAddTermino);
+        		if (! $('body').is('[add-termino]')) {
+        			$('body').attr('add-termino', 1)
+        					 .on( "click", ".add-termino-btn", fnAddTermino)
+        					 .on( "click", "#btnGroupDrop1", function() {
+        						 $(this).dropdown() // esto resuelve el bug que no se abre el dropdown :s
+        					 });	
+        		}        		
         	});
         	
     	</script>

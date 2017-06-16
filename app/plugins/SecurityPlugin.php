@@ -59,7 +59,7 @@ class SecurityPlugin extends Plugin
 
 			//Public area resources
 			$publicResources = array(
-				'index'      => array('index', 'info', 'enviar', 'sha1'),
+				'index'      => array('index', 'info', 'enviar', 'sha1', 'rdf', 'download'),
 				'about'      => array('index'),
 				'database'   => array('index', 'termino', 'json', 'editar', 'guardar', 'arbor', 'aprobar', 'comentar', 'terminoYaExiste', 'eliminar'),
 				'register'   => array('index', 'confirmar', 'reset'),

@@ -80,7 +80,7 @@ class IndexController extends \ControllerBase
     /**
      * Download
      */
-    public function downloadAction($id_thesurus) {
+    public function downloadAction($id_thesaurus) {
     	$sql = "SELECT t.id_termino id_termino_concepto, t.nombre nombre_concepto, t.rdf_uri rdf_uri_concepto,
 				       t.notilde notilde_concepto, t.descripcion descripcion_concepto, t.dc_source dc_source_concepto,
 				       t.desambiguedad contexto_concepto, t.coip_art coip_art_concepto, t.tipo_termino tipo_termino_concepto,
@@ -93,7 +93,7 @@ class IndexController extends \ControllerBase
 				  LEFT JOIN th_termino e ON (r.id_termino_rel = e.id_termino)
 				 WHERE t.estado_termino='APROBADO' AND t.tipo_termino='CONCEPTO' AND t.id_thesaurus=?
 		      ORDER BY nombre_concepto, orden_relacion, nombre_relacion";
-    	$result = $this->db->query($sql, [$id_thesurus]);
+    	$result = $this->db->query($sql, [$id_thesaurus]);
 
     	$json = [];
 
@@ -135,6 +135,24 @@ class IndexController extends \ControllerBase
     			'orden' => $row['orden_relacion']
     		];
     	}
+
+    	// Thesaurus
+    	$t = $this->get_thesaurus($id_thesaurus);
+
+    	$json = [
+    		'id' => $t->id_thesaurus,
+    		'nombre' => $t->nombre,
+    		'notilde' => $t->notilde,
+    		'descripcion' => $t->iso25964_description,
+    		'identifier' => $t->iso25964_identifier,
+    	 	'type' => $t->iso25964_type,
+    		'language' => $t->iso25964_language,
+    		'rdf_uri' => $t->rdf_uri,
+    		'creacion' => $t->fecha_ingreso,
+    		'modificacion' => $t->fecha_modifica,
+    		'ultima_actividad' => $t->ultima_actividad,
+    		'terminos' => $json
+    	];
 
     	$this->json_response();
     	echo json_encode($json);

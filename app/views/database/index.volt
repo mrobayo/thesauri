@@ -185,13 +185,15 @@
 		
 			<p>Descargar este {{ TYPES[ entidad.iso25964_type ] }} en formato:</p>
 			
-			<a href="#" title="RDF/XML">			  
+			<a href="{{ url("index/download/"~entidad.id_thesaurus) }}" 
+			   download="data-{{ entidad.id_thesaurus }}.json" title="RDF/XML">			  
 				<img class="img-thumbnail rounded float-left" src="{{ url('img/rdf-doc.64.png') }}" alt="RDF - Resource Description Framework"/>				
 			</a>
 			
+			<!-- 
 			<a href="#" title="XML/ISO-25964">			  
 				<img class="img-thumbnail rounded float-left" src="{{ url('img/xml-doc.64.png') }}" alt="XML - ISO.25964-1"/>				
-			</a>
+			</a> -->
 			
 			<div class="clearfix"></div>					
 					

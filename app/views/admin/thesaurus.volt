@@ -54,7 +54,7 @@
 						{% for ckey, row in items_list %}
 						<tr>
 							<td>{{ loop.index }}</td>
-							<td>{{ link_to( row.rdf_uri, row.nombre ) }}</td>							
+							<td>{{ link_to( 'sistema/admin/thesaurus/'~row.id_thesaurus, row.nombre ) }}</td>							
 							<td class="text-center">{{ row.term_aprobados }}</td>
 							<td class="text-center">{{ row.term_pendientes }}</td>
 							<td class="text-center">{{ row.ultima_actividad }}</td>
